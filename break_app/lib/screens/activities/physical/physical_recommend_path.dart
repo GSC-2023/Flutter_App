@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Activities extends StatelessWidget {
+class PhysicalRecommendPath extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +73,7 @@ class Activities extends StatelessWidget {
         children: [
           Container(
             child: Text(
-              "What would you like to do?",
+              "What activity would you like to do?",
               style: TextStyle(fontSize: 24),
             ),
             padding: EdgeInsets.symmetric(vertical: 20),
@@ -81,12 +81,10 @@ class Activities extends StatelessWidget {
           SizedBox(
             child: TextButton.icon(
               icon: Text(
-                'Physical',
-                style: TextStyle(fontSize: 40),
+                'Relief Exercises',
+                style: TextStyle(fontSize: 36),
               ),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/PhysicalActivites');
-              },
+              onPressed: () {},
               label: Icon(Icons.man),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
@@ -101,8 +99,8 @@ class Activities extends StatelessWidget {
           SizedBox(
             child: TextButton.icon(
               icon: Text(
-                'Mental',
-                style: TextStyle(fontSize: 40),
+                'Recommend A Path',
+                style: TextStyle(fontSize: 36),
               ),
               onPressed: () {},
               label: Icon(Icons.man),
