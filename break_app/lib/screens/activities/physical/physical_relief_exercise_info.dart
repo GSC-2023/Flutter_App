@@ -1,6 +1,7 @@
+import 'package:break_app/screens/activities/physical/components/exerciseCard.dart';
 import 'package:flutter/material.dart';
 
-class Physical_Relief_Exercise_Neck extends StatelessWidget {
+class Physical_Relief_Exercise_Info extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,50 +69,29 @@ class Physical_Relief_Exercise_Neck extends StatelessWidget {
         backgroundColor: Color(0xECEAEA),
         foregroundColor: Color(0xECEAEA),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            child: Text(
-              "What activity would you like to do?",
-              style: TextStyle(fontSize: 24),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 20),
-          ),
-          SizedBox(
-            child: TextButton.icon(
-              icon: Text(
-                'Relief Exercises',
-                style: TextStyle(fontSize: 36),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              child: Text(
+                "What activity would you like to do?",
+                style: TextStyle(fontSize: 24),
               ),
-              onPressed: () {},
-              label: Icon(Icons.man),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.green,
-                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+              padding: EdgeInsets.fromLTRB(10, 20, 0, 0),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Image.asset(
+                'assets/images/stretches/Neck.jpg',
+                height: 300,
+                width: 400,
               ),
             ),
-          ),
-          SizedBox(
-            height: 100,
-          ),
-          SizedBox(
-            child: TextButton.icon(
-              icon: Text(
-                'Recommend A Path',
-                style: TextStyle(fontSize: 36),
-              ),
-              onPressed: () {},
-              label: Icon(Icons.man),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.green,
-                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-              ),
-            ),
-          ),
-        ],
+            ExerciseCard(),
+          ],
+        ),
       ),
     );
   }
