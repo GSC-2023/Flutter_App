@@ -14,7 +14,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Grey,
       drawer: Container(
         width:200,
         child: Drawer(
@@ -90,20 +90,34 @@ class _HomeState extends State<Home> {
                 ),
             )
           ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                isRunning = !isRunning;
-                started = true;
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              fixedSize: const Size(250, 250),
-              shape: const CircleBorder(),
-              backgroundColor: DarkGreen
+          Container(
+            // padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                stops: [0, 0, 0.5],
+                end: Alignment(0, 0.5),
+                colors: [Colors.lightGreen, Color.lerp(Colors.lightGreen, DarkGreen,0.25)??Colors.lightGreen,DarkGreen],
+              ),
+              shape: BoxShape.circle,
             ),
-            child:
-              started ? (isRunning ? Text('Pause') : Text('Resume')) : Text('Begin Work'),
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isRunning = !isRunning;
+                  started = true;
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(250, 250),
+                shape: const CircleBorder(),
+                backgroundColor: Colors.transparent,
+                // shadowColor: Colors.black,  
+                // elevation: 15,
+              ),
+              child:
+                started ? (isRunning ? Text('Pause') : Text('Resume')) : Text('Begin Work'),
+            ),
           ),
           started ? HomeButton() : HomeQuote()
       ]),
