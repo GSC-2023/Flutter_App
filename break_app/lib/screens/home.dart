@@ -1,3 +1,4 @@
+import 'package:break_app/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:break_app/screens/home_quote.dart';
 import 'package:break_app/screens/home_button.dart';
@@ -99,6 +100,7 @@ class _HomeState extends State<Home> {
             style: ElevatedButton.styleFrom(
               fixedSize: const Size(250, 250),
               shape: const CircleBorder(),
+              backgroundColor: DarkGreen
             ),
             child:
               started ? (isRunning ? Text('Pause') : Text('Resume')) : Text('Begin Work'),
