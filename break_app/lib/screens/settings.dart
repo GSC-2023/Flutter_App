@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
-
   @override
   State<Settings> createState() => _SettingsState();
 }
-
 
 class _SettingsState extends State<Settings> {
   double _currentSliderValue = 45;
@@ -33,6 +30,7 @@ class _SettingsState extends State<Settings> {
 
 
   @override
+
   Widget build(BuildContext context){
     void submit(){
         Navigator.of(context).pop(controller.text);
@@ -51,72 +49,73 @@ class _SettingsState extends State<Settings> {
       )
     );
 
-
     return Scaffold(
       drawer: Container(
-        width:200,
+        width: 200,
         child: Drawer(
-        child: Column(
-          children: <Widget>[
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: Text('Home'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Home');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.local_activity_outlined),
-            title: Text('Activities'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Activities');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.child_care_rounded),
-            title: Text('Social'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Social');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.bar_chart_outlined),
-            title: Text('Statistics'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Statistics');
-            },
-          ),
-          Expanded(
-            child: Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: ListTile(
-                dense: true,
-                visualDensity: VisualDensity(vertical: -4),
-                leading: Icon(
-                  Icons.settings,
-                ),
-                title: Text('Settings'),
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.home),
+                title: Text('Home'),
                 onTap: () {
-                  Navigator.pushNamed(context, '/Settings');
+                  Navigator.pushNamed(context, '/Home');
                 },
               ),
-            ),
+              ListTile(
+                leading: const Icon(Icons.local_activity_outlined),
+                title: Text('Activities'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/Activities');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.child_care_rounded),
+                title: Text('Social'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/Social');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.bar_chart_outlined),
+                title: Text('Statistics'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/Statistics');
+                },
+              ),
+              Expanded(
+                child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: ListTile(
+                    dense: true,
+                    visualDensity: VisualDensity(vertical: -4),
+                    leading: Icon(
+                      Icons.settings,
+                    ),
+                    title: Text('Settings'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/Settings');
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
-          ],
         ),
-      ),
-
       ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text("Settings",
-        style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
+        title: Text(
+          "Settings",
+          style:
+              TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
         ),
         backgroundColor: Color(0xECEAEA),
         shadowColor: Color(0xECEAEA),
         surfaceTintColor: Color(0xECEAEA),
-        foregroundColor:  Color(0xECEAEA),
+        foregroundColor: Color(0xECEAEA),
       ),
+
 
       body: Column(
         children: [
@@ -249,6 +248,7 @@ class _SettingsState extends State<Settings> {
         
           ],
         )
+
       ),
 
       Column(
