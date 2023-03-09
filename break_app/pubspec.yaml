@@ -26,6 +26,7 @@ dependencies:
 
 
   getwidget: ^2.0.4
+  syncfusion_flutter_charts: ^19.1.54
   
   
 
