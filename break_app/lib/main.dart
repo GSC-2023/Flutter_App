@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
         '/Social' : (context) => Social(),
         '/Statistics' : (context) => Statistics(),
         '/Settings' : (context) => Settings(),
-
       },
     );
   }
