@@ -1,4 +1,3 @@
-import 'package:break_app/screens/activities/physical/components/exerciseButton.dart';
 import 'package:flutter/material.dart';
 
 class MentalActivites extends StatelessWidget {
@@ -69,7 +68,6 @@ class MentalActivites extends StatelessWidget {
         backgroundColor: Color(0xECEAEA),
         foregroundColor: Color(0xECEAEA),
       ),
-      
     );
   }
 }

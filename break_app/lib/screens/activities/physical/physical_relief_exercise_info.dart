@@ -2,8 +2,13 @@ import 'package:break_app/screens/activities/physical/components/exerciseCard.da
 import 'package:flutter/material.dart';
 
 class Physical_Relief_Exercise_Info extends StatelessWidget {
+  Map data = {};
+
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context)!.settings.arguments as Map;
+    String title = data['title'];
+    String instructions = data['content'];
     return Scaffold(
       backgroundColor: Colors.grey[200],
       drawer: Container(
@@ -76,7 +81,7 @@ class Physical_Relief_Exercise_Info extends StatelessWidget {
           children: [
             Container(
               child: Text(
-                "What activity would you like to do?",
+                "${title} Stretching Exercise: ",
                 style: TextStyle(fontSize: 24),
               ),
               padding: EdgeInsets.fromLTRB(10, 20, 0, 0),
@@ -89,7 +94,9 @@ class Physical_Relief_Exercise_Info extends StatelessWidget {
                 width: 400,
               ),
             ),
-            ExerciseCard(),
+            ExerciseCard(
+              instructions: instructions,
+            ),
           ],
         ),
       ),
