@@ -117,7 +117,10 @@ class Activities extends StatelessWidget {
                           'Mental  ',
                           style: TextStyle(fontSize: 40),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, '/MentalActivites');
+                        },
                         label: Image.asset('assets/icons/Mental.png'),
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.white,

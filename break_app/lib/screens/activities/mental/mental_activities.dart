@@ -1,3 +1,4 @@
+import 'package:break_app/screens/activities/physical/components/exerciseButton.dart';
 import 'package:flutter/material.dart';
 
 class MentalActivites extends StatelessWidget {
@@ -68,51 +69,7 @@ class MentalActivites extends StatelessWidget {
         backgroundColor: Color(0xECEAEA),
         foregroundColor: Color(0xECEAEA),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            child: Text(
-              "What activity would you like to do?",
-              style: TextStyle(fontSize: 24),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 20),
-          ),
-          SizedBox(
-            child: TextButton.icon(
-              icon: Text(
-                'Relief Exercises',
-                style: TextStyle(fontSize: 36),
-              ),
-              onPressed: () {},
-              label: Icon(Icons.man),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.green,
-                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 100,
-          ),
-          SizedBox(
-            child: TextButton.icon(
-              icon: Text(
-                'Recommend A Path',
-                style: TextStyle(fontSize: 36),
-              ),
-              onPressed: () {},
-              label: Icon(Icons.man),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.green,
-                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-              ),
-            ),
-          ),
-        ],
-      ),
+      
     );
   }
 }

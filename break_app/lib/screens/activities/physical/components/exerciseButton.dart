@@ -22,7 +22,7 @@ class ExerciseButton extends StatelessWidget {
           children: [
             Text(
               '${name}',
-              style: TextStyle(fontSize: 36),
+              style: TextStyle(fontSize: 30),
             ),
             Image.asset('assets/icons/${name}.png'),
           ],

@@ -135,7 +135,7 @@ class PhysicalActivites extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.pushReplacementNamed(
-                            context, '/PhysicalActivites/ReliefExercises');
+                            context, '/PhysicalActivites/RecommendPath');
                       },
                       label: Image.asset('assets/icons/Walk.png'),
                       style: TextButton.styleFrom(
