@@ -79,6 +79,8 @@ class _HomeState extends State<Home> {
         foregroundColor:  Color(0xECEAEA),
       ),
       body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             child: Center(
@@ -87,7 +89,6 @@ class _HomeState extends State<Home> {
                 ),
             )
           ),
-          Expanded(child: Container(),),
           ElevatedButton(
             onPressed: () {
               setState(() {
@@ -102,7 +103,6 @@ class _HomeState extends State<Home> {
             child:
               started ? (isRunning ? Text('Pause') : Text('Resume')) : Text('Begin Work'),
           ),
-          Expanded(child: Container(),),
           started ? HomeButton() : HomeQuote()
       ]),
     );

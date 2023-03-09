@@ -4,25 +4,28 @@ import 'package:getwidget/getwidget.dart';
 class HomeButton extends StatelessWidget{
   @override
   Widget build(BuildContext context){
-    return Column(
-      children: [
-        Row(children: [
-          GFButton(
+    return Container(
+      height: 400,
+      child: Column(
+        children: [
+          Row(children: [
+            GFButton(
+              onPressed: (){},
+              text:"primary"
+            ),
+            GFButton(
+              onPressed: (){},
+              text:"primary"
+            ),
+          ],),
+          Row(children: [
+            GFButton(
             onPressed: (){},
             text:"primary"
           ),
-          GFButton(
-            onPressed: (){},
-            text:"primary"
-          ),
-        ],),
-        Row(children: [
-          GFButton(
-          onPressed: (){},
-          text:"primary"
-        ),
-        ],)
-      ],
+          ],),
+        ],
+      ),
     );
   }
 
