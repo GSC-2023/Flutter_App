@@ -1,7 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-class Statistics extends StatelessWidget{
+
+class ChartData {
+        ChartData(this.x, this.y, {required this.color});
+        final String x;
+        final double y;
+        final Color color;
+}
+
+class Statistics extends StatefulWidget {
   @override
+  State<Statistics> createState() => _StatisticsState();
+}
+
+class _StatisticsState extends State<Statistics>{
+  
+  // define any params here
+    final List<ChartData> chartData = [
+        ChartData('Walk', 5, color : Color.fromARGB(255, 171, 201, 183)),
+        ChartData('Rest', 15, color : Color.fromARGB(255, 16, 163, 124)),
+        ChartData('Work', 45, color : Color.fromARGB(255, 27, 115, 97)),
+    ];
+
+  @override
+
+  // insert any helper functions here
+
+
+
+
+
+
+
+
   Widget build(BuildContext context){
     return Scaffold(
       drawer: Container(
@@ -68,7 +100,23 @@ class Statistics extends StatelessWidget{
         surfaceTintColor: Color(0xECEAEA),
         foregroundColor:  Color(0xECEAEA),
       ),
-      body: Text("Insert your content into this field"),
+      body: Column(
+        children: [
+          SfCircularChart(
+            series: <CircularSeries>[
+              DoughnutSeries<ChartData, String>(
+                dataSource: chartData,
+                pointColorMapper: (ChartData data, _) => data.color,
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper:(ChartData data, _) => data.y,
+                dataLabelSettings: DataLabelSettings(
+                  isVisible: true,
+                  labelPosition: ChartDataLabelPosition.outside),
+              )
+            ],
+          )
+        ],
+      )
 
     );
   }

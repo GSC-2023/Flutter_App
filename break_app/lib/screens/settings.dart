@@ -41,7 +41,7 @@ class _SettingsState extends State<Settings> {
       builder: (context) => AlertDialog(
         title: Text("Desired Duration"),
         content: TextField(
-          decoration: InputDecoration(hintText: _cycleTime.toString()+" minutes"),
+          decoration: InputDecoration(hintText: _cycleTime.toInt().toString()+" minutes"),
           controller: controller),
         actions: [
           TextButton(child:  Text("Submit"), onPressed:submit)
