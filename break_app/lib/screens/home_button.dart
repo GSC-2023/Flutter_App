@@ -8,7 +8,7 @@ class HomeButton extends StatelessWidget{
     return Container(
       padding: const EdgeInsets.fromLTRB(40, 50, 40, 0),
       width: double.infinity,
-      height: 400,
+      height: 300,
       child: Column(
         children: [
           Row(

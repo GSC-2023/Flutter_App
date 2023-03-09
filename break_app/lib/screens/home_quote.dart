@@ -1,3 +1,4 @@
+import 'package:break_app/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 
@@ -6,20 +7,20 @@ class HomeQuote extends StatelessWidget{
   Widget build(BuildContext context){
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      height: 400,
-      color: Colors.grey[200],
+      height: 300,
+      color: Grey,
       child: GFCard(
         boxFit: BoxFit.cover,
-        color: Colors.blue,
+        color: White,
         title: GFListTile(
           title: Text(
             'Quote of the Day',
-            style: TextStyle(color: Colors.white,)
+            style: TextStyle(color: Colors.black,)
             ),
         ),
         content: Text(
           "Take break is to walk longer\nConfusius wong yufei",
-          style: TextStyle(color: Colors.white,)
+          style: TextStyle(color: Colors.black,)
           ),
       ),
     );

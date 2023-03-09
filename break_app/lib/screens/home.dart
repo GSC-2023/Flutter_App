@@ -80,9 +80,10 @@ class _HomeState extends State<Home> {
         foregroundColor:  Color(0xECEAEA),
       ),
       body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: 150,),
           Container(
             child: Center(
               child: Text(
@@ -91,13 +92,12 @@ class _HomeState extends State<Home> {
             )
           ),
           Container(
-            // padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 stops: [0, 0, 0.5],
                 end: Alignment(0, 0.5),
-                colors: [Colors.lightGreen, Color.lerp(Colors.lightGreen, DarkGreen,0.25)??Colors.lightGreen,DarkGreen],
+                colors: [Colors.lightGreen, Color.lerp(Colors.lightGreen, DarkGreen,0.5)??Colors.lightGreen,DarkGreen],
               ),
               shape: BoxShape.circle,
             ),
@@ -112,13 +112,14 @@ class _HomeState extends State<Home> {
                 fixedSize: const Size(250, 250),
                 shape: const CircleBorder(),
                 backgroundColor: Colors.transparent,
-                // shadowColor: Colors.black,  
-                // elevation: 15,
+                shadowColor: Colors.black,  
+                elevation: 20,
               ),
               child:
                 started ? (isRunning ? Text('Pause') : Text('Resume')) : Text('Begin Work'),
             ),
           ),
+          SizedBox(height: 50,),
           started ? HomeButton() : HomeQuote()
       ]),
     );
