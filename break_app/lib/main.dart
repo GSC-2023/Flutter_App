@@ -1,3 +1,6 @@
+import 'package:break_app/screens/activities/mental/mental_activities.dart';
+import 'package:break_app/screens/activities/mental/mental_breathing.dart';
+import 'package:break_app/screens/activities/mental/mental_podcast.dart';
 import 'package:break_app/screens/activities/physical/physical_relief_exercises.dart';
 import 'package:break_app/screens/activities/physical/physical_activities.dart';
 import 'package:break_app/screens/activities/physical/physical_recommend_path.dart';
@@ -32,6 +35,9 @@ class MyApp extends StatelessWidget {
             PhysicalRecommendPath(),
         '/PhysicalActivites/ReliefExercises/Neck': (context) =>
             Physical_Relief_Exercise_Neck(),
+        '/MentalActivites': (context) => MentalActivites(),
+        '/MentalActivites/Breathing': (context) => Mental_Breathing(),
+        '/MentalActivites/Podcast': (context) => Mental_Podcast(),
       },
     );
   }
