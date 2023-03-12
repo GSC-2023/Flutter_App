@@ -2,6 +2,7 @@ import 'package:break_app/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:break_app/screens/home_quote.dart';
 import 'package:break_app/screens/home_button.dart';
+import 'package:neon_circular_timer/neon_circular_timer.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,6 +12,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool started = false;
   bool isRunning = true;
+  final CountDownController controller = new CountDownController();
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -83,7 +86,53 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 150,),
+          // SizedBox(height: 150,),
+          NeonCircularTimer(
+                      onComplete: () {
+                        controller.restart();
+                      },
+                      width: 200,
+                      controller: controller,
+                      duration: 3600,
+                      strokeWidth: 10,
+                      isTimerTextShown: true,
+                      neumorphicEffect: true,
+                      outerStrokeColor: Colors.grey.shade100,
+                      innerFillGradient: LinearGradient(colors: [
+                        Colors.greenAccent.shade200,
+                        Colors.blueAccent.shade400
+                      ]),
+                      neonGradient: LinearGradient(colors: [
+                        Colors.greenAccent.shade200,
+                        Colors.blueAccent.shade400
+                      ]),
+                      strokeCap: StrokeCap.round,
+                      innerFillColor: Colors.black12,
+                      backgroudColor: Colors.grey.shade100,
+                      neonColor: Colors.blue.shade900),
+                  Padding(
+                    padding: const EdgeInsets.all(40),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          IconButton(
+                              icon: Icon(Icons.play_arrow),
+                              onPressed: () {
+                                controller.resume();
+                              }),
+                          IconButton(
+                              icon: Icon(Icons.pause),
+                              onPressed: () {
+                                controller.pause();
+                              }),
+                          IconButton(
+                              icon: Icon(Icons.repeat),
+                              onPressed: () {
+                                controller.restart();
+                              }),
+                        ])
+                  ),
+
           Container(
             child: Center(
               child: Text(
@@ -100,6 +149,10 @@ class _HomeState extends State<Home> {
                 colors: [Colors.lightGreen, Color.lerp(Colors.lightGreen, DarkGreen,0.5)??Colors.lightGreen,DarkGreen],
               ),
               shape: BoxShape.circle,
+              border: Border.all(
+                color: White,
+                width: 6,
+              )
             ),
             child: ElevatedButton(
               onPressed: () {
