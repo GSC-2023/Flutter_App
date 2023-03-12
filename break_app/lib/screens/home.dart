@@ -113,7 +113,7 @@ class _HomeState extends State<Home> {
                 shape: const CircleBorder(),
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.black,  
-                elevation: 20,
+                elevation: 100,
               ),
               child:
                 started ? (isRunning ? Text('Pause') : Text('Resume')) : Text('Begin Work'),
