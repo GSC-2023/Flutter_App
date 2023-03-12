@@ -1,8 +1,14 @@
+import 'package:break_app/screens/activities/physical/components/exerciseCard.dart';
 import 'package:flutter/material.dart';
 
-class Activities extends StatelessWidget {
+class Physical_Relief_Exercise_Info extends StatelessWidget {
+  Map data = {};
+
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context)!.settings.arguments as Map;
+    String title = data['title'];
+    String instructions = data['content'];
     return Scaffold(
       backgroundColor: Colors.grey[200],
       drawer: Container(
@@ -68,70 +74,28 @@ class Activities extends StatelessWidget {
         backgroundColor: Color(0xECEAEA),
         foregroundColor: Color(0xECEAEA),
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 30),
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               child: Text(
-                "What would you like to do?",
+                "${title} Stretching Exercise: ",
                 style: TextStyle(fontSize: 24),
               ),
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+              padding: EdgeInsets.fromLTRB(10, 20, 0, 0),
             ),
             Container(
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        icon: Text(
-                          'Physical',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/PhysicalActivites');
-                        },
-                        label: Image.asset('assets/icons/Physical.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(vertical: 50.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        icon: Text(
-                          'Mental  ',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/MentalActivites');
-                        },
-                        label: Image.asset('assets/icons/Mental.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(vertical: 50),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              alignment: Alignment.center,
+              child: Image.asset(
+                'assets/images/stretches/Neck.jpg',
+                height: 300,
+                width: 400,
               ),
+            ),
+            ExerciseCard(
+              instructions: instructions,
             ),
           ],
         ),
