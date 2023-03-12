@@ -11,6 +11,7 @@ import 'package:break_app/screens/activities.dart';
 import 'package:break_app/screens/statistics.dart';
 import 'package:break_app/screens/social.dart';
 import 'package:break_app/screens/settings.dart';
+import 'package:break_app/screens/login.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: <String, WidgetBuilder>{
-        '/': (context) => Home(),
+        '/': (context) => Login(),
         '/Home': (context) => Home(),
         '/Activities': (context) => Activities(),
         '/Social': (context) => Social(),
