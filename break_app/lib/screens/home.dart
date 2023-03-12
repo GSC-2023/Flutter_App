@@ -1,9 +1,20 @@
+import 'package:break_app/colors/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:break_app/screens/home_quote.dart';
+import 'package:break_app/screens/home_button.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  bool started = false;
+  bool isRunning = true;
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      backgroundColor: Grey,
       drawer: Container(
         width:200,
         child: Drawer(
@@ -68,7 +79,49 @@ class Home extends StatelessWidget {
         surfaceTintColor: Color(0xECEAEA),
         foregroundColor:  Color(0xECEAEA),
       ),
-      body: Text("Insert your content into this field"),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 150,),
+          Container(
+            child: Center(
+              child: Text(
+                "This is a placeholder.",
+                ),
+            )
+          ),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                stops: [0, 0, 0.5],
+                end: Alignment(0, 0.5),
+                colors: [Colors.lightGreen, Color.lerp(Colors.lightGreen, DarkGreen,0.5)??Colors.lightGreen,DarkGreen],
+              ),
+              shape: BoxShape.circle,
+            ),
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isRunning = !isRunning;
+                  started = true;
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(250, 250),
+                shape: const CircleBorder(),
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.black,  
+                elevation: 20,
+              ),
+              child:
+                started ? (isRunning ? Text('Pause') : Text('Resume')) : Text('Begin Work'),
+            ),
+          ),
+          SizedBox(height: 50,),
+          started ? HomeButton() : HomeQuote()
+      ]),
     );
   }
 }
