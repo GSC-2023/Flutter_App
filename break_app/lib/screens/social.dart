@@ -1,9 +1,37 @@
 import 'package:flutter/material.dart';
 
+class PhotoItem {
+  final String image;
+  final String name;
+  PhotoItem(this.image, this.name);
+}
+
+
 class Social extends StatelessWidget{
+  
+  final List<PhotoItem> users = [
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Yu Fei'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Ming Han'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Shawn'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'BOB'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+  ];
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       drawer: Container(
         width:200,
         child: Drawer(
@@ -60,7 +88,8 @@ class Social extends StatelessWidget{
       ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text("Social",
+        
+        title: Text("Meet your friends",
         style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
         ),
         backgroundColor: Color(0xECEAEA),
@@ -69,7 +98,115 @@ class Social extends StatelessWidget{
         foregroundColor:  Color(0xECEAEA),
       ),
 
-      body: Text("Insert your content into this field"),
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+          child: Column(
+          children: [
+            
+            //SEARCH BAR
+            Form(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 20.0),
+                  
+                  Material(
+                    elevation: 14.0,
+                    shadowColor: Colors.black,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: 
+                            BorderSide(width: 0, color: Colors.white),
+                            borderRadius: BorderRadius.circular(50.0)
+                        ),
+                        hintText: 'Search',
+                        hintStyle: TextStyle(color: Color.fromARGB(255, 27, 115, 97)),
+                        fillColor: Colors.white,
+                        filled: true,
+                        prefixIcon: Icon(Icons.search),
+                        prefixIconColor: Color.fromARGB(255, 27, 115, 97)
+                      )
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            //GRID OF FRIENDS
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(top: 50),
+                child: GridView.builder(
+                gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1,
+                mainAxisSpacing: 0,
+                crossAxisSpacing: 20
+                ),
+              itemCount: users.length,
+              itemBuilder: (BuildContext ctx, index) {
+              return Container(
+                
+                child: Column(
+                  
+                  children: [
+                    Container(
+                      height: 175,
+                      // color: Colors.blue,
+                       decoration: BoxDecoration(
+                         border: Border.all(
+                           width: 4,
+                           color: Color.fromARGB(255, 27, 115, 97)
+
+                         ),
+                        image: DecorationImage(
+                          fit: BoxFit.fitHeight,
+                          image: AssetImage(users[index].image, )
+                          ),
+                        shape: BoxShape.circle
+                      ),
+                    ),
+
+                    // Spacer(flex: 1,),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 15),
+                      // color: Colors.blue,
+                      child: Text(users[index].name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 27, 115, 97)),),
+                      padding: EdgeInsets.all(0),
+                      alignment: Alignment.bottomCenter,
+                      )
+
+                  ],
+                )
+
+                // color: Colors.blue,
+                // decoration: BoxDecoration(
+                //   image: DecorationImage(
+                //     fit: BoxFit.fitHeight,
+                //     image: AssetImage(users[index].image, )
+                //     ),
+                //   shape: BoxShape.circle
+                // ),
+
+            
+              );
+            }),
+            )
+          )
+
+            
+
+            // Image.asset('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png',
+            //               height: 200,
+            //               width: 194),
+
+          ],
+        ),
+
+        
+        
+      )
 
     );
   }
