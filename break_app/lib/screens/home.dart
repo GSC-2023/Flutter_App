@@ -11,7 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool started = false;
-  bool isRunning = true;
+  bool isRunning = false;
   final CountDownController controller = new CountDownController();
 
   @override
@@ -94,6 +94,7 @@ class _HomeState extends State<Home> {
                       width: 200,
                       controller: controller,
                       duration: 3600,
+                      autoStart: false,
                       strokeWidth: 10,
                       isTimerTextShown: true,
                       neumorphicEffect: true,
@@ -134,13 +135,6 @@ class _HomeState extends State<Home> {
                   ),
 
           Container(
-            child: Center(
-              child: Text(
-                "This is a placeholder.",
-                ),
-            )
-          ),
-          Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -159,10 +153,16 @@ class _HomeState extends State<Home> {
                 setState(() {
                   isRunning = !isRunning;
                   started = true;
+                  if (started && isRunning) {
+                    controller.resume();
+                  }
+                  else if (started && !isRunning) {
+                    controller.pause();
+                  }
                 });
               },
               style: ElevatedButton.styleFrom(
-                fixedSize: const Size(250, 250),
+                fixedSize: const Size(200, 200),
                 shape: const CircleBorder(),
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.black,  
