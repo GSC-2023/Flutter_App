@@ -4,7 +4,6 @@ import './screens/activities.dart';
 import './screens/statistics.dart';
 import './screens/social.dart';
 import './screens/settings.dart';
-import './screens/socialSingle.dart';
 
 
 
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
         '/Social' : (context) => Social(),
         '/Statistics' : (context) => Statistics(),
         '/Settings' : (context) => Settings(),
-        '/SocialSingle': (context) => SocialSingle(),
 
       },
     );

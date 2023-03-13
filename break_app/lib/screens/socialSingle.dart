@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import './social.dart';
 
 class SocialSingle extends StatelessWidget {
+  const SocialSingle({super.key, required this.users});
+
+  final PhotoItem users;
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -121,13 +125,16 @@ class SocialSingle extends StatelessWidget {
             
             Container(
               margin: EdgeInsetsDirectional.symmetric(vertical: 10, horizontal: 0),
-              child: Material(
-                // color: Colors.black,
-                elevation: 20.0,
-                shadowColor: Colors.black,
-                child: Image.asset('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png'),
-                
-              ),
+              child: Column(
+                children: [
+                  Image.asset(
+                    users.image,
+                  ),
+
+                  Text(users.name)
+                ],
+              )
+              
             )
 
           ]

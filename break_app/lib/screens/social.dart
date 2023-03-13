@@ -14,12 +14,12 @@ class Social extends StatelessWidget{
   
   final List<PhotoItem> users = [
     PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
-    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Yu Fei'),
+    PhotoItem('assets/images/Screen Shot 2023-03-14 at 03.42.29 AM.png', 'Yu Fei'),
     PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Ming Han'),
     PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Shawn'),
-    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'BOB'),
-    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
-    PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
+    PhotoItem('assets/images/Screen Shot 2023-03-14 at 03.42.51 AM.png', 'YuFeisXMM'),
+    PhotoItem('assets/images/Screen Shot 2023-03-14 at 03.45.53 AM.png', 'HARREH POTTA'),
+    PhotoItem('assets/images/Screen Shot 2023-03-14 at 03.45.11 AM.png', 'Wayne'),
     PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
     PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
     PhotoItem('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png', 'Wayne'),
@@ -161,7 +161,11 @@ class Social extends StatelessWidget{
                   children: [
                     InkWell(
                       onTap: (){
-                        Navigator.pushNamed(context, '/SocialSingle');
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (context) => SocialSingle(users: users[index]),
+                          )
+                          );
                       },
               
                       child: Container(
