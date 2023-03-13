@@ -216,7 +216,7 @@ class _HomeState extends State<Home> {
                       text: started ? "End Work" : "Begin Work",
                       textColor: White,
                       shape: GFButtonShape.pills,
-                      color: Colors.orange.shade600,
+                      color: started ? Colors.red : Colors.orange.shade600,
                       ),
                     ),
                 ),
