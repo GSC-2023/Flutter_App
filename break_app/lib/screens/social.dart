@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:animations/animations.dart';
+
 
 class PhotoItem {
   final String image;
@@ -31,7 +33,7 @@ class Social extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromARGB(255, 231, 235, 227),
       drawer: Container(
         width:200,
         child: Drawer(
@@ -90,7 +92,7 @@ class Social extends StatelessWidget{
         iconTheme: IconThemeData(color: Colors.black),
         
         title: Text("Meet your friends",
-        style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
+        style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F), fontSize: 30,),
         ),
         backgroundColor: Color(0xECEAEA),
         shadowColor: Color(0xECEAEA),
@@ -110,14 +112,22 @@ class Social extends StatelessWidget{
                   SizedBox(height: 20.0),
                   
                   Material(
-                    elevation: 14.0,
+                    color: Colors.transparent,
+                    elevation: 10.0,
                     shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
                     child: TextFormField(
                       decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: 
-                            BorderSide(width: 0, color: Colors.white),
-                            borderRadius: BorderRadius.circular(50.0)
+                            BorderSide.none,
+                          borderRadius: BorderRadius.circular(50.0),
                         ),
                         hintText: 'Search',
                         hintStyle: TextStyle(color: Color.fromARGB(255, 27, 115, 97)),
@@ -179,36 +189,13 @@ class Social extends StatelessWidget{
 
                   ],
                 )
-
-                // color: Colors.blue,
-                // decoration: BoxDecoration(
-                //   image: DecorationImage(
-                //     fit: BoxFit.fitHeight,
-                //     image: AssetImage(users[index].image, )
-                //     ),
-                //   shape: BoxShape.circle
-                // ),
-
-            
               );
             }),
             )
           )
-
-            
-
-            // Image.asset('assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png',
-            //               height: 200,
-            //               width: 194),
-
           ],
         ),
-
-        
-        
       )
-
     );
   }
-
 }
