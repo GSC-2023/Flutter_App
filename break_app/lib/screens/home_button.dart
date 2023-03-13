@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:break_app/colors/colors.dart';
 
+/* 
+  NOTE: DEPRECATED, BUT MAY NEED FOR OTHER COMPONENTS
+  WILL REMOVE ONCE ITS USEFULNESS IS ASCERTAINED
+*/
+
 class HomeAuxilliaryButtons extends StatefulWidget {
   final VoidCallback restartTimer;
   final VoidCallback pauseTimer;
@@ -16,9 +21,9 @@ class _HomeAuxilliaryButtonsState extends State<HomeAuxilliaryButtons>{
   @override
   Widget build(BuildContext context){
     return Container(
-      padding: const EdgeInsets.fromLTRB(40, 30, 40, 0),
+      padding: const EdgeInsets.fromLTRB(40, 150, 40, 0),
       width: double.infinity,
-      height: 300,
+      height: 275,
       child: Column(
         children: [
           Row(
@@ -28,7 +33,8 @@ class _HomeAuxilliaryButtonsState extends State<HomeAuxilliaryButtons>{
               width: 150,
               height: 45,
               child: GFButton(
-                onPressed: (){},
+                // onPressed: (){},
+                onPressed: null,
                 text:"Break Now",
                 textColor: DarkGreen,
                 shape: GFButtonShape.pills,
