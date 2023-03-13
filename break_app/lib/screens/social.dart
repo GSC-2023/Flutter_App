@@ -1,3 +1,4 @@
+import 'package:break_app/screens/socialSingle.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 
@@ -156,24 +157,29 @@ class Social extends StatelessWidget{
               itemCount: users.length,
               itemBuilder: (BuildContext ctx, index) {
               return Container(
-                
                 child: Column(
-                  
                   children: [
-                    Container(
-                      height: 175,
-                      // color: Colors.blue,
-                       decoration: BoxDecoration(
-                         border: Border.all(
-                           width: 4,
-                           color: Color.fromARGB(255, 27, 115, 97)
+                    InkWell(
+                      onTap: (){
+                        Navigator.pushNamed(context, '/SocialSingle');
+                      },
+              
+                      child: Container(
+                        height: 175,
+                        // color: Colors.blue,
+                         decoration: BoxDecoration(
+                           border: Border.all(
+                             width: 4,
+                             color: Color.fromARGB(255, 27, 115, 97)
 
-                         ),
-                        image: DecorationImage(
-                          fit: BoxFit.fitHeight,
-                          image: AssetImage(users[index].image, )
-                          ),
-                        shape: BoxShape.circle
+                           ),
+                           
+                          image: DecorationImage(
+                            fit: BoxFit.fitHeight,
+                            image: AssetImage(users[index].image, )
+                            ),
+                          shape: BoxShape.circle
+                        ),
                       ),
                     ),
 
