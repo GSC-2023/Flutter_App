@@ -2,6 +2,7 @@ import 'package:break_app/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:break_app/screens/home_quote.dart';
 import 'package:break_app/screens/home_button.dart';
+import 'package:flutter/services.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 
 class Home extends StatefulWidget {
@@ -96,23 +97,23 @@ class _HomeState extends State<Home> {
                       },
                       width: 200,
                       controller: controller,
-                      duration: 3600,
+                      duration: 10,
                       autoStart: false,
-                      strokeWidth: 10,
+                      strokeWidth: 5,
                       isTimerTextShown: true,
                       neumorphicEffect: true,
                       outerStrokeColor: Colors.grey.shade100,
                       innerFillGradient: LinearGradient(colors: [
-                        Colors.greenAccent.shade200,
-                        Colors.blueAccent.shade400
+                        DarkGreen,
+                        Colors.green,
                       ]),
                       neonGradient: LinearGradient(colors: [
-                        Colors.greenAccent.shade200,
-                        Colors.blueAccent.shade400
+                        DarkGreen,
+                        Colors.green,
                       ]),
                       strokeCap: StrokeCap.round,
-                      innerFillColor: Colors.black12,
-                      backgroudColor: Colors.grey.shade100,
+                      innerFillColor: White,
+                      backgroudColor: White,
                       neonColor: Colors.blue.shade900),
                   Padding(
                     padding: const EdgeInsets.all(40),
