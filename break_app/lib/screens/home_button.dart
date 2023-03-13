@@ -2,7 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:break_app/colors/colors.dart';
 
-class HomeButton extends StatelessWidget{
+class HomeAuxilliaryButtons extends StatefulWidget {
+  final VoidCallback restartTimer;
+  final VoidCallback pauseTimer;
+
+  HomeAuxilliaryButtons({Key? key, required this.restartTimer, required this.pauseTimer}) : super(key: key);
+
+  @override
+  _HomeAuxilliaryButtonsState createState() => _HomeAuxilliaryButtonsState();
+}
+
+class _HomeAuxilliaryButtonsState extends State<HomeAuxilliaryButtons>{
   @override
   Widget build(BuildContext context){
     return Container(
@@ -29,7 +39,10 @@ class HomeButton extends StatelessWidget{
               width: 150,
               height: 45,
               child: GFButton(
-                onPressed: (){},
+                onPressed: (){
+                  widget.restartTimer();
+                  widget.pauseTimer();
+                },
                 text:"Restart",
                 textColor: DarkGreen,
                 shape: GFButtonShape.pills,

@@ -12,6 +12,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool started = false;
   bool isRunning = false;
+  resumeTimer() => controller.resume();
+  pauseTimer() => controller.pause();
+  restartTimer() => controller.restart();
   final CountDownController controller = new CountDownController();
 
   @override
@@ -113,25 +116,6 @@ class _HomeState extends State<Home> {
                       neonColor: Colors.blue.shade900),
                   Padding(
                     padding: const EdgeInsets.all(40),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          IconButton(
-                              icon: Icon(Icons.play_arrow),
-                              onPressed: () {
-                                controller.resume();
-                              }),
-                          IconButton(
-                              icon: Icon(Icons.pause),
-                              onPressed: () {
-                                controller.pause();
-                              }),
-                          IconButton(
-                              icon: Icon(Icons.repeat),
-                              onPressed: () {
-                                controller.restart();
-                              }),
-                        ])
                   ),
 
           Container(
@@ -173,7 +157,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           SizedBox(height: 50,),
-          started ? HomeButton() : HomeQuote()
+          started ? HomeAuxilliaryButtons(restartTimer: restartTimer, pauseTimer: pauseTimer,) : HomeQuote()
       ]),
     );
   }
