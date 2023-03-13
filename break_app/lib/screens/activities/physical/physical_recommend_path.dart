@@ -1,8 +1,22 @@
+import 'package:break_app/screens/activities/physical/components/amenityCard.dart';
 import 'package:flutter/material.dart';
 
-class Activities extends StatelessWidget {
+class PhysicalRecommendPath extends StatefulWidget {
+  @override
+  State<PhysicalRecommendPath> createState() => _PhysicalRecommendPathState();
+}
+
+class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
+  Map data = {
+    'Yunan Garden': ["park", 3],
+    'Nanyang Lake': ["pond", 4],
+    'Chinese Heritage Centre': ["heritage", 5]
+  };
+
   @override
   Widget build(BuildContext context) {
+    var locations = data.keys.toList();
+    for (var location in locations) print(data[location][0]);
     return Scaffold(
       backgroundColor: Colors.grey[200],
       drawer: Container(
@@ -69,70 +83,56 @@ class Activities extends StatelessWidget {
         foregroundColor: Color(0xECEAEA),
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 30),
+        margin: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: Text(
-                "What would you like to do?",
-                style: TextStyle(fontSize: 24),
-              ),
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+            Row(
+              children: [
+                Text(
+                  "Intended Walking Duration: ",
+                  style: TextStyle(fontSize: 24),
+                ),
+              ],
             ),
-            Container(
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        icon: Text(
-                          'Physical',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/PhysicalActivites');
-                        },
-                        label: Image.asset('assets/icons/Physical.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(vertical: 50.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        icon: Text(
-                          'Mental  ',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/MentalActivites');
-                        },
-                        label: Image.asset('assets/icons/Mental.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(vertical: 50),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(vertical: 30),
+                width: double.infinity,
+                child: Text(
+                  'Generate Amenities',
+                  style: TextStyle(fontSize: 30),
+                ),
               ),
             ),
+            data.isEmpty
+                ? Text("no data!")
+                : Column(
+                    children: [
+                      Text(
+                        "List of Amenities:",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      for (var location in locations)
+                        AmenityCard(
+                          name: location,
+                          type: (data[location][0]),
+                          duration: "${data[location][1]}",
+                        ),
+                    ],
+                  ),
           ],
         ),
       ),

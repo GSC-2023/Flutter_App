@@ -1,6 +1,8 @@
+import 'package:break_app/screens/activities/physical/components/exerciseButton.dart';
 import 'package:flutter/material.dart';
 
-class Activities extends StatelessWidget {
+class PhysicalReliefExercises extends StatelessWidget {
+  final parts = ['Neck', 'Core', 'Arms', 'Glutes', 'Legs', 'Shoulders'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,68 +71,28 @@ class Activities extends StatelessWidget {
         foregroundColor: Color(0xECEAEA),
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 30),
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               child: Text(
-                "What would you like to do?",
+                "What exercise would you like to do?",
                 style: TextStyle(fontSize: 24),
               ),
               padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
             ),
-            Container(
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        icon: Text(
-                          'Physical',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/PhysicalActivites');
-                        },
-                        label: Image.asset('assets/icons/Physical.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(vertical: 50.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        icon: Text(
-                          'Mental  ',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/MentalActivites');
-                        },
-                        label: Image.asset('assets/icons/Mental.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(vertical: 50),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+                itemCount: 6,
+                itemBuilder: (context, int index) {
+                  return ExerciseButton(name: parts[index]);
+                },
               ),
             ),
           ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Activities extends StatelessWidget {
+class PhysicalActivites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +75,7 @@ class Activities extends StatelessWidget {
           children: [
             Container(
               child: Text(
-                "What would you like to do?",
+                "What activity would you like to do?",
                 style: TextStyle(fontSize: 24),
               ),
               padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
@@ -88,15 +88,24 @@ class Activities extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       child: TextButton.icon(
-                        icon: Text(
-                          'Physical',
-                          style: TextStyle(fontSize: 40),
+                        icon: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Relief Exercises',
+                              style: TextStyle(fontSize: 30),
+                            ),
+                            Text(
+                              'Est Duration: 3min',
+                              style: TextStyle(fontSize: 15),
+                            )
+                          ],
                         ),
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, '/PhysicalActivites');
+                              context, '/PhysicalActivites/ReliefExercises');
                         },
-                        label: Image.asset('assets/icons/Physical.png'),
+                        label: Image.asset('assets/icons/Stretch.png'),
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.green,
@@ -108,25 +117,31 @@ class Activities extends StatelessWidget {
                   SizedBox(
                     height: 50,
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        icon: Text(
-                          'Mental  ',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/MentalActivites');
-                        },
-                        label: Image.asset('assets/icons/Mental.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(vertical: 50),
-                        ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton.icon(
+                      icon: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Take a Walk',
+                            style: TextStyle(fontSize: 30),
+                          ),
+                          Text(
+                            'Est Duration: +5min',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ],
+                      ),
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, '/PhysicalActivites/RecommendPath');
+                      },
+                      label: Image.asset('assets/icons/Walk.png'),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.green,
+                        padding: EdgeInsets.symmetric(vertical: 50.0),
                       ),
                     ),
                   ),
