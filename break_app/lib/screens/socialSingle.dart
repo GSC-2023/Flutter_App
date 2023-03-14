@@ -90,7 +90,7 @@ class SocialSingle extends StatelessWidget {
             Form(
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: 20.0),
+                  SizedBox(height: 10.0),
                   
                   Material(
                     color: Colors.transparent,
@@ -127,18 +127,156 @@ class SocialSingle extends StatelessWidget {
               margin: EdgeInsetsDirectional.symmetric(vertical: 10, horizontal: 0),
               child: Column(
                 children: [
-                  Image.asset(
-                    users.image,
+
+                  //STATISTICS
+                  Container(
+                    margin: EdgeInsetsDirectional.symmetric(vertical: 20),
+                    height: 90,
+                    // width: ,
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1,
+                      mainAxisSpacing: 0,
+                      crossAxisSpacing: 20,
+                      children: <Widget>[
+                        // Container(
+                        //   // alignment: Alignment.center,
+                        //   color: Colors.grey,
+                        //   child: Align(
+                        //     // alignment: Alignment.center,
+                        //     child: Text(
+                        //     'TEST',
+                        //     textAlign: TextAlign.center,
+                            
+                        //     ),
+                        //   )
+                        // ),
+
+                        Container(
+                          // alignment: Alignment.center,
+                          color: Colors.grey,
+                          child: Text('TEST'),
+                        ),
+
+                        Container(
+                          color: Colors.grey,
+                          child: Text(
+                            'TEST',
+                            textAlign: TextAlign.center,
+                            
+                            ),
+                        ),
+                      ],
+                      )
                   ),
 
-                  Text(users.name)
+                 //USER IMAGE
+                 Container(
+                      height: 200,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 5,
+                          color: Colors.transparent,
+                          ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black,
+                            spreadRadius: 1,
+                            blurRadius: 10,
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(100),
+                        image: DecorationImage(
+                          image: AssetImage(users.image),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                
+                  //USERNAME
+                  Container(
+                    margin: EdgeInsetsDirectional.symmetric(vertical: 30),
+                    child: Text(
+                      users.name,
+                      style: TextStyle(
+                        fontSize: 20,
+                        // fontFamily: 
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ),
+
+                  //BUTTONS
+                  // Container(
+                  //   margin: EdgeInsetsDirectional.symmetric(vertical: 5),
+                  //   height: 90,
+                  //   child: GridView.count(
+                  //     physics: new NeverScrollableScrollPhysics(),
+                  //     crossAxisCount: 2,
+                  //     mainAxisSpacing: 0,
+                  //     crossAxisSpacing: 20,
+                  //     children: <Widget>[
+
+                  //       //BUTTON 1
+                  //       ElevatedButton(
+                  //         onPressed: null, 
+                  //         style: ElevatedButton.styleFrom(
+                  //           foregroundColor: Colors.purple,
+                  //         ),
+                  //         child: Text(
+                  //           'TEST',
+                  //           ),
+                          
+                  //       ),
+
+                  //       //BUTTON 2
+                  //       ElevatedButton(
+                  //         onPressed: null, 
+                  //         child: Text('TEST'),
+                          
+                  //         )
+
+        
+                  //     ],
+                  //     )
+                  // ),
+
+                Container(
+                  child: Row(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      ElevatedButton(
+                          onPressed: () {}, 
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.purple,
+                            
+                          ),
+                          child: Text(
+                            'TEST',
+                            ),
+                        ),
+                      
+                      ElevatedButton(
+                          onPressed: () {}, 
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.purple,
+                          ),
+                          child: Text(
+                            'TEST',
+                            ),
+                        ),
+
+                      ]
+                    ),
+                  ),
+
                 ],
               )
-              
             )
-
           ]
-          ),
+        ),
       )
     );
   }

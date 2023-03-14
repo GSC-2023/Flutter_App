@@ -146,7 +146,7 @@ class Social extends StatelessWidget{
             //GRID OF FRIENDS
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(top: 50),
+                margin: EdgeInsets.only(top: 30),
                 child: GridView.builder(
                 gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -159,6 +159,7 @@ class Social extends StatelessWidget{
               return Container(
                 child: Column(
                   children: [
+
                     InkWell(
                       onTap: (){
                         Navigator.push(
@@ -167,22 +168,32 @@ class Social extends StatelessWidget{
                           )
                           );
                       },
-              
-                      child: Container(
-                        height: 175,
-                        // color: Colors.blue,
-                         decoration: BoxDecoration(
-                           border: Border.all(
-                             width: 4,
-                             color: Color.fromARGB(255, 27, 115, 97)
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Container(
+                          margin: EdgeInsetsDirectional.symmetric(vertical: 0),
+                          height: 100,
+                           decoration: BoxDecoration(
+                             border: Border.all(
+                               width: 4,
+                               color: Color.fromARGB(255, 27, 115, 97)
 
-                           ),
-                           
-                          image: DecorationImage(
-                            fit: BoxFit.fitHeight,
-                            image: AssetImage(users[index].image, )
-                            ),
-                          shape: BoxShape.circle
+                             ),
+                            
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black,
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                              )
+                            ],
+
+                            image: DecorationImage(
+                              fit: BoxFit.fitHeight,
+                              image: AssetImage(users[index].image, )
+                              ),
+                            shape: BoxShape.circle
+                          ),
                         ),
                       ),
                     ),
@@ -190,9 +201,16 @@ class Social extends StatelessWidget{
                     // Spacer(flex: 1,),
 
                     Container(
-                      margin: EdgeInsets.only(top: 15),
+                      margin: EdgeInsets.symmetric(vertical: 10),
                       // color: Colors.blue,
-                      child: Text(users[index].name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 27, 115, 97)),),
+                      child: Text(
+                        users[index].name,
+                         style: TextStyle(
+                           fontSize: 15, 
+                           fontWeight: FontWeight.bold, 
+                           color: Color.fromARGB(255, 27, 115, 97)
+                           ),
+                          ),
                       padding: EdgeInsets.all(0),
                       alignment: Alignment.bottomCenter,
                       )
