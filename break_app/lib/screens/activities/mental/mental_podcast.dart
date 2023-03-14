@@ -72,7 +72,23 @@ class Mental_Podcast extends StatelessWidget {
         foregroundColor: Color(0xECEAEA),
       ),
       body: Container(
-        child: VideoApp(),
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: Column(
+          children: [
+            Text(
+              'Soothing Podcast',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                color: Color(0xff2E593F),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            VideoApp(),
+          ],
+        ),
         //child: YoutubeWidget(),//doesnt work for android
       ),
     );
