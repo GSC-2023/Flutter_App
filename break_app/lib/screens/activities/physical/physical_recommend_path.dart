@@ -1,5 +1,7 @@
 import 'package:break_app/screens/activities/physical/components/amenityCard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_spinbox/flutter_spinbox.dart';
 
 class PhysicalRecommendPath extends StatefulWidget {
   @override
@@ -8,6 +10,7 @@ class PhysicalRecommendPath extends StatefulWidget {
 
 class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
   Map data = {
+    //TODO dynamically render data
     'Yunan Garden': ["park", 3],
     'Nanyang Lake': ["pond", 4],
     'Chinese Heritage Centre': ["heritage", 5]
@@ -83,57 +86,63 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
         foregroundColor: Color(0xECEAEA),
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 20,
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  "Intended Walking Duration: ",
-                  style: TextStyle(fontSize: 24),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
+        child: Container(
+          margin: EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20,
+          ),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    "Intended Walking Duration: ",
+                    style: TextStyle(fontSize: 24),
+                  ), //TODO add user input to toggle duration
+                ],
               ),
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(vertical: 30),
-                width: double.infinity,
-                child: Text(
-                  'Generate Amenities',
-                  style: TextStyle(fontSize: 30),
-                ),
+              SizedBox(
+                height: 20,
               ),
-            ),
-            data.isEmpty
-                ? Text("no data!")
-                : Column(
-                    children: [
-                      Text(
-                        "List of Amenities:",
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      for (var location in locations)
-                        AmenityCard(
-                          name: location,
-                          type: (data[location][0]),
-                          duration: "${data[location][1]}",
-                        ),
-                    ],
+              ElevatedButton(
+                onPressed: () {}, //TODO logic to calculate route
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
-          ],
+                ),
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 30),
+                  width: double.infinity,
+                  child: Text(
+                    'Generate Amenities',
+                    style: TextStyle(fontSize: 30),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              data.isEmpty
+                  ? Text("no data!")
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "List of Amenities:",
+                          style: TextStyle(fontSize: 30),
+                        ),
+                        for (var location in locations)
+                          AmenityCard(
+                            name: location,
+                            type: (data[location][0]),
+                            duration: "${data[location][1]}",
+                          ),
+                      ],
+                    ),
+            ],
+          ),
         ),
       ),
     );
