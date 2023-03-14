@@ -4,13 +4,12 @@ import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:getwidget/getwidget.dart';
 
 
-class Home extends StatefulWidget {
+class Break extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _BreakState createState() => _BreakState();
 }
 
-class _HomeState extends State<Home> {
-  bool started = false;
+class _BreakState extends State<Break> {
   bool paused = false; // used by pause/continue button
   bool completed = false;
   final CountDownController controller = new CountDownController();
@@ -90,10 +89,10 @@ class _HomeState extends State<Home> {
           Container(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
             child: Text(
-              started ? "Time to focus!" : "Click 'Begin Work' to start",
+              "Time to rest!",
               style: TextStyle(
                 fontSize: 25,
-                color: DarkGreen,
+                color: Blue,
               ),
               ),
           ),
@@ -111,26 +110,25 @@ class _HomeState extends State<Home> {
             child: NeonCircularTimer(
                         onComplete: () {
                           setState(() {
-                            started = false;
                             completed = true; // TODO: display affirmation msg, then redirect to break page
-                            Navigator.pushNamed(context, '/Break');
+                            Navigator.pushNamed(context, '/Home');
                           });
                         },
                         width: 250,
                         controller: controller,
                         duration: 10,
-                        autoStart: false,
+                        autoStart: true,
                         strokeWidth: 5,
                         isTimerTextShown: true,
                         neumorphicEffect: true,
                         outerStrokeColor: Colors.grey.shade100,
                         innerFillGradient: LinearGradient(colors: [
-                          DarkGreen,
-                          Colors.green,
+                          DarkBlue,
+                          LightBlue,
                         ]),
                         neonGradient: LinearGradient(colors: [
-                          DarkGreen,
-                          Colors.green,
+                          DarkBlue,
+                          LightBlue,
                         ]),
                         strokeCap: StrokeCap.round,
                         innerFillColor: White,
@@ -154,12 +152,11 @@ class _HomeState extends State<Home> {
                     width: 150,
                     height: 45,
                     child: GFButton(
-                      onPressed: started ? (
+                      onPressed: (
                         paused ? () {
                           controller.resume();
                           setState(() {
                             paused = false;
-                            started = true;
                           });
                         } 
                         : 
@@ -168,9 +165,9 @@ class _HomeState extends State<Home> {
                         setState(() {
                           paused = true;
                         });}
-                      ) : null,
+                      ),
                       text: paused ? "Resume" : "Pause",
-                      textColor: DarkGreen,
+                      textColor: Blue,
                       shape: GFButtonShape.pills,
                       color: White,
                     ),
@@ -179,15 +176,14 @@ class _HomeState extends State<Home> {
                     width: 150,
                     height: 45,
                     child: GFButton(
-                      onPressed: started ? () { 
+                      onPressed: () { 
                         controller.restart();
                         controller.pause();
                         setState(() {
-                          started = true;
                           paused = true;
-                      }); } : null,
+                      }); },
                       text:"Restart",
-                      textColor: DarkGreen,
+                      textColor: Blue,
                       shape: GFButtonShape.pills,
                       color: White,
                     ),
@@ -200,15 +196,14 @@ class _HomeState extends State<Home> {
                     Container(
                         height: 45,
                         child: GFButton(
-                        onPressed: started ? () { setState(() {
+                        onPressed: () { setState(() {
                           completed = true;
-                        }); 
-                        Navigator.pushNamed(context, '/Break');
-                        } : null, // TODO: similar to above (setState completed=true), but first ask for further confirmation
-                        text: "Break Now",
+                          Navigator.pushNamed(context, '/Home');
+                        }); }, // TODO: similar to above (setState completed=true), but first ask for further confirmation
+                        text: "Go back to Work",
                         textColor: White,
                         shape: GFButtonShape.pills,
-                        color: DarkGreen,
+                        color: Blue,
                         ),
                       ),
                   ),
@@ -219,15 +214,13 @@ class _HomeState extends State<Home> {
                     Container(
                       height: 45,
                       child: GFButton(
-                      onPressed: started ? () {} : () {setState(() { // TODO: ask for further confirmation, then exit to daily summary page
-                        started = true;
+                      onPressed: () {setState(() { completed = true; // TODO: ask for further confirmation, then exit to daily summary page
                       });
-                      controller.start();
                       },
-                      text: started ? "End Work" : "Begin Work",
+                      text: "End Work",
                       textColor: White,
                       shape: GFButtonShape.pills,
-                      color: started ? Colors.red : Colors.orange.shade600,
+                      color: Colors.red,
                       ),
                     ),
                 ),
