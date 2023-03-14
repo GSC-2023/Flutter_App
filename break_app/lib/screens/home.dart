@@ -92,7 +92,8 @@ class _HomeState extends State<Home> {
             child: Text(
               started ? "Time to focus!" : "Click 'Begin Work' to start",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 25,
+                color: DarkGreen,
               ),
               ),
           ),
@@ -112,6 +113,7 @@ class _HomeState extends State<Home> {
                           setState(() {
                             started = false;
                             completed = true; // TODO: display affirmation msg, then redirect to break page
+                            Navigator.pushNamed(context, '/Break');
                           });
                         },
                         width: 250,

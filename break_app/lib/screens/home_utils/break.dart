@@ -91,8 +91,8 @@ class _BreakState extends State<Break> {
             child: Text(
               "Time to rest!",
               style: TextStyle(
-                fontSize: 20,
-                color: DarkGreen,
+                fontSize: 25,
+                color: Blue,
               ),
               ),
           ),
@@ -111,6 +111,7 @@ class _BreakState extends State<Break> {
                         onComplete: () {
                           setState(() {
                             completed = true; // TODO: display affirmation msg, then redirect to break page
+                            Navigator.pushNamed(context, '/Home');
                           });
                         },
                         width: 250,
@@ -122,12 +123,12 @@ class _BreakState extends State<Break> {
                         neumorphicEffect: true,
                         outerStrokeColor: Colors.grey.shade100,
                         innerFillGradient: LinearGradient(colors: [
-                          DarkGreen,
-                          Colors.green,
+                          DarkBlue,
+                          LightBlue,
                         ]),
                         neonGradient: LinearGradient(colors: [
-                          DarkGreen,
-                          Colors.green,
+                          DarkBlue,
+                          LightBlue,
                         ]),
                         strokeCap: StrokeCap.round,
                         innerFillColor: White,
@@ -166,7 +167,7 @@ class _BreakState extends State<Break> {
                         });}
                       ),
                       text: paused ? "Resume" : "Pause",
-                      textColor: DarkGreen,
+                      textColor: Blue,
                       shape: GFButtonShape.pills,
                       color: White,
                     ),
@@ -182,7 +183,7 @@ class _BreakState extends State<Break> {
                           paused = true;
                       }); },
                       text:"Restart",
-                      textColor: DarkGreen,
+                      textColor: Blue,
                       shape: GFButtonShape.pills,
                       color: White,
                     ),
@@ -202,7 +203,7 @@ class _BreakState extends State<Break> {
                         text: "Go back to Work",
                         textColor: White,
                         shape: GFButtonShape.pills,
-                        color: DarkGreen,
+                        color: Blue,
                         ),
                       ),
                   ),
