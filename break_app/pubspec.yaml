@@ -34,8 +34,6 @@ dependencies:
   neon_circular_timer: ^0.0.7
 
   flutter_datetime_picker: ^1.5.1
-  flutter_spinbox: ^0.13.0
-
 
 dev_dependencies:
   flutter_test:

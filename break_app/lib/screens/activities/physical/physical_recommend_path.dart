@@ -1,7 +1,6 @@
 import 'package:break_app/screens/activities/physical/components/amenityCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinbox/flutter_spinbox.dart';
 
 class PhysicalRecommendPath extends StatefulWidget {
   @override
