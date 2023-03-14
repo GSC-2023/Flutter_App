@@ -9,43 +9,55 @@ class AmenityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Column(
-      children: [
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
+      child: Column(
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
             ),
-          ),
-          onPressed: () {},
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.tight,
-                  child: CircleAvatar(
-                    radius: 30,
-                    backgroundImage: AssetImage('assets/icons/${type}.png'),
-                    backgroundColor: Colors.grey[200],
+            onPressed: () {}, //TODO logic to map to google
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    fit: FlexFit.tight,
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage(
+                          'assets/icons/${type}.png'), //TODO have more categories of amenities for diff icons
+                      backgroundColor: Colors.grey[200],
+                    ),
                   ),
-                ),
-                Flexible(
-                  flex: 3,
-                  fit: FlexFit.tight,
-                  child: Text(name),
-                ),
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.tight,
-                  child: Text(duration),
-                ),
-              ],
+                  Flexible(
+                    flex: 4,
+                    fit: FlexFit.tight,
+                    child: Container(
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    fit: FlexFit.tight,
+                    child: Text('$duration min'),
+                  ),
+                ],
+              ),
             ),
           ),
-        )
-      ],
-    ));
+          SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
+    );
   }
 }
