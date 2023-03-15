@@ -13,6 +13,7 @@ class _HomeState extends State<Home> {
   bool started = false;
   bool paused = false; // used by pause/continue button
   bool completed = false;
+  bool restartPressed = false;
   final CountDownController controller = new CountDownController();
 
   @override
@@ -111,10 +112,8 @@ class _HomeState extends State<Home> {
             child: NeonCircularTimer(
                         onComplete: () {
                           setState(() {
-                            started = false;
-                            completed = true; // TODO: display affirmation msg, then redirect to break page
-                            Navigator.pushNamed(context, '/Break');
                           });
+                          if (!restartPressed) showNaturalBreakAlertDialog(context);
                         },
                         width: 250,
                         controller: controller,
@@ -160,6 +159,7 @@ class _HomeState extends State<Home> {
                           setState(() {
                             paused = false;
                             started = true;
+                            restartPressed = false;
                           });
                         } 
                         : 
@@ -180,12 +180,18 @@ class _HomeState extends State<Home> {
                     height: 45,
                     child: GFButton(
                       onPressed: started ? () { 
-                        controller.restart();
-                        controller.pause();
                         setState(() {
                           started = true;
                           paused = true;
-                      }); } : null,
+                          completed = false;
+                          restartPressed = true;
+                      });                         
+                        controller.restart();
+                        controller.pause();
+                        setState(() {
+                          // restartPressed = false;
+                        });
+                      } : null,
                       text:"Restart",
                       textColor: DarkGreen,
                       shape: GFButtonShape.pills,
@@ -203,8 +209,8 @@ class _HomeState extends State<Home> {
                         onPressed: started ? () { setState(() {
                           completed = true;
                         }); 
-                        Navigator.pushNamed(context, '/Break');
-                        } : null, // TODO: similar to above (setState completed=true), but first ask for further confirmation
+                        showForcedBreakAlertDialog(context);
+                        } : null, 
                         text: "Break Now",
                         textColor: White,
                         shape: GFButtonShape.pills,
@@ -219,7 +225,7 @@ class _HomeState extends State<Home> {
                     Container(
                       height: 45,
                       child: GFButton(
-                      onPressed: started ? () {} : () {setState(() { // TODO: ask for further confirmation, then exit to daily summary page
+                      onPressed: started ? () {} : () {setState(() { 
                         started = true;
                       });
                       controller.start();
@@ -237,4 +243,71 @@ class _HomeState extends State<Home> {
       ]),
     );
   }
+}
+
+/* This alert is called when the timer naturally runs down and redirects user to break page */
+showNaturalBreakAlertDialog(BuildContext context) {
+
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("Start My Break"),
+    onPressed: () { 
+      Navigator.of(context).pop(); 
+      Navigator.pushNamed(context, '/Break');
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Alert"),
+    content: Text("It's time for a break!"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+/* This alert is called when the timer is forcefully disrupted by user */
+showForcedBreakAlertDialog(BuildContext context) {
+
+  // set up the button
+  Widget cancelButton = TextButton(
+    child: Text("Cancel"),
+    onPressed:  () {
+      Navigator.of(context).pop(); // dismiss dialog
+    },
+  );
+  Widget continueButton = TextButton(
+    child: Text("Confirm"),
+    onPressed:  () {
+      Navigator.of(context).pop(); // dismiss dialog
+      Navigator.pushNamed(context, '/Break');
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Alert"),
+    content: Text("Do you wish to take a break now?"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
