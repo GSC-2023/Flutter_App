@@ -1,5 +1,6 @@
 import 'package:break_app/firebase/database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:developer';
 import '../firebase/auth.dart';
 import 'package:break_app/colors/colors.dart';
@@ -106,8 +107,10 @@ class _LoginState extends State<Login> {
                                 _passwordController.text);
                             //GET data for a UID
                             if (profile != null) {
-                              var data = await DatabaseService(uid: profile.uid)
-                                  .getUser();
+                              var data =
+                                  await DatabaseService().getUser(profile.uid);
+                      
+                              //data.addDailyStatsNow(5, 5, 5);
                               inspect(data);
                               //Navigator.pushNamed(context, '/Home');
                             } else {

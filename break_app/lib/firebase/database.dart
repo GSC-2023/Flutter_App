@@ -3,23 +3,22 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:break_app/models/stats.dart';
+import 'package:intl/intl.dart';
 
 class DatabaseService {
-  final String uid;
-
 //TODO streak A B num of times table
 //TODO cumulative rests, work and walk in a day
-  DatabaseService({required this.uid});
+  DatabaseService();
 
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
 
-  Future<breakUser> getUser() async {
+  Future<breakUser> getUser(uid) async {
     var user;
     await usersCollection.doc(uid).get().then((DocumentSnapshot doc) {
       final data = doc.data() as Map<String, dynamic>;
       //inspect(data);
-      //print(data['meetups'].runtimeType);
+      print(data['meetups'].runtimeType);
       //print(data['dailyStats'].runtimeType);
       user = new breakUser(
           name: data['name'],
@@ -29,14 +28,14 @@ class DatabaseService {
           lunchTime: data['lunchTime'],
           dinnerTime: data['dinnerTime'],
           happinessIndex: data['happinessIndex'],
-          meetups: data['meetups'],
-          dailyStats: data['dailyStats'],
+          meetups: data['meetups'], //{name: [dates]}
+          dailyStats: data['dailyStats'], //{day:[work,rest,walk]}
           imageurl: data['imageurl']);
     });
     return user;
   }
 
-  Future createUser(name) async {
+  Future createUser(name, uid) async {
     var user = new breakUser(
         name: name,
         workTime: 1,
@@ -45,7 +44,11 @@ class DatabaseService {
         lunchTime: 1200,
         dinnerTime: 1400,
         happinessIndex: [1, 2, 3, 4, 5],
-        meetups: {'tommy': 1, 'timmy': 2, 'sammy': 3},
+        meetups: {
+          'tommy': ['170323'],
+          'timmy': ['170323', '180323'],
+          'sammy': ['170323', '180323', '190323']
+        },
         dailyStats: {
           '170323': [1, 2, 3],
           '180323': [4, 5, 7],
@@ -55,7 +58,7 @@ class DatabaseService {
     return await usersCollection.doc(uid).set(user.toMap());
   }
 
-  Future updateUser(user) async {
+  Future updateUser(user, uid) async {
     return await usersCollection.doc(uid).update(user.toMap());
   }
 }
