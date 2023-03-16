@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:break_app/colors/colors.dart';
-import 'package:break_app/screens/home_utils/clickableText.dart';
+import 'package:break_app/firebase/auth.dart';
+
 
 // this page handles signup!
 
@@ -104,12 +105,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
                           ),
                           )
-
-
-                        
-                         
-
-
                     ],
                   )
             ) ) ],
@@ -130,6 +125,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()){
+                    AuthService().register(_usernameController.text, _passwordController.text);
                     Navigator.pushNamed(context, '/Home'); // TO DO: firebase auth
 
                 }
