@@ -15,12 +15,20 @@ class _VideoAppState extends State<VideoApp> {
   @override
   void initState() {
     super.initState();
+    _initVideoPlayer();
+    // _controller = VideoPlayerController.network(
+    //     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+    //   ..initialize().then((_) {
+    //     // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+    //     setState(() {});
+    //   });
+  }
+
+  void _initVideoPlayer() async {
     _controller = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+    await _controller.initialize();
+    setState(() {});
   }
 
   @override
