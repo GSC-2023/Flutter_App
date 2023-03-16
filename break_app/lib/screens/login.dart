@@ -90,7 +90,7 @@ class _LoginState extends State<Login> {
                         //GET data for a UID
                         var data =
                             await DatabaseService(uid: profile.uid).getUser();
-                        inspect(data);
+                        //inspect(data);
 
                         //UDPATE data- edit breakUser and pass into updateUser()
                         // data.restTime = 0;

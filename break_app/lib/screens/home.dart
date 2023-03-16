@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:break_app/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
@@ -18,11 +20,12 @@ class _HomeState extends State<Home> {
   bool completed = false;
   bool restartPressed = false;
   final CountDownController controller = new CountDownController();
+  late profile user;
 
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<profile?>(context);
-    print(user);
+    user = Provider.of<profile>(context);
+    inspect(user);
     return Scaffold(
       backgroundColor: Grey,
       drawer: CustomDrawer(),

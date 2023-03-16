@@ -6,8 +6,10 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   profile? _userFromFireBaseUser(User? user) {
-    print('welcome ' + user!.email!.split('@')[0]);
-    return profile(name: user.email!.split('@')[0], uid: user.uid);
+    user != null ? print("welcome " + user.email!.split('@')[0]) : print('nth');
+    return user != null
+        ? profile(name: user.email!.split('@')[0], uid: user.uid)
+        : null;
   }
 
   Stream<profile?> get user {

@@ -51,70 +51,66 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Column(
                       children: [
                         Padding(
-                            padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                            child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextFormField(
-                                        controller: _usernameController,
-                                        decoration: const InputDecoration(
-                                            icon: Icon(Icons.person),
-                                            hintText: "Username",
-                                            hintStyle: TextStyle(fontSize: 15)),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter a valid username';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextFormField(
-                                          controller: _passwordController,
-                                          obscureText: true,
-                                          decoration: const InputDecoration(
-                                              icon: Icon(Icons.key),
-                                              hintText: "Password",
-                                              hintStyle:
-                                                  TextStyle(fontSize: 15)),
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter your password';
-                                            }
-                                            return null;
-                                          }),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextFormField(
-                                          controller:
-                                              _confirmPasswordController,
-                                          obscureText: true,
-                                          decoration: const InputDecoration(
-                                              icon: Icon(Icons.key),
-                                              hintText: "Confirm Password",
-                                              hintStyle:
-                                                  TextStyle(fontSize: 15)),
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please confirm your password';
-                                            }
-                                            if (value !=
-                                                _passwordController.text) {
-                                              return 'Passwords do not match';
-                                            }
-                                            return null;
-                                          }),
-                                    )
-                                  ],
-                                )))
+                          padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: TextFormField(
+                                    controller: _usernameController,
+                                    decoration: const InputDecoration(
+                                        icon: Icon(Icons.person),
+                                        hintText: "Username",
+                                        hintStyle: TextStyle(fontSize: 15)),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter a valid username';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: TextFormField(
+                                      controller: _passwordController,
+                                      obscureText: true,
+                                      decoration: const InputDecoration(
+                                          icon: Icon(Icons.key),
+                                          hintText: "Password",
+                                          hintStyle: TextStyle(fontSize: 15)),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter your password';
+                                        }
+                                        return null;
+                                      }),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: TextFormField(
+                                      controller: _confirmPasswordController,
+                                      obscureText: true,
+                                      decoration: const InputDecoration(
+                                          icon: Icon(Icons.key),
+                                          hintText: "Confirm Password",
+                                          hintStyle: TextStyle(fontSize: 15)),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please confirm your password';
+                                        }
+                                        if (value != _passwordController.text) {
+                                          return 'Passwords do not match';
+                                        }
+                                        return null;
+                                      }),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     )),
                 Container(
