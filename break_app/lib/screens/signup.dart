@@ -95,9 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           )
                     ],
                   )
-            ) ) ],
-            )
-          ),
+            ) ),
 
           Container(
             padding: EdgeInsets.all(25),
@@ -123,9 +121,6 @@ class _SignUpPageState extends State<SignUpPage> {
               },
             )
           ),
-         
-
-         
 
         ],
       )
