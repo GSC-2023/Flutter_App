@@ -96,7 +96,7 @@ class _LoginState extends State<Login> {
 
                         //UDPATE data- edit breakUser and pass into updateUser()
                         // data.restTime = 0;
-                        // DatabaseService().updateUser(data);
+                        // DatabaseService(uid: profile.uid).updateUser(data);
 
                         //Navigator.pushNamed(context, '/Home');
                       },
