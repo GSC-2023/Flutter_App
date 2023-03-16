@@ -1,3 +1,4 @@
+import 'package:break_app/firebase/auth.dart';
 import 'package:break_app/screens/activities/mental/mental_activities.dart';
 import 'package:break_app/screens/activities/mental/mental_breathing.dart';
 import 'package:break_app/screens/activities/mental/mental_podcast.dart';
@@ -14,8 +15,11 @@ import 'package:break_app/screens/settings.dart';
 import 'package:break_app/screens/login.dart';
 import 'package:break_app/screens/home_utils/break.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:break_app/screens/signup.dart';
+
+import 'models/profile.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,27 +34,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: <String, WidgetBuilder>{
-        '/': (context) => Login(),
-        '/Signup': (context) => SignUpPage(),
-        '/Home': (context) => Home(),
-        '/Break': (context) => Break(),
-        '/Activities': (context) => Activities(),
-        '/Social': (context) => Social(),
-        '/Statistics': (context) => Statistics(),
-        '/Settings': (context) => Settings(),
-        '/PhysicalActivities': (context) => PhysicalActivities(),
-        '/PhysicalActivities/ReliefExercises': (context) =>
-            PhysicalReliefExercises(),
-        '/PhysicalActivities/RecommendPath': (context) =>
-            PhysicalRecommendPath(),
-        '/PhysicalActivities/ReliefExercises/Info': (context) =>
-            Physical_Relief_Exercise_Info(),
-        '/MentalActivities': (context) => MentalActivities(),
-        '/MentalActivities/Breathing': (context) => Mental_Breathing(),
-        '/MentalActivities/Podcast': (context) => Mental_Podcast(),
-      },
+    return StreamProvider<profile?>.value(
+      initialData: null,
+      value: AuthService().user,
+      child: MaterialApp(
+        routes: <String, WidgetBuilder>{
+          '/': (context) => Login(),
+          '/Signup': (context) => SignUpPage(),
+          '/Home': (context) => Home(),
+          '/Break': (context) => Break(),
+          '/Activities': (context) => Activities(),
+          '/Social': (context) => Social(),
+          '/Statistics': (context) => Statistics(),
+          '/Settings': (context) => Settings(),
+          '/PhysicalActivities': (context) => PhysicalActivities(),
+          '/PhysicalActivities/ReliefExercises': (context) =>
+              PhysicalReliefExercises(),
+          '/PhysicalActivities/RecommendPath': (context) =>
+              PhysicalRecommendPath(),
+          '/PhysicalActivities/ReliefExercises/Info': (context) =>
+              Physical_Relief_Exercise_Info(),
+          '/MentalActivities': (context) => MentalActivities(),
+          '/MentalActivities/Breathing': (context) => Mental_Breathing(),
+          '/MentalActivities/Podcast': (context) => Mental_Podcast(),
+        },
+      ),
     );
   }
 }

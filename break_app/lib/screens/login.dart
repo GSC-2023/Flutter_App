@@ -99,10 +99,7 @@ class _LoginState extends State<Login> {
                       onPressed: () async {
                         var profile = await AuthService()
                             .signIn(_usernameController.text, _passwordController.text); 
-
                         //GET data for a UID
-
-
                         if (profile != null){
                           var data =
                             await DatabaseService(uid: profile.uid).getUser();
@@ -116,7 +113,6 @@ class _LoginState extends State<Login> {
                         }
                       },
                     )
-
                       ],
                     )),
                 Container(

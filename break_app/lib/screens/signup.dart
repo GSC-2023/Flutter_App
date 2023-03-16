@@ -1,3 +1,4 @@
+import 'package:break_app/firebase/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:break_app/colors/colors.dart';
 import 'package:break_app/firebase/auth.dart';
@@ -19,30 +20,21 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text("Sign Up",
-        style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
-        ),
-        backgroundColor: Color(0xECEAEA),
-        shadowColor: Color(0xECEAEA),
-        surfaceTintColor: Color(0xECEAEA),
-        foregroundColor:  Color(0xECEAEA),
-      ),
-
-      body: Container(
-        padding: EdgeInsets.all(60),
-        alignment: Alignment.center,
-        child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(50),
-            child: Text("REQUIEM", style: TextStyle(fontWeight: FontWeight.bold, color: DarkGreen, fontSize: 25),),
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            "Sign Up",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
           ),
-
-          Container(
-            padding: EdgeInsets.all(30),
+          backgroundColor: Color(0xECEAEA),
+          shadowColor: Color(0xECEAEA),
+          surfaceTintColor: Color(0xECEAEA),
+          foregroundColor: Color(0xECEAEA),
+        ),
+        body: Container(
+            padding: EdgeInsets.all(60),
+            alignment: Alignment.center,
             child: Column(
               children: [
                 Padding(padding: EdgeInsets.fromLTRB(0,15,0,15),
@@ -133,13 +125,8 @@ class _SignUpPageState extends State<SignUpPage> {
               },
             )
           ),
-         
-
-         
-
         ],
       )
-
       )
     );
   }
