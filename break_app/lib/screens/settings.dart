@@ -208,7 +208,7 @@ class _SettingsState extends State<Settings> {
             child: Column(children: [
                Row(
               children: [
-                Padding(padding: EdgeInsets.all(25),
+                Padding(padding: EdgeInsets.all(20),
                 child: ElevatedButton(child: Text("Cycle Time"),
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xff2E593F),
@@ -234,7 +234,7 @@ class _SettingsState extends State<Settings> {
           // LUNCH ===========================
           Row(children: [
             Padding(
-            padding: EdgeInsets.all(25),
+            padding: EdgeInsets.all(20),
             child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               primary: Color(0xff2E593F),
@@ -275,7 +275,7 @@ class _SettingsState extends State<Settings> {
          // DINNER==============================================
           Row(children: [
             Padding(
-            padding: EdgeInsets.all(25),
+            padding: EdgeInsets.all(20),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
               primary: Color(0xff2E593F),
@@ -326,8 +326,8 @@ class _SettingsState extends State<Settings> {
           
 
       //   )
-      
-      ElevatedButton(
+      Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 2),
+      child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Color(0xff2E593F),
           shape: RoundedRectangleBorder(
@@ -347,7 +347,8 @@ class _SettingsState extends State<Settings> {
           )
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }, child: Text("Save Changes")),
+      }, child: Text("Save Changes")),)
+      
       
       ],
       )
