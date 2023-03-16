@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PhysicalActivites extends StatelessWidget {
+class PhysicalActivities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +103,7 @@ class PhysicalActivites extends StatelessWidget {
                         ),
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, '/PhysicalActivites/ReliefExercises');
+                              context, '/PhysicalActivities/ReliefExercises');
                         },
                         label: Image.asset('assets/icons/Stretch.png'),
                         style: TextButton.styleFrom(
@@ -135,7 +135,7 @@ class PhysicalActivites extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.pushReplacementNamed(
-                            context, '/PhysicalActivites/RecommendPath');
+                            context, '/PhysicalActivities/RecommendPath');
                       },
                       label: Image.asset('assets/icons/Walk.png'),
                       style: TextButton.styleFrom(

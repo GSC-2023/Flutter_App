@@ -1,4 +1,6 @@
+import 'package:break_app/colors/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
 
 class Activities extends StatelessWidget {
@@ -15,69 +17,93 @@ class Activities extends StatelessWidget {
               TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
         ),
         backgroundColor: Color(0xECEAEA),
-        foregroundColor: Color(0xECEAEA),
+        shadowColor: Color(0xECEAEA),
+        surfaceTintColor: Color(0xECEAEA),
+        foregroundColor:  Color(0xECEAEA),
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               child: Text(
                 "What would you like to do?",
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: DarkGreen,
+                ),
               ),
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
             ),
             Container(
               child: Column(
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        icon: Text(
-                          'Physical',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/PhysicalActivites');
-                        },
-                        label: Image.asset('assets/icons/Physical.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(vertical: 50.0),
+                  InkWell(
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: GFImageOverlay(
+                          height: 200,
+                          width: double.infinity,
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                            child: Text(
+                              'Physical',
+                              style: TextStyle(
+                                color: White,
+                                fontSize: 30,
+                                letterSpacing: 7,
+                                fontFamily: 'League Spartan'
+                              ),
+                            ),
+                          ),
+                          image: AssetImage('assets/images/Physical_bg.png'),
+                          colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.darken),
                         ),
                       ),
                     ),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                        context, '/PhysicalActivities');
+                    },
                   ),
                   SizedBox(
                     height: 50,
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        icon: Text(
-                          'Mental  ',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/MentalActivites');
-                        },
-                        label: Image.asset('assets/icons/Mental.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(vertical: 50),
+                  InkWell(
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: GFImageOverlay(
+                          height: 200,
+                          width: double.infinity,
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                            child: Text(
+                              'Mental',
+                              style: TextStyle(
+                                color: White,
+                                fontSize: 30,
+                                letterSpacing: 7,
+                                fontFamily: 'League Spartan'
+                              ),
+                            ),
+                          ),
+                          image: AssetImage('assets/images/Mental_bg.png'),
+                          colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.darken),
                         ),
                       ),
                     ),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                        context, '/MentalActivities');
+                    },
                   ),
                 ],
               ),
