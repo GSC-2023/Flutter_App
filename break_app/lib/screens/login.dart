@@ -13,6 +13,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
+  bool showText = false;
   @override
   void initState() {
     super.initState();
@@ -55,6 +58,7 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                           child: TextFormField(
+                            controller: _usernameController,
                               decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
                                   hintText: "Username",
@@ -63,6 +67,7 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                           child: TextFormField(
+                            controller: _passwordController,
                               obscureText: true,
                               decoration: const InputDecoration(
                                   icon: Icon(Icons.key),
@@ -73,7 +78,16 @@ class _LoginState extends State<Login> {
                     )),
                 Container(
                     padding: EdgeInsets.all(25),
-                    child: ElevatedButton(
+                    child: Column(
+                      children: [Visibility(
+                        visible: showText,
+                        child: Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Text("Invalid username or password!",
+                        style: TextStyle(color: Colors.red, fontSize: 15),),
+                        )
+                      ),
+                        ElevatedButton(
                       child: Text("Sign in",
                           style: TextStyle(color: Colors.white, fontSize: 15)),
                       style: ElevatedButton.styleFrom(
@@ -83,21 +97,23 @@ class _LoginState extends State<Login> {
                         fixedSize: const Size(350, 30),
                       ),
                       onPressed: () async {
-                        // sign up with google
                         var profile = await AuthService()
-                            .signIn("test1", "test12345"); //FOR LOG IN
-
+                            .signIn(_usernameController.text, _passwordController.text); 
                         //GET data for a UID
-                        var data =
+                        if (profile != null){
+                          var data =
                             await DatabaseService(uid: profile.uid).getUser();
-                        //inspect(data);
-
-                        //UDPATE data- edit breakUser and pass into updateUser()
-                        // data.restTime = 0;
-                        // DatabaseService(uid: profile.uid).updateUser(data);
-
-                        Navigator.pushNamed(context, '/Home');
+                          inspect(data);
+                          Navigator.pushNamed(context, '/Home');
+                        }
+                        else {
+                          setState(() {
+                            showText=true;
+                          });
+                        }
                       },
+                    )
+                      ],
                     )),
                 Container(
                     alignment: Alignment.center,
