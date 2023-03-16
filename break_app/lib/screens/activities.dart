@@ -71,6 +71,7 @@ class Activities extends StatelessWidget {
                               fontFamily: 'League Spartan'
                             ),
                           ),
+                        ),
                         image: AssetImage('assets/images/Physical_bg.png'),
                         colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.darken),
                       ),
