@@ -58,7 +58,7 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                           child: TextFormField(
-                            controller: _usernameController,
+                              controller: _usernameController,
                               decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
                                   hintText: "Username",
@@ -67,7 +67,7 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                           child: TextFormField(
-                            controller: _passwordController,
+                              controller: _passwordController,
                               obscureText: true,
                               decoration: const InputDecoration(
                                   icon: Icon(Icons.key),
@@ -79,40 +79,44 @@ class _LoginState extends State<Login> {
                 Container(
                     padding: EdgeInsets.all(25),
                     child: Column(
-                      children: [Visibility(
-                        visible: showText,
-                        child: Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Text("Invalid username or password!",
-                        style: TextStyle(color: Colors.red, fontSize: 15),),
-                        )
-                      ),
+                      children: [
+                        Visibility(
+                            visible: showText,
+                            child: Padding(
+                              padding: EdgeInsets.all(5),
+                              child: Text(
+                                "Invalid username or password!",
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 15),
+                              ),
+                            )),
                         ElevatedButton(
-                      child: Text("Sign in",
-                          style: TextStyle(color: Colors.white, fontSize: 15)),
-                      style: ElevatedButton.styleFrom(
-                        primary: DarkGreen,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        fixedSize: const Size(350, 30),
-                      ),
-                      onPressed: () async {
-                        var profile = await AuthService()
-                            .signIn(_usernameController.text, _passwordController.text); 
-                        //GET data for a UID
-                        if (profile != null){
-                          var data =
-                            await DatabaseService(uid: profile.uid).getUser();
-                          inspect(data);
-                          Navigator.pushNamed(context, '/Home');
-                        }
-                        else {
-                          setState(() {
-                            showText=true;
-                          });
-                        }
-                      },
-                    )
+                          child: Text("Sign in",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15)),
+                          style: ElevatedButton.styleFrom(
+                            primary: DarkGreen,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            fixedSize: const Size(350, 30),
+                          ),
+                          onPressed: () async {
+                            var profile = await AuthService().signIn(
+                                _usernameController.text,
+                                _passwordController.text);
+                            //GET data for a UID
+                            if (profile != null) {
+                              var data = await DatabaseService(uid: profile.uid)
+                                  .getUser();
+                              inspect(data);
+                              //Navigator.pushNamed(context, '/Home');
+                            } else {
+                              setState(() {
+                                showText = true;
+                              });
+                            }
+                          },
+                        )
                       ],
                     )),
                 Container(
