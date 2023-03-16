@@ -130,5 +130,6 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
-break_app/lib/firebase/firebase_options.dart
 break_app/lib/firebase_options.dart
+*.pbxproj
+*.xcworkspacedata

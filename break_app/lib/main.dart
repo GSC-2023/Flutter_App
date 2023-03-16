@@ -15,6 +15,7 @@ import 'package:break_app/screens/login.dart';
 import 'package:break_app/screens/home_utils/break.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:break_app/screens/signup.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,22 +33,23 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: <String, WidgetBuilder>{
         '/': (context) => Login(),
+        '/Signup': (context) => SignUpPage(),
         '/Home': (context) => Home(),
         '/Break': (context) => Break(),
         '/Activities': (context) => Activities(),
         '/Social': (context) => Social(),
         '/Statistics': (context) => Statistics(),
         '/Settings': (context) => Settings(),
-        '/PhysicalActivites': (context) => PhysicalActivites(),
-        '/PhysicalActivites/ReliefExercises': (context) =>
+        '/PhysicalActivities': (context) => PhysicalActivities(),
+        '/PhysicalActivities/ReliefExercises': (context) =>
             PhysicalReliefExercises(),
-        '/PhysicalActivites/RecommendPath': (context) =>
+        '/PhysicalActivities/RecommendPath': (context) =>
             PhysicalRecommendPath(),
-        '/PhysicalActivites/ReliefExercises/Info': (context) =>
+        '/PhysicalActivities/ReliefExercises/Info': (context) =>
             Physical_Relief_Exercise_Info(),
-        '/MentalActivites': (context) => MentalActivites(),
-        '/MentalActivites/Breathing': (context) => Mental_Breathing(),
-        '/MentalActivites/Podcast': (context) => Mental_Podcast(),
+        '/MentalActivities': (context) => MentalActivities(),
+        '/MentalActivities/Breathing': (context) => Mental_Breathing(),
+        '/MentalActivities/Podcast': (context) => Mental_Podcast(),
       },
     );
   }

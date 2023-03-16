@@ -2,6 +2,8 @@ import 'package:break_app/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:break_app/misc_utils/customDrawer.dart';
+
 
 
 class Home extends StatefulWidget {
@@ -13,66 +15,14 @@ class _HomeState extends State<Home> {
   bool started = false;
   bool paused = false; // used by pause/continue button
   bool completed = false;
+  bool restartPressed = false;
   final CountDownController controller = new CountDownController();
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Grey,
-      drawer: Container(
-        width:200,
-        child: Drawer(
-        child: Column(
-          children: <Widget>[
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: Text('Home'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Home');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.local_activity_outlined),
-            title: Text('Activities'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Activities');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.child_care_rounded),
-            title: Text('Social'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Social');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.bar_chart_outlined),
-            title: Text('Statistics'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Statistics');
-            },
-          ),
-          Expanded(
-            child: Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: ListTile(
-                dense: true,
-                visualDensity: VisualDensity(vertical: -4),
-                leading: Icon(
-                  Icons.settings,
-                ),
-                title: Text('Settings'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/Settings');
-                },
-              ),
-            ),
-          ),
-          ],
-        ),
-      ),
-
-      ),
+      drawer: CustomDrawer(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         title: Text("Home",
@@ -111,10 +61,8 @@ class _HomeState extends State<Home> {
             child: NeonCircularTimer(
                         onComplete: () {
                           setState(() {
-                            started = false;
-                            completed = true; // TODO: display affirmation msg, then redirect to break page
-                            Navigator.pushNamed(context, '/Break');
                           });
+                          if (!restartPressed) showNaturalBreakAlertDialog(context);
                         },
                         width: 250,
                         controller: controller,
@@ -160,6 +108,7 @@ class _HomeState extends State<Home> {
                           setState(() {
                             paused = false;
                             started = true;
+                            restartPressed = false;
                           });
                         } 
                         : 
@@ -180,12 +129,17 @@ class _HomeState extends State<Home> {
                     height: 45,
                     child: GFButton(
                       onPressed: started ? () { 
-                        controller.restart();
-                        controller.pause();
                         setState(() {
                           started = true;
                           paused = true;
-                      }); } : null,
+                          completed = false;
+                          restartPressed = true;
+                      });                         
+                        controller.restart();
+                        controller.pause();
+                        setState(() {
+                        });
+                      } : null,
                       text:"Restart",
                       textColor: DarkGreen,
                       shape: GFButtonShape.pills,
@@ -203,8 +157,8 @@ class _HomeState extends State<Home> {
                         onPressed: started ? () { setState(() {
                           completed = true;
                         }); 
-                        Navigator.pushNamed(context, '/Break');
-                        } : null, // TODO: similar to above (setState completed=true), but first ask for further confirmation
+                        showForcedBreakAlertDialog(context);
+                        } : null, 
                         text: "Break Now",
                         textColor: White,
                         shape: GFButtonShape.pills,
@@ -219,7 +173,10 @@ class _HomeState extends State<Home> {
                     Container(
                       height: 45,
                       child: GFButton(
-                      onPressed: started ? () {} : () {setState(() { // TODO: ask for further confirmation, then exit to daily summary page
+                      onPressed: started ? () {
+                        completed = true;
+                        showForcedEndDayalertDialog(context);
+                      } : () {setState(() { 
                         started = true;
                       });
                       controller.start();
@@ -237,4 +194,108 @@ class _HomeState extends State<Home> {
       ]),
     );
   }
+}
+
+/* This alert is called when the timer naturally runs down and redirects user to break page */
+showNaturalBreakAlertDialog(BuildContext context) {
+
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("Start My Break"),
+    onPressed: () { 
+      Navigator.of(context).pop(); 
+      Navigator.pushNamed(context, '/Break');
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Alert"),
+    content: Text("It's time for a break!"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+/* This alert is called when the timer is forcefully disrupted by user */
+showForcedBreakAlertDialog(BuildContext context) {
+
+  // set up the button
+  Widget cancelButton = TextButton(
+    child: Text("Cancel"),
+    onPressed:  () {
+      Navigator.of(context).pop(); // dismiss dialog
+    },
+  );
+  Widget continueButton = TextButton(
+    child: Text("Confirm"),
+    onPressed:  () {
+      Navigator.of(context).pop(); // dismiss dialog
+      Navigator.pushNamed(context, '/Break');
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Alert"),
+    content: Text("Do you wish to take a break now?"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+/* This alert is called when the user clicks on the `End Work` button */
+showForcedEndDayalertDialog(BuildContext context) {
+
+  // set up the button
+  Widget cancelButton = TextButton(
+    child: Text("Cancel"),
+    onPressed:  () {
+      Navigator.of(context).pop(); // dismiss dialog
+    },
+  );
+  Widget continueButton = TextButton(
+    child: Text("Confirm"),
+    onPressed:  () {
+      Navigator.of(context).pop(); // dismiss dialog
+      Navigator.pushNamed(context, '/Statistics');
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Alert"),
+    content: Text("Are you sure you wish to end your work day now?"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

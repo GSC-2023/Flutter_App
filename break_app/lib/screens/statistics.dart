@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:break_app/misc_utils/customDrawer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class ChartData {
@@ -25,73 +27,29 @@ class _StatisticsState extends State<Statistics>{
         ChartData('Work', 45, color : Color.fromARGB(255, 27, 115, 97)),
     ];
 
-  @override
-
   // insert any helper functions here
+  
+  void openSpotify() async {
+  final String url = 'spotify:playlist:37i9dQZF1E4xkQ7XUTk8SN'; // URI scheme for launching the Spotify app
+  final Uri spotifyUri = Uri.parse(url);
+  if (await canLaunchUrl(spotifyUri)) {
+    await launchUrl(spotifyUri);
+  } else {
+    // If the app is not installed, launch the website instead
+    final String weburl = 'https://open.spotify.com/playlist/37i9dQZF1E4xkQ7XUTk8SN?si=311fc0b393e04c42';
+    final Uri webUri = Uri.parse(weburl);
+    if (await canLaunchUrl(webUri)) {
+      await launchUrl(webUri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  }  
 
-
-
-
-
-
-
-
+  @override
   Widget build(BuildContext context){
     return Scaffold(
-      drawer: Container(
-        width:200,
-        child: Drawer(
-        child: Column(
-          children: <Widget>[
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: Text('Home'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Home');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.local_activity_outlined),
-            title: Text('Activities'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Activities');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.child_care_rounded),
-            title: Text('Social'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Social');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.bar_chart_outlined),
-            title: Text('Statistics'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Statistics');
-            },
-          ),
-          Expanded(
-            child: Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: ListTile(
-                dense: true,
-                visualDensity: VisualDensity(vertical: -4),
-                leading: Icon(
-                  Icons.settings,
-                ),
-                title: Text('Settings'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/Settings');
-                },
-              ),
-            ),
-          ),
-          ],
-        ),
-      ),
-
-      ),
+      drawer: CustomDrawer(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         title: Text("Statistics",
@@ -232,7 +190,8 @@ class _StatisticsState extends State<Statistics>{
         onPressed: (){
           // send happines scale to db for backend analysis
           // pop up to open spotify for calming tracks
-          Navigator.pushNamed(context, "/Home");
+          openSpotify();
+          // Navigator.pushNamed(context, "/Home");
           }, 
           child: Text("Wind Down")),
         )
