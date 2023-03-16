@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:break_app/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
@@ -19,7 +21,7 @@ class Activities extends StatelessWidget {
         backgroundColor: Color(0xECEAEA),
         shadowColor: Color(0xECEAEA),
         surfaceTintColor: Color(0xECEAEA),
-        foregroundColor:  Color(0xECEAEA),
+        foregroundColor: Color(0xECEAEA),
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 30),
@@ -69,14 +71,13 @@ class Activities extends StatelessWidget {
                               fontFamily: 'League Spartan'
                             ),
                           ),
-                        ),
                         image: AssetImage('assets/images/Physical_bg.png'),
                         colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.darken),
                       ),
                     ),
                     onTap: () {
                       Navigator.pushReplacementNamed(
-                        context, '/PhysicalActivities');
+                          context, '/PhysicalActivities');
                     },
                   ),
                   SizedBox(
@@ -107,21 +108,21 @@ class Activities extends StatelessWidget {
                             child: Text(
                               'Mental',
                               style: TextStyle(
-                                color: White,
-                                fontSize: 30,
-                                letterSpacing: 7,
-                                fontFamily: 'League Spartan'
-                              ),
+                                  color: White,
+                                  fontSize: 30,
+                                  letterSpacing: 7,
+                                  fontFamily: 'League Spartan'),
                             ),
                           ),
                           image: AssetImage('assets/images/Mental_bg.png'),
-                          colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.darken),
+                          colorFilter: new ColorFilter.mode(
+                              Colors.black.withOpacity(0.3), BlendMode.darken),
                         ),
                       ),
                     ),
                     onTap: () {
                       Navigator.pushReplacementNamed(
-                        context, '/MentalActivities');
+                          context, '/MentalActivities');
                     },
                   ),
                 ],
