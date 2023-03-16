@@ -42,10 +42,10 @@ class AuthService {
       User user = result.user!;
       await DatabaseService(uid: user.uid)
           .createUser(user.email!.split('@')[0]);
-      return _userFromFireBaseUser(user);
+      return 1;
     } catch (e) {
       print(e.toString());
-      return null;
+      return 0;
     }
   }
 
