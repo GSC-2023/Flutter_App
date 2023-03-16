@@ -1,3 +1,4 @@
+import 'package:break_app/colors/colors.dart';
 import 'package:break_app/screens/activities/physical/components/exerciseButton.dart';
 import 'package:flutter/material.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
@@ -17,17 +18,22 @@ class PhysicalReliefExercises extends StatelessWidget {
               TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
         ),
         backgroundColor: Color(0xECEAEA),
-        foregroundColor: Color(0xECEAEA),
+        shadowColor: Color(0xECEAEA),
+        surfaceTintColor: Color(0xECEAEA),
+        foregroundColor:  Color(0xECEAEA),
       ),
       body: Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               child: Text(
-                "What exercise would you like to do?",
-                style: TextStyle(fontSize: 24),
+                "Select an Exercise",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: DarkGreen,
+                ),
               ),
               padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
             ),

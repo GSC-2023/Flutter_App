@@ -44,28 +44,35 @@ class Activities extends StatelessWidget {
                 children: [
                   InkWell(
                     child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400,
+                            offset: Offset(0.0, 20.0),
+                            blurRadius: 50.0
+                          )
+                        ]
+                      ),
                       alignment: Alignment.center,
-                      child: SizedBox(
+                      child: GFImageOverlay(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        height: 200,
                         width: double.infinity,
-                        child: GFImageOverlay(
-                          height: 200,
-                          width: double.infinity,
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                            child: Text(
-                              'Physical',
-                              style: TextStyle(
-                                  color: White,
-                                  fontSize: 30,
-                                  letterSpacing: 7,
-                                  fontFamily: 'League Spartan'),
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          child: Text(
+                            'Physical',
+                            style: TextStyle(
+                              color: White,
+                              fontSize: 30,
+                              letterSpacing: 7,
+                              fontFamily: 'League Spartan'
                             ),
                           ),
-                          image: AssetImage('assets/images/Physical_bg.png'),
-                          colorFilter: new ColorFilter.mode(
-                              Colors.black.withOpacity(0.3), BlendMode.darken),
-                        ),
+                        image: AssetImage('assets/images/Physical_bg.png'),
+                        colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.darken),
                       ),
                     ),
                     onTap: () {
@@ -78,10 +85,21 @@ class Activities extends StatelessWidget {
                   ),
                   InkWell(
                     child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400,
+                            offset: Offset(0.0, 20.0),
+                            blurRadius: 50.0
+                          )
+                        ]
+                      ),
                       alignment: Alignment.center,
                       child: SizedBox(
                         width: double.infinity,
                         child: GFImageOverlay(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
                           height: 200,
                           width: double.infinity,
                           child: Container(
