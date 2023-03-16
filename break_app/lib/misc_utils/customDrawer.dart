@@ -8,7 +8,9 @@ class CustomDrawer extends StatelessWidget {
     return Container(
       width: 200,
       child: Drawer(
-        child: Column(
+        child: Container(
+          padding: EdgeInsets.fromLTRB(0, 45, 0, 45),
+          child: Column(
           children: <Widget>[
             ListTile(
               leading: const Icon(Icons.home),
@@ -56,6 +58,7 @@ class CustomDrawer extends StatelessWidget {
             ),
           ],
         ),
+        )
       ),
     );
   }
