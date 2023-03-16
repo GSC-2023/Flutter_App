@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class ChartData {
@@ -26,17 +27,26 @@ class _StatisticsState extends State<Statistics>{
         ChartData('Work', 45, color : Color.fromARGB(255, 27, 115, 97)),
     ];
 
-  @override
-
   // insert any helper functions here
+  
+  void openSpotify() async {
+  final String url = 'spotify:playlist:37i9dQZF1E4xkQ7XUTk8SN'; // URI scheme for launching the Spotify app
+  final Uri spotifyUri = Uri.parse(url);
+  if (await canLaunchUrl(spotifyUri)) {
+    await launchUrl(spotifyUri);
+  } else {
+    // If the app is not installed, launch the website instead
+    final String weburl = 'https://open.spotify.com/playlist/37i9dQZF1E4xkQ7XUTk8SN?si=311fc0b393e04c42';
+    final Uri webUri = Uri.parse(weburl);
+    if (await canLaunchUrl(webUri)) {
+      await launchUrl(webUri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  }  
 
-
-
-
-
-
-
-
+  @override
   Widget build(BuildContext context){
     return Scaffold(
       drawer: CustomDrawer(),
@@ -180,7 +190,8 @@ class _StatisticsState extends State<Statistics>{
         onPressed: (){
           // send happines scale to db for backend analysis
           // pop up to open spotify for calming tracks
-          Navigator.pushNamed(context, "/Home");
+          openSpotify();
+          // Navigator.pushNamed(context, "/Home");
           }, 
           child: Text("Wind Down")),
         )
