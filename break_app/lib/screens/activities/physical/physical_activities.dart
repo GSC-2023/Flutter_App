@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:break_app/colors/colors.dart';
 
 class PhysicalActivities extends StatelessWidget {
   @override
@@ -32,67 +34,110 @@ class PhysicalActivities extends StatelessWidget {
             Container(
               child: Column(
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        icon: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Relief Exercises',
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            Text(
-                              'Est Duration: 3min',
-                              style: TextStyle(fontSize: 15),
-                            )
-                          ],
+                  InkWell(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400,
+                            offset: Offset(0.0, 20.0),
+                            blurRadius: 50.0
+                          )
+                        ]
+                      ),
+                      child: GFImageOverlay(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        height: 200,
+                        width: double.infinity,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Relief Exercises',
+                                style: TextStyle(
+                                  color: White,
+                                  fontSize: 30,
+                                  fontFamily: 'League Spartan'
+                                ),
+                              ),
+                              Text(
+                                'Est Duration: 3 min',
+                                style: TextStyle(
+                                  color: White,
+                                  fontSize: 15,
+                                  fontFamily: 'League Spartan'
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/PhysicalActivities/ReliefExercises');
-                        },
-                        label: Image.asset('assets/icons/Stretch.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(vertical: 50.0),
-                        ),
+                        image: AssetImage('assets/images/Stretch_bg.png'),
+                        colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.darken),
                       ),
                     ),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                        context, '/PhysicalActivities/ReliefExercises');
+                    },
                   ),
+                  
                   SizedBox(
                     height: 50,
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: TextButton.icon(
-                      icon: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Take a Walk',
-                            style: TextStyle(fontSize: 30),
-                          ),
-                          Text(
-                            'Est Duration: +5min',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ],
+
+                  InkWell(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400,
+                            offset: Offset(0.0, 20.0),
+                            blurRadius: 50.0
+                          )
+                        ]
                       ),
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, '/PhysicalActivities/RecommendPath');
-                      },
-                      label: Image.asset('assets/icons/Walk.png'),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.green,
-                        padding: EdgeInsets.symmetric(vertical: 50.0),
+                      child: GFImageOverlay(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        height: 200,
+                        width: double.infinity,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Take a Walk',
+                                style: TextStyle(
+                                  color: White,
+                                  fontSize: 30,
+                                  fontFamily: 'League Spartan'
+                                ),
+                              ),
+                              Text(
+                                'Est Duration: 5+ min',
+                                style: TextStyle(
+                                  color: White,
+                                  fontSize: 15,
+                                  fontFamily: 'League Spartan'
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        image: AssetImage('assets/images/Walk_bg.png'),
+                        colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
                       ),
                     ),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                        context, '/PhysicalActivities/RecommendPath');
+                    },
                   ),
                 ],
               ),
