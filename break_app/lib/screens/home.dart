@@ -189,7 +189,6 @@ class _HomeState extends State<Home> {
                         controller.restart();
                         controller.pause();
                         setState(() {
-                          // restartPressed = false;
                         });
                       } : null,
                       text:"Restart",
