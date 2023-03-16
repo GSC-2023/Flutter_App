@@ -127,8 +127,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           //FOR SIGN UP- need to diff username than DB
-                          AuthService().register(_usernameController.text,
-                              _passwordController.text);
                           Navigator.pushNamed(context, '/Home');
                         }
                         // sign up with google
