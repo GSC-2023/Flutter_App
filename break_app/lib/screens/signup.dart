@@ -123,11 +123,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 fixedSize: const Size(350,30),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()){
-                    AuthService().register(_usernameController.text, _passwordController.text);
-                    Navigator.pushNamed(context, '/Home'); // TO DO: firebase auth
-
+                  
+                    var res = await AuthService().register(_usernameController.text, _passwordController.text);
+                    if (res==1){
+                      Navigator.pushNamed(context, '/Home'); // TO DO: firebase auth
+                    }
                 }
                 // sign up with google
               },
