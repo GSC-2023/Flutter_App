@@ -36,21 +36,23 @@ class Login extends StatelessWidget {
             padding: EdgeInsets.all(30),
             child: Column(
               children: [
-                Padding(padding: EdgeInsets.all(15),
+                Padding(padding: EdgeInsets.fromLTRB(0,15,0,15),
                 child: TextFormField(
                   decoration: const InputDecoration(
                     icon: Icon(Icons.person),
                     hintText: "Username",
+                    hintStyle: TextStyle(fontSize: 15)
                   )
 
                   ),),
                   Padding(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.fromLTRB(0,15,0,15),
                     child: TextFormField(
                       obscureText: true,
                   decoration: const InputDecoration(
                     icon: Icon(Icons.key),
                     hintText: "Password",
+                    hintStyle: TextStyle(fontSize: 15)
                   )
 
                   ),
@@ -82,11 +84,12 @@ class Login extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Dont have an account?   "),
+                Text("Don't have an account?   "),
                 ClickableUnderlineText(
                   text: "Sign up",
                   onTap: (){
                     // route to signup page
+                    Navigator.pushNamed(context, '/Signup');
                   }
                 ),
                 

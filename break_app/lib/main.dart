@@ -13,6 +13,7 @@ import 'package:break_app/screens/social.dart';
 import 'package:break_app/screens/settings.dart';
 import 'package:break_app/screens/login.dart';
 import 'package:break_app/screens/home_utils/break.dart';
+import 'package:break_app/screens/signup.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: <String, WidgetBuilder>{
         '/': (context) => Login(),
+        '/Signup': (context) => SignUpPage(),
         '/Home': (context) => Home(),
         '/Break': (context) => Break(),
         '/Activities': (context) => Activities(),
