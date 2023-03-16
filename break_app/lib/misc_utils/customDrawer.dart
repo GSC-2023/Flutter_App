@@ -16,30 +16,39 @@ class CustomDrawer extends StatelessWidget {
               leading: const Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
-                Navigator.pushNamed(context, '/Home');
+                if (ModalRoute.of(context)?.settings.name != '/Home'){
+                  Navigator.pushNamed(context, '/Home');
+                }
+                else{
+                  Navigator.pop(context);
+                } 
               },
             ),
             ListTile(
               leading: const Icon(Icons.local_activity_outlined),
               title: Text('Activities'),
               onTap: () {
-                Navigator.pushNamed(context, '/Activities');
+                if (ModalRoute.of(context)?.settings.name != '/Activities'){
+                  Navigator.pushNamed(context, '/Activities');
+                }
+                else{
+                  Navigator.pop(context);
+                } 
               },
             ),
             ListTile(
               leading: const Icon(Icons.child_care_rounded),
               title: Text('Social'),
               onTap: () {
-                Navigator.pushNamed(context, '/Social');
+                if (ModalRoute.of(context)?.settings.name != '/Social'){
+                  Navigator.pushNamed(context, '/Social');
+                }
+                else{
+                  Navigator.pop(context);
+                } 
               },
             ),
-            // ListTile(
-            //   leading: const Icon(Icons.bar_chart_outlined),
-            //   title: Text('Statistics'),
-            //   onTap: () {
-            //     Navigator.pushNamed(context, '/Statistics');
-            //   },
-            // ),
+
             Expanded(
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
@@ -51,7 +60,13 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   title: Text('Settings'),
                   onTap: () {
-                    Navigator.pushNamed(context, '/Settings');
+                if (ModalRoute.of(context)?.settings.name != '/Settings'){
+                  Navigator.pushNamed(context, '/Settings');
+                }
+                else{
+                  Navigator.pop(context);
+                } 
+
                   },
                 ),
               ),
