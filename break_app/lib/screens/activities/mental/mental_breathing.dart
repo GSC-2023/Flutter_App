@@ -68,7 +68,11 @@ class Mental_Breathing extends StatelessWidget {
         backgroundColor: Color(0xECEAEA),
         foregroundColor: Color(0xECEAEA),
       ),
-      body: Text('Breathing exercise'),
+      body: Column(
+        children: [
+          Text('Breathing exercise'),
+        ],
+      ),
     );
   }
 }

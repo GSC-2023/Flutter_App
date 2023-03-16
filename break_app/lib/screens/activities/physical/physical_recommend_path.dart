@@ -1,7 +1,6 @@
 import 'package:break_app/screens/activities/physical/components/amenityCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinbox/flutter_spinbox.dart';
 
 class PhysicalRecommendPath extends StatefulWidget {
   @override
@@ -94,11 +93,30 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    "Intended Walking Duration: ",
-                    style: TextStyle(fontSize: 24),
-                  ), //TODO add user input to toggle duration
+                  Flexible(
+                    flex: 5,
+                    child: Text(
+                      "Intended Walking Duration: ",
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ), 
+                  Flexible(
+                    flex: 1,
+                    child: Container(),
+                  ),
+                  Flexible(
+                    flex: 2,
+                    child: TextField(
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Duration',
+                      ),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
