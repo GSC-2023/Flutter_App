@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MentalActivites extends StatelessWidget {
+class MentalActivities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +89,7 @@ class MentalActivites extends StatelessWidget {
                       child: TextButton.icon(
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, '/MentalActivites/Breathing');
+                              context, '/MentalActivities/Breathing');
                         },
                         icon: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +135,7 @@ class MentalActivites extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.pushReplacementNamed(
-                            context, '/MentalActivites/Podcast');
+                            context, '/MentalActivities/Podcast');
                       },
                       label: Image.asset('assets/icons/Podcast.png'),
                       style: TextButton.styleFrom(
