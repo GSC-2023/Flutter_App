@@ -16,12 +16,17 @@ class CustomDrawer extends StatelessWidget {
               leading: const Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
-                if (ModalRoute.of(context)?.settings.name != '/Home'){
-                  Navigator.pushNamed(context, '/Home');
-                }
-                else{
-                  Navigator.pop(context);
-                } 
+                Navigator.popUntil(context, (route) {
+                  if (route.settings.name== '/Home'){
+                    return true;
+                  }
+                  else if (route.settings.name== '/Break'){
+                    return true;
+                  }
+                  else{ return false; }
+                });
+                Navigator.pop(context);
+
               },
             ),
             ListTile(
