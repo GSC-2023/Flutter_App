@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1037988644520",
+    "project_id": "gsc-break-app",
+    "storage_bucket": "gsc-break-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037988644520:android:a7e4a302906490e49ae49d",
+        "android_client_info": {
+          "package_name": "com.example.break_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037988644520-ddm0mem6ghvcbbq366h6nr7gg3li8f0l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3l3NFNfECVlfn3Vbmj781Nb0zxxFIIa0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037988644520-ddm0mem6ghvcbbq366h6nr7gg3li8f0l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
