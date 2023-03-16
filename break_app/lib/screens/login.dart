@@ -1,6 +1,7 @@
 import 'package:break_app/firebase/database.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
+import '../firebase/auth.dart';
 // this page handles auth!
 
 class Login extends StatefulWidget {
@@ -33,11 +34,19 @@ class _LoginState extends State<Login> {
       body: ElevatedButton(
         child: Text("Login"),
         onPressed: () async {
-          var profile = await DatabaseService().getUser();
-          inspect(profile);
-          profile.restTime = 0;
-          inspect(profile);
-          DatabaseService().updateUser(profile);
+          //FOR SIGN UP- need to change username
+          //AuthService().register("test1@gmail.com", "test12345");
+          var profile = await AuthService()
+              .signIn("test1@gmail.com", "test12345"); //FOR LOG IN
+
+          //GET data for a UID
+          var data = await DatabaseService(uid: profile.uid).getUser();
+          inspect(data);
+
+          //UDPATE data- edit breakUser and pass into updateUser()
+          // data.restTime = 0;
+          // DatabaseService().updateUser(data);
+
           //Navigator.pushNamed(context, '/Home');
         },
       ),
