@@ -79,50 +79,82 @@ class SocialSingle extends StatelessWidget {
 
                   //STATISTICS
                   Container(
-                    margin: EdgeInsetsDirectional.symmetric(vertical: 20),
-                    height: 90,
-                    // width: ,
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1,
-                      mainAxisSpacing: 0,
-                      crossAxisSpacing: 20,
-                      children: <Widget>[
-                        // Container(
-                        //   // alignment: Alignment.center,
-                        //   color: Colors.grey,
-                        //   child: Align(
-                        //     // alignment: Alignment.center,
-                        //     child: Text(
-                        //     'TEST',
-                        //     textAlign: TextAlign.center,
-                            
-                        //     ),
-                        //   )
-                        // ),
-
-                        Container(
-                          // alignment: Alignment.center,
-                          color: Colors.grey,
-                          child: Text('TEST'),
-                        ),
-
-                        Container(
-                          color: Colors.grey,
-                          child: Text(
-                            'TEST',
-                            textAlign: TextAlign.center,
-                            
+                  margin: EdgeInsetsDirectional.symmetric(vertical: 10),
+                  child: Row(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    
+                    //NEED TO MAKE THE NUMBERS DYNAMIC!
+                    children: <Widget>[
+                      Container(
+                        height: 90,
+                        width: 150,
+                        padding: EdgeInsets.all(10),
+                        color: Colors.transparent,
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            Text(
+                              'Breaks Together', 
+                              style: TextStyle(
+                                fontSize: 15,
+                                // fontWeight: FontWeight.bold
+                              ),
                             ),
+
+                            SizedBox(height: 10,),
+
+                            Text(
+                              '5',
+                              style: TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold
+                                
+                              ),
+                              )
+                          ],
                         ),
-                      ],
-                      )
+                      ),
+                      
+                      Container(
+                        height: 90,
+                        width: 150,
+                        padding: EdgeInsets.all(10),
+                        color: Colors.transparent,
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            Text(
+                              'Streak', 
+                              style: TextStyle(
+                                fontSize: 15,
+                                // fontWeight: FontWeight.bold
+                              ),
+                            ),
+
+                            SizedBox(height: 10,),
+
+                            Text(
+                              '20',
+                              style: TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold
+                                
+                              ),
+                              )
+                          ],
+                        ),
+                      ),
+
+                      ]
+                    ),
                   ),
 
                  //USER IMAGE
                  Container(
-                      height: 200,
-                      width: 200,
+                      margin: EdgeInsetsDirectional.only(top: 0),
+                      height: 300,
+                      width: 300,
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 5,
@@ -135,7 +167,7 @@ class SocialSingle extends StatelessWidget {
                             blurRadius: 10,
                           )
                         ],
-                        borderRadius: BorderRadius.circular(100),
+                        borderRadius: BorderRadius.circular(150),
                         image: DecorationImage(
                           image: AssetImage(users.image),
                           fit: BoxFit.fill,
@@ -145,82 +177,58 @@ class SocialSingle extends StatelessWidget {
                 
                   //USERNAME
                   Container(
-                    margin: EdgeInsetsDirectional.symmetric(vertical: 30),
+                    margin: EdgeInsetsDirectional.only(top: 15),
                     child: Text(
                       users.name,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 25,
                         // fontFamily: 
                         fontWeight: FontWeight.bold,
                       ),
                     )
                   ),
 
-                  //BUTTONS
-                  // Container(
-                  //   margin: EdgeInsetsDirectional.symmetric(vertical: 5),
-                  //   height: 90,
-                  //   child: GridView.count(
-                  //     physics: new NeverScrollableScrollPhysics(),
-                  //     crossAxisCount: 2,
-                  //     mainAxisSpacing: 0,
-                  //     crossAxisSpacing: 20,
-                  //     children: <Widget>[
-
-                  //       //BUTTON 1
-                  //       ElevatedButton(
-                  //         onPressed: null, 
-                  //         style: ElevatedButton.styleFrom(
-                  //           foregroundColor: Colors.purple,
-                  //         ),
-                  //         child: Text(
-                  //           'TEST',
-                  //           ),
-                          
-                  //       ),
-
-                  //       //BUTTON 2
-                  //       ElevatedButton(
-                  //         onPressed: null, 
-                  //         child: Text('TEST'),
-                          
-                  //         )
-
-        
-                  //     ],
-                  //     )
-                  // ),
-
+                //SOCIAL BUTTONS
                 Container(
+                  margin: EdgeInsetsDirectional.only(top: 30),
                   child: Row(
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      ElevatedButton(
-                          onPressed: () {}, 
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.purple,
-                            
-                          ),
-                          child: Text(
-                            'TEST',
+                      SizedBox(
+                        height: 40,
+                        width: 150,
+                        child: ElevatedButton(
+                            onPressed: () {}, 
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(255, 27, 115, 97),
+                              shape: StadiumBorder(),
                             ),
-                        ),
+                            child: Text(
+                              'Message',
+                              ),
+                          ),
+                      ),
                       
-                      ElevatedButton(
-                          onPressed: () {}, 
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.purple,
-                          ),
-                          child: Text(
-                            'TEST',
+                      SizedBox(
+                        height: 40,
+                        width: 150,
+                        child: ElevatedButton(
+                            onPressed: () {}, 
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(255, 27, 115, 97),
+                              shape: StadiumBorder(),
                             ),
+                            child: Text(
+                              'Remove Friend',
+                              ),
+                          ),
                         ),
+
 
                       ]
                     ),
                   ),
-
                 ],
               )
             )

@@ -150,7 +150,6 @@ class Social extends StatelessWidget{
 
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 10),
-                      // color: Colors.blue,
                       child: Text(
                         users[index].name,
                          style: TextStyle(
