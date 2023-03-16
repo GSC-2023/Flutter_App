@@ -10,12 +10,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
 
   Future<breakUser> getUser() async {
-    print(uid);
     var user;
-    await usersCollection
-        .doc('zCnYGnRkU4OV89V5blzToO19eYj2')
-        .get()
-        .then((DocumentSnapshot doc) {
+    await usersCollection.doc(uid).get().then((DocumentSnapshot doc) {
       final data = doc.data() as Map<String, dynamic>;
       user = new breakUser(
           name: data['name'],

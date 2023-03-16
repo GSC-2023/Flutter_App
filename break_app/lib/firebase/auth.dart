@@ -11,8 +11,9 @@ class AuthService {
         : null;
   }
 
-  Future signIn(String email, String password) async {
+  Future signIn(String username, String password) async {
     try {
+      String email = username + '@gmail.com';
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User user = result.user!;
@@ -26,8 +27,9 @@ class AuthService {
     }
   }
 
-  Future register(String email, String password) async {
+  Future register(String username, String password) async {
     try {
+      String email = username + '@gmail.com';
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user!;

@@ -34,10 +34,10 @@ class _LoginState extends State<Login> {
       body: ElevatedButton(
         child: Text("Login"),
         onPressed: () async {
-          //FOR SIGN UP- need to change username
-          //AuthService().register("test1@gmail.com", "test12345");
-          var profile = await AuthService()
-              .signIn("test1@gmail.com", "test12345"); //FOR LOG IN
+          //FOR SIGN UP- need to diff username than DB
+          //AuthService().register("test", "test12345");
+          var profile =
+              await AuthService().signIn("test1", "test12345"); //FOR LOG IN
 
           //GET data for a UID
           var data = await DatabaseService(uid: profile.uid).getUser();
