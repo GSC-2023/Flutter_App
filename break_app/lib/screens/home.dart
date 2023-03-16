@@ -224,7 +224,10 @@ class _HomeState extends State<Home> {
                     Container(
                       height: 45,
                       child: GFButton(
-                      onPressed: started ? () {} : () {setState(() { 
+                      onPressed: started ? () {
+                        completed = true;
+                        showForcedEndDayalertDialog(context);
+                      } : () {setState(() { 
                         started = true;
                       });
                       controller.start();
@@ -296,6 +299,43 @@ showForcedBreakAlertDialog(BuildContext context) {
   AlertDialog alert = AlertDialog(
     title: Text("Alert"),
     content: Text("Do you wish to take a break now?"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+/* This alert is called when the user clicks on the `End Work` button */
+showForcedEndDayalertDialog(BuildContext context) {
+
+  // set up the button
+  Widget cancelButton = TextButton(
+    child: Text("Cancel"),
+    onPressed:  () {
+      Navigator.of(context).pop(); // dismiss dialog
+    },
+  );
+  Widget continueButton = TextButton(
+    child: Text("Confirm"),
+    onPressed:  () {
+      Navigator.of(context).pop(); // dismiss dialog
+      Navigator.pushNamed(context, '/Statistics');
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Alert"),
+    content: Text("Are you sure you wish to end your work day now?"),
     actions: [
       cancelButton,
       continueButton,
