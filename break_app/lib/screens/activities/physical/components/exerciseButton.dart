@@ -10,7 +10,7 @@ class ExerciseButton extends StatelessWidget {
         onPressed: () {
           Navigator.pushReplacementNamed(
             context,
-            '/PhysicalActivites/ReliefExercises/Info',
+            '/PhysicalActivities/ReliefExercises/Info',
             arguments: {
               'title': name,
               'content': //content is fixed for now

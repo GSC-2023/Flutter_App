@@ -50,6 +50,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  fonts:
+    - family: League Spartan
+      fonts:
+        - asset: assets/fonts/LeagueSpartan-VariableFont_wght.ttf
+
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/

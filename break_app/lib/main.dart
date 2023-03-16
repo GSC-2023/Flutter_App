@@ -31,16 +31,16 @@ class MyApp extends StatelessWidget {
         '/Social': (context) => Social(),
         '/Statistics': (context) => Statistics(),
         '/Settings': (context) => Settings(),
-        '/PhysicalActivites': (context) => PhysicalActivites(),
-        '/PhysicalActivites/ReliefExercises': (context) =>
+        '/PhysicalActivities': (context) => PhysicalActivities(),
+        '/PhysicalActivities/ReliefExercises': (context) =>
             PhysicalReliefExercises(),
-        '/PhysicalActivites/RecommendPath': (context) =>
+        '/PhysicalActivities/RecommendPath': (context) =>
             PhysicalRecommendPath(),
-        '/PhysicalActivites/ReliefExercises/Info': (context) =>
+        '/PhysicalActivities/ReliefExercises/Info': (context) =>
             Physical_Relief_Exercise_Info(),
-        '/MentalActivites': (context) => MentalActivites(),
-        '/MentalActivites/Breathing': (context) => Mental_Breathing(),
-        '/MentalActivites/Podcast': (context) => Mental_Podcast(),
+        '/MentalActivities': (context) => MentalActivities(),
+        '/MentalActivities/Breathing': (context) => Mental_Breathing(),
+        '/MentalActivities/Podcast': (context) => Mental_Podcast(),
       },
     );
   }
