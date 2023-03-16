@@ -17,19 +17,22 @@ class PhysicalActivities extends StatelessWidget {
               TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
         ),
         backgroundColor: Color(0xECEAEA),
-        foregroundColor: Color(0xECEAEA),
+        shadowColor: Color(0xECEAEA),
+        surfaceTintColor: Color(0xECEAEA),
+        foregroundColor:  Color(0xECEAEA),
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               child: Text(
                 "What activity would you like to do?",
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 20),
               ),
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
             ),
             Container(
               child: Column(
