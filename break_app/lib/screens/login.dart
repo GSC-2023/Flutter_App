@@ -84,8 +84,6 @@ class _LoginState extends State<Login> {
                       ),
                       onPressed: () async {
                         // sign up with google
-                        //FOR SIGN UP- need to diff username than DB
-                        //AuthService().register("test", "test12345");
                         var profile = await AuthService()
                             .signIn("test1", "test12345"); //FOR LOG IN
 
@@ -98,7 +96,7 @@ class _LoginState extends State<Login> {
                         // data.restTime = 0;
                         // DatabaseService(uid: profile.uid).updateUser(data);
 
-                        //Navigator.pushNamed(context, '/Home');
+                        Navigator.pushNamed(context, '/Home');
                       },
                     )),
                 Container(

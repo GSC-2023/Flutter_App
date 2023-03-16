@@ -6,9 +6,14 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   profile? _userFromFireBaseUser(User? user) {
-    return user != null
-        ? profile(name: user.email!.split('@')[0], uid: user.uid)
-        : null;
+    print('welcome ' + user!.email!.split('@')[0]);
+    return profile(name: user.email!.split('@')[0], uid: user.uid);
+  }
+
+  Stream<profile?> get user {
+    return _auth
+        .authStateChanges()
+        .map((User? user) => _userFromFireBaseUser(user));
   }
 
   Future signIn(String username, String password) async {
