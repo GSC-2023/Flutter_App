@@ -21,7 +21,7 @@ import Foundation
     // let apiKey = ProcessInfo.processInfo.environment["API"]!
     // print(ProcessInfo.processInfo.environment["API"])
 
-    GMSServices.provideAPIKey("AIzaSyD6DNRH2SIEJwqG8aoq2XIu8nI9_c-6j54")
+    GMSServices.provideAPIKey("AIzaSyA5FGj3pY5dVoqNa-TCQ3GqRrQ5Mxi9Vco")
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
