@@ -25,7 +25,7 @@ class AuthService {
           email: email, password: password);
       User user = result.user!;
       //create a new document for the user with the uid
-      await DatabaseService(uid: user.uid);
+      await DatabaseService(); //TODO seems useless
       return _userFromFireBaseUser(user);
     } catch (e) {
       print('oh no');
@@ -40,9 +40,8 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user!;
-      await DatabaseService(uid: user.uid)
-          .createUser(user.email!.split('@')[0]);
-      return 1;
+      await DatabaseService().createUser(user.email!.split('@')[0], user.uid);
+      return _userFromFireBaseUser(user);
     } catch (e) {
       print(e.toString());
       return 0;
