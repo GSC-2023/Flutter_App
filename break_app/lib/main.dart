@@ -18,7 +18,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:break_app/screens/signup.dart';
-
+import 'firebase/imageUpload.dart';
 import 'models/profile.dart';
 
 Future main() async {
@@ -38,9 +38,11 @@ class MyApp extends StatelessWidget {
       initialData: null,
       value: AuthService().user,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           '/': (context) => Login(),
           '/Signup': (context) => SignUpPage(),
+          //'/': (context) => ImageUpload(),
           '/Home': (context) => Home(),
           '/Break': (context) => Break(),
           '/Activities': (context) => Activities(),
