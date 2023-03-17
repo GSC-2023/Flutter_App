@@ -106,15 +106,18 @@ class _LoginState extends State<Login> {
                                 _passwordController.text);
                             //GET data for a UID
                             if (profile != null) {
+                              Navigator.pushNamed(context, '/Home');
+
                               var data =
                                   await DatabaseService().getUser(profile.uid);
+                              inspect(data);
+
 
                               //data.addDailyStatsNow(5, 5, 5); //add stats for the day- day will be today
 
                               //var status = await data.addMeetupNow('timmy',profile.uid); //add meet up for both parties- if false= no such friend
 
                               //inspect(data);
-                              //Navigator.pushNamed(context, '/Home');
                             } else {
                               setState(() {
                                 showText = true;
