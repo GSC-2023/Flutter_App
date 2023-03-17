@@ -13,6 +13,8 @@ import 'package:break_app/screens/social.dart';
 import 'package:break_app/screens/settings.dart';
 import 'package:break_app/screens/login.dart';
 import 'package:break_app/screens/home_utils/break.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 void main() {
   runApp(MyApp());
