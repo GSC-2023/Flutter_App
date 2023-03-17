@@ -40,9 +40,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
-          //'/': (context) => Login(),
+          '/': (context) => Login(),
           '/Signup': (context) => SignUpPage(),
-          '/': (context) => ImageUpload(),
+          //'/': (context) => ImageUpload(),
           '/Home': (context) => Home(),
           '/Break': (context) => Break(),
           '/Activities': (context) => Activities(),
