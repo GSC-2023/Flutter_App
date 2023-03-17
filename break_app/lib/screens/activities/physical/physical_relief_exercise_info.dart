@@ -1,3 +1,4 @@
+import 'package:break_app/colors/colors.dart';
 import 'package:break_app/screens/activities/physical/components/exerciseCard.dart';
 import 'package:flutter/material.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
@@ -21,24 +22,30 @@ class Physical_Relief_Exercise_Info extends StatelessWidget {
               TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
         ),
         backgroundColor: Color(0xECEAEA),
-        foregroundColor: Color(0xECEAEA),
+        shadowColor: Color(0xECEAEA),
+        surfaceTintColor: Color(0xECEAEA),
+        foregroundColor:  Color(0xECEAEA),
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               child: Text(
-                "${title} Stretching Exercise: ",
-                style: TextStyle(fontSize: 24),
+                "${title} Stretching Exercise",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontFamily: 'League Spartan',
+                  color: DarkGreen,
+                ),
               ),
-              padding: EdgeInsets.fromLTRB(10, 20, 0, 0),
+              padding: EdgeInsets.fromLTRB(10, 20, 0, 20),
             ),
             Container(
               alignment: Alignment.center,
               child: Image.asset(
-                'assets/images/stretches/Neck.jpg',
+                'assets/images/stretches/${title}.jpg',
                 height: 300,
                 width: 400,
               ),
