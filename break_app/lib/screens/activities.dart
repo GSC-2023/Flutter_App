@@ -29,7 +29,7 @@ class Activities extends StatelessWidget {
           children: [
             Container(
               child: Text(
-                "What would you like to do?",
+                "Choose one break activity",
                 style: TextStyle(
                   fontSize: 20,
                   color: DarkGreen,
@@ -47,8 +47,8 @@ class Activities extends StatelessWidget {
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.shade400,
-                            offset: Offset(0.0, 20.0),
-                            blurRadius: 50.0
+                            offset: Offset(10.0, 25.0),
+                            blurRadius: 70.0
                           )
                         ]
                       ),
@@ -89,8 +89,8 @@ class Activities extends StatelessWidget {
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.shade400,
-                            offset: Offset(0.0, 20.0),
-                            blurRadius: 50.0
+                            offset: Offset(10.0, 25.0),
+                            blurRadius: 70.0
                           )
                         ]
                       ),
