@@ -93,31 +93,39 @@ class _SignUpPageState extends State<SignUpPage> {
                                   return null;
                                 }),
                           )
-                        ],
-                      ))),
-              Container(
-                  padding: EdgeInsets.all(25),
-                  child: ElevatedButton(
-                    child: Text("Sign up",
-                        style: TextStyle(color: Colors.white, fontSize: 15)),
-                    style: ElevatedButton.styleFrom(
-                      primary: DarkGreen,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      fixedSize: const Size(350, 30),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        AuthService().register(
-                            _usernameController.text, _passwordController.text);
-                        Navigator.pushNamed(
-                            context, '/Home'); // TO DO: firebase auth
-                      }
-                      // sign up with google
-                    },
-                  )),
-            ],
-          )),
+                    ],
+                  )
+            ) ),
+
+          Container(
+            padding: EdgeInsets.all(25),
+            child:ElevatedButton(
+              child: Text("Sign up",
+              style: TextStyle(color: Colors.white, fontSize: 15)),
+              style: ElevatedButton.styleFrom(
+                primary: DarkGreen,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
+                ),
+                fixedSize: const Size(350,30),
+              ),
+              onPressed: () async {
+                if (_formKey.currentState!.validate()){
+                  
+                    var res = await AuthService().register(_usernameController.text, _passwordController.text);
+                    if (res==1){
+                      Navigator.pushNamed(context, '/Home'); // TO DO: firebase auth
+                    }
+                }
+                // sign up with google
+              },
+            )
+          ),
+
+        ],
+      )
+
+      )
     );
   }
 }
