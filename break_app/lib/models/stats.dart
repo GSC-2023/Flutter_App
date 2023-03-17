@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+
+import '../firebase/database.dart';
 
 class breakUser {
   String name;
@@ -45,17 +49,37 @@ class breakUser {
     DateTime now = new DateTime.now();
     var formatter = new DateFormat('ddMMyy');
     String formattedDate = formatter.format(now);
-    dailyStats[formattedDate] = [work, rest, walk];
+    this.dailyStats[formattedDate] = [work, rest, walk];
+  }
+
+  Future<bool> addMeetupNow(friendName, myUid) async {
+    DateTime now = new DateTime.now();
+    var formatter = new DateFormat('ddMMyy');
+    String formattedDate = formatter.format(now);
+    if (addMeetupNowFriend(friendName, formattedDate) == false) {
+      return false;
+    }
+    if (this.meetups.containsKey(friendName)) {
+      this.meetups[friendName].add(formattedDate);
+    } else {
+      this.meetups[friendName] = [formattedDate];
+    }
+    await DatabaseService().updateUser(this, myUid);
+    return true;
+  }
+
+  Future<bool> addMeetupNowFriend(friendName, formattedDate) async {
+    var friendUID = await DatabaseService().getUidWithName(friendName);
+    var friendUser = await DatabaseService().getUserWithName(friendName);
+    if (friendUID == null || friendUser == null) {
+      return false;
+    }
+    if (friendUser.meetups.containsKey(this.name)) {
+      friendUser.meetups[this.name].add(formattedDate);
+    } else {
+      friendUser.meetups[this.name] = [formattedDate];
+    }
+    await DatabaseService().updateUser(friendUser, friendUID);
+    return true;
   }
 }
-
-// void addMeetupNow(name) {  //TODO- update friends record & error code
-//   DateTime now = new DateTime.now();
-//   var formatter = new DateFormat('ddMMyy');
-//   String formattedDate = formatter.format(now);
-//   if (meetups.containsKey(name)) {
-//     meetups[name].add(formattedDate);
-//   } else {
-//     meetups[name] = [formattedDate];
-//   }
-// }

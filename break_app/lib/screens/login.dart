@@ -1,6 +1,5 @@
 import 'package:break_app/firebase/database.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'dart:developer';
 import '../firebase/auth.dart';
 import 'package:break_app/colors/colors.dart';
@@ -109,9 +108,12 @@ class _LoginState extends State<Login> {
                             if (profile != null) {
                               var data =
                                   await DatabaseService().getUser(profile.uid);
-                      
-                              //data.addDailyStatsNow(5, 5, 5);
-                              inspect(data);
+
+                              //data.addDailyStatsNow(5, 5, 5); //add stats for the day- day will be today
+
+                              //var status = await data.addMeetupNow('timmy',profile.uid); //add meet up for both parties- if false= no such friend
+
+                              //inspect(data);
                               //Navigator.pushNamed(context, '/Home');
                             } else {
                               setState(() {
