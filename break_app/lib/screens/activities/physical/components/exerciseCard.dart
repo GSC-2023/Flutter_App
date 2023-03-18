@@ -12,27 +12,35 @@ class ExerciseCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: White,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade400,
+            offset: Offset(10.0, 25.0),
+            blurRadius: 70.0
+          )
+        ]
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(20),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               child: Image.asset(
                 'assets/images/stretches/${title}.jpg',
-                height: 300,
-                width: double.infinity,
+                // height: 300,
+                // width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
           ),
           Container(
             padding: EdgeInsets.all(20),
             child: Text(
-              'Steps: ',
+              'Steps',
               style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 28,
                   color: DarkGreen,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'League Spartan'
