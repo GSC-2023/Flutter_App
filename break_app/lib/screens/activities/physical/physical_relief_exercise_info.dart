@@ -29,7 +29,7 @@ class Physical_Relief_Exercise_Info extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               child: Text(
@@ -42,16 +42,17 @@ class Physical_Relief_Exercise_Info extends StatelessWidget {
               ),
               padding: EdgeInsets.fromLTRB(10, 20, 0, 20),
             ),
-            Container(
-              alignment: Alignment.center,
-              child: Image.asset(
-                'assets/images/stretches/${title}.jpg',
-                height: 300,
-                width: 400,
-              ),
-            ),
+            // Container(
+            //   alignment: Alignment.center,
+            //   child: Image.asset(
+            //     'assets/images/stretches/${title}.jpg',
+            //     height: 300,
+            //     width: 400,
+            //   ),
+            // ),
             ExerciseCard(
               instructions: instructions,
+              title: title,
             ),
           ],
         ),

@@ -1,33 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:break_app/colors/colors.dart';
 
 class ExerciseCard extends StatelessWidget {
   final String instructions;
-  ExerciseCard({required this.instructions});
+  final String title;
+  ExerciseCard({required this.instructions, required this.title});
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
-      color: Colors.grey[400],
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: White,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(
+                'assets/images/stretches/${title}.jpg',
+                height: 300,
+                width: double.infinity,
+              ),
+            ),
+          ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: EdgeInsets.all(20),
             child: Text(
               'Steps: ',
               style: TextStyle(
                   fontSize: 30,
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold),
+                  color: DarkGreen,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'League Spartan'
+                ),
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            padding: EdgeInsets.all(20),
             child: Text(
               instructions,
               style: TextStyle(
                 fontSize: 25,
-                color: Colors.green,
+                color: DarkGreen,
+                fontFamily: 'League Spartan'
               ),
             ),
           ),
