@@ -157,6 +157,17 @@ class _HomeState extends State<Home> {
                     width: double.infinity,
                     padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Container(
+                      decoration: started ? 
+                        null : BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade500,
+                            offset: Offset(10.0, 10.0),
+                            blurRadius: 30.0
+                          )
+                        ]
+                      ),
                       height: 45,
                       child: GFButton(
                         onPressed: started
@@ -166,8 +177,12 @@ class _HomeState extends State<Home> {
                                 });
                                 showForcedBreakAlertDialog(context);
                               }
-                            : null,
-                        text: "Break Now",
+                            : () {setState(() { 
+                              started = true;
+                            });
+                            controller.start();
+                            },
+                        text: started ? "Break Now" : "Begin Work",
                         textColor: White,
                         shape: GFButtonShape.pills,
                         color: DarkGreen,
@@ -185,16 +200,11 @@ class _HomeState extends State<Home> {
                                 completed = true;
                                 showForcedEndDayalertDialog(context);
                               }
-                            : () {
-                                setState(() {
-                                  started = true;
-                                });
-                                controller.start();
-                              },
-                        text: started ? "End Work" : "Begin Work",
+                            : null,
+                        text: "End Work",
                         textColor: White,
                         shape: GFButtonShape.pills,
-                        color: started ? Colors.red : Colors.orange.shade600,
+                        color: Colors.red,
                       ),
                     ),
                   ),

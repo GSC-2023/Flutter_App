@@ -151,19 +151,34 @@ class _BreakState extends State<Break> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child:
                     Container(
-                        height: 45,
-                        child: GFButton(
-                        onPressed: started ? () { setState(() {
-                          completed = true;
-                        }); 
-                        showForcedWorkAlertDialog(context);
-                        } : null, 
-                        text: "Go back to Work",
-                        textColor: White,
-                        shape: GFButtonShape.pills,
-                        color: Blue,
-                        ),
+                      decoration: started ? 
+                        null : BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade500,
+                            offset: Offset(10.0, 10.0),
+                            blurRadius: 30.0
+                          )
+                        ]
                       ),
+                      height: 45,
+                      child: GFButton(
+                      onPressed: started ? () { setState(() {
+                        completed = true;
+                      }); 
+                      showForcedWorkAlertDialog(context);
+                      } : () {setState(() { 
+                        started = true;
+                      });
+                      controller.start();
+                      }, 
+                      text: started ? "Go back to Work" : "Begin Break",
+                      textColor: White,
+                      shape: GFButtonShape.pills,
+                      color: Blue,
+                      ),
+                    ),
                   ),
                 Container(
                   width: double.infinity,
@@ -175,15 +190,11 @@ class _BreakState extends State<Break> {
                       onPressed:started ? () {
                         completed = true;
                         showForcedEndDayalertDialog(context);
-                      } : () {setState(() { 
-                        started = true;
-                      });
-                      controller.start();
-                      },
-                      text: started ? "End Work" : "Begin Break",
+                      } : null,
+                      text: "End Work",
                       textColor: White,
                       shape: GFButtonShape.pills,
-                      color: started ? Colors.red : Colors.orange.shade600,
+                      color: Colors.red,
                       ),
                     ),
                 ),
