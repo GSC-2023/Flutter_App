@@ -1,3 +1,5 @@
+import 'package:break_app/firebase/FaceDetection.dart';
+import 'package:break_app/firebase/FaceDetectorView.dart';
 import 'package:break_app/firebase/auth.dart';
 import 'package:break_app/screens/activities/mental/mental_activities.dart';
 import 'package:break_app/screens/activities/mental/mental_breathing.dart';
@@ -43,6 +45,8 @@ class MyApp extends StatelessWidget {
           '/': (context) => Login(),
           '/Signup': (context) => SignUpPage(),
           //'/': (context) => ImageUpload(),
+          //'/': (context) => FaceDetection(),
+          //'/': (context) => FaceDetectorView(),
           '/Home': (context) => Home(),
           '/Break': (context) => Break(),
           '/Activities': (context) => Activities(),
