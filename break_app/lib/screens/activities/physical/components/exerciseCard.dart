@@ -40,10 +40,10 @@ class ExerciseCard extends StatelessWidget {
             child: Text(
               'Steps',
               style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 25,
                   color: DarkGreen,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'League Spartan'
+                  // fontFamily: 'League Spartan'
                 ),
             ),
           ),
@@ -52,9 +52,9 @@ class ExerciseCard extends StatelessWidget {
             child: Text(
               instructions,
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 20,
                 color: DarkGreen,
-                fontFamily: 'League Spartan'
+                // fontFamily: 'League Spartan'
               ),
             ),
           ),
