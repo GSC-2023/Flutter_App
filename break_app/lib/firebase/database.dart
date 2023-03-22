@@ -9,15 +9,21 @@ class DatabaseService {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
 
-  Future<List<dynamic>> getOnBreakUsers() async {
+  Future<List<dynamic>> getOnBreakUsers(name) async {
     var users = [];
+    var userJSON;
     var user;
-    await usersCollection.where("onBreak", isEqualTo: true).get().then(
+    await usersCollection
+        .where("name", isNotEqualTo: name)
+        .where("onBreak", isEqualTo: true)
+        .get()
+        .then(
       (QuerySnapshot) {
         final data = QuerySnapshot.docs;
         for (var i = 0; i < data.length; i++) {
-          user = data[i].data();
-          users.add(user['name']);
+          userJSON = data[i].data();
+          user = jsonToObject(userJSON);
+          users.add(user);
         }
       },
       onError: (e) => print('Error in query: $e'),
@@ -33,7 +39,7 @@ class DatabaseService {
         try {
           uid = data[0].id;
         } catch (e) {
-          print('Error in indexing: $e');
+          print('getUidWithName Error in indexing: $e');
           return null;
         }
       },
@@ -53,13 +59,13 @@ class DatabaseService {
           userJSON = data[0].data();
           user = jsonToObject(userJSON);
         } catch (e) {
-          print('Error in indexing: $e');
+          print('getUserWithName Error in indexing: $e');
           return null;
         }
       },
       onError: (e) => print('Error in query: $e'),
     );
-    inspect(user);
+    //inspect(user);
     return user;
   }
 
