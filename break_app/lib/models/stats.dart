@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 import '../firebase/database.dart';
@@ -16,6 +14,7 @@ class breakUser {
   Map<String, dynamic> meetups; //name: [dates]
   Map<String, dynamic> dailyStats; //daily: work, rest, walk
   String imageurl;
+  bool onBreak;
 
   breakUser({
     required this.name,
@@ -28,6 +27,7 @@ class breakUser {
     required this.meetups,
     required this.dailyStats,
     required this.imageurl,
+    required this.onBreak,
   });
 
   Map<String, dynamic> toMap() {
@@ -41,7 +41,8 @@ class breakUser {
       'happinessIndex': happinessIndex,
       'meetups': meetups,
       'dailyStats': dailyStats,
-      'imageurl': imageurl
+      'imageurl': imageurl,
+      'onBreak': onBreak,
     };
   }
 
@@ -52,23 +53,47 @@ class breakUser {
     this.dailyStats[formattedDate] = [work, rest, walk];
   }
 
+  Future<bool> addFriends(friendName) async {
+    //test
+    var friendUser = await DatabaseService().getUserWithName(friendName);
+    if (friendUser == null) {
+      return false; //no such user
+    }
+    _addUserFriends(this, friendUser);
+    if (this.meetups.containsKey(friendName)) {
+      return true; //already added friend
+    } else {
+      this.meetups[friendName] = [];
+      return true;
+    }
+  }
+
+  Future<bool> _addUserFriends(user, friend) async {
+    if (friend.meetups.containsKey(user.name)) {
+      return true; //already added friend
+    } else {
+      friend.meetups[user.name] = [];
+      return true;
+    }
+  }
+
   Future<bool> addMeetupNow(friendName, myUid) async {
     DateTime now = new DateTime.now();
     var formatter = new DateFormat('ddMMyy');
     String formattedDate = formatter.format(now);
-    if (addMeetupNowFriend(friendName, formattedDate) == false) {
-      return false;
+    if (_addMeetupNowFriend(friendName, formattedDate) == false) {
+      return false; //no such user
     }
     if (this.meetups.containsKey(friendName)) {
       this.meetups[friendName].add(formattedDate);
     } else {
-      this.meetups[friendName] = [formattedDate];
+      return false; //not a friend
     }
     await DatabaseService().updateUser(this, myUid);
     return true;
   }
 
-  Future<bool> addMeetupNowFriend(friendName, formattedDate) async {
+  Future<bool> _addMeetupNowFriend(friendName, formattedDate) async {
     var friendUID = await DatabaseService().getUidWithName(friendName);
     var friendUser = await DatabaseService().getUserWithName(friendName);
     if (friendUID == null || friendUser == null) {
@@ -81,5 +106,11 @@ class breakUser {
     }
     await DatabaseService().updateUser(friendUser, friendUID);
     return true;
+  }
+
+  Future<bool> changeBreakStatus(status) async {
+    //to be called when on and off
+    onBreak = status;
+    return onBreak;
   }
 }

@@ -3,12 +3,33 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:break_app/models/stats.dart';
-import 'package:intl/intl.dart';
 
 class DatabaseService {
   DatabaseService();
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
+
+  Future<List<dynamic>> getOnBreakUsers(name) async {
+    var users = [];
+    var userJSON;
+    var user;
+    await usersCollection
+        .where("name", isNotEqualTo: name)
+        .where("onBreak", isEqualTo: true)
+        .get()
+        .then(
+      (QuerySnapshot) {
+        final data = QuerySnapshot.docs;
+        for (var i = 0; i < data.length; i++) {
+          userJSON = data[i].data();
+          user = jsonToObject(userJSON);
+          users.add(user);
+        }
+      },
+      onError: (e) => print('Error in query: $e'),
+    );
+    return users;
+  }
 
   Future<String?> getUidWithName(name) async {
     var uid;
@@ -18,7 +39,7 @@ class DatabaseService {
         try {
           uid = data[0].id;
         } catch (e) {
-          print('Error in indexing: $e');
+          print('getUidWithName Error in indexing: $e');
           return null;
         }
       },
@@ -38,13 +59,13 @@ class DatabaseService {
           userJSON = data[0].data();
           user = jsonToObject(userJSON);
         } catch (e) {
-          print('Error in indexing: $e');
+          print('getUserWithName Error in indexing: $e');
           return null;
         }
       },
       onError: (e) => print('Error in query: $e'),
     );
-    inspect(user);
+    //inspect(user);
     return user;
   }
 
@@ -62,39 +83,43 @@ class DatabaseService {
 
   breakUser jsonToObject(data) {
     breakUser user = new breakUser(
-        name: data['name'],
-        workTime: data['workTime'],
-        restTime: data['restTime'],
-        cycleTime: data['cycleTime'],
-        lunchTime: data['lunchTime'],
-        dinnerTime: data['dinnerTime'],
-        happinessIndex: data['happinessIndex'],
-        meetups: data['meetups'], //{name: [dates]}
-        dailyStats: data['dailyStats'], //{day:[work,rest,walk]}
-        imageurl: data['imageurl']);
+      name: data['name'],
+      workTime: data['workTime'],
+      restTime: data['restTime'],
+      cycleTime: data['cycleTime'],
+      lunchTime: data['lunchTime'],
+      dinnerTime: data['dinnerTime'],
+      happinessIndex: data['happinessIndex'],
+      meetups: data['meetups'], //{name: [dates]}
+      dailyStats: data['dailyStats'], //{day:[work,rest,walk]}
+      imageurl: data['imageurl'],
+      onBreak: data['onBreak'],
+    );
     return user;
   }
 
   Future createUser(name, uid) async {
     var user = new breakUser(
-        name: name,
-        workTime: 1,
-        restTime: 2,
-        cycleTime: 3,
-        lunchTime: 1200,
-        dinnerTime: 1400,
-        happinessIndex: [1, 2, 3, 4, 5],
-        meetups: {
-          'tommy': ['170323'],
-          'timmy': ['170323', '180323'],
-          'sammy': ['170323', '180323', '190323']
-        },
-        dailyStats: {
-          '170323': [1, 2, 3],
-          '180323': [4, 5, 7],
-          '190323': [2, 8, 9]
-        }, //daily: work, rest, walk
-        imageurl: 'imageurl');
+      name: name,
+      workTime: 1,
+      restTime: 2,
+      cycleTime: 3,
+      lunchTime: 1200,
+      dinnerTime: 1400,
+      happinessIndex: [1, 2, 3, 4, 5],
+      meetups: {
+        'tommy': ['170323'],
+        'timmy': ['170323', '180323'],
+        'sammy': ['170323', '180323', '190323']
+      },
+      dailyStats: {
+        '170323': [1, 2, 3],
+        '180323': [4, 5, 7],
+        '190323': [2, 8, 9]
+      }, //daily: work, rest, walk
+      imageurl: 'imageurl',
+      onBreak: true,
+    );
     return await usersCollection.doc(uid).set(user.toMap());
   }
 
