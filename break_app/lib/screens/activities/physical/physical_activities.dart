@@ -30,7 +30,10 @@ class PhysicalActivities extends StatelessWidget {
             Container(
               child: Text(
                 "What activity would you like to do?",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: DarkGreen,
+                ),
               ),
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
             ),
@@ -44,8 +47,8 @@ class PhysicalActivities extends StatelessWidget {
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.shade400,
-                            offset: Offset(0.0, 20.0),
-                            blurRadius: 50.0
+                            offset: Offset(10.0, 25.0),
+                            blurRadius: 70.0
                           )
                         ]
                       ),
@@ -99,8 +102,8 @@ class PhysicalActivities extends StatelessWidget {
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.shade400,
-                            offset: Offset(0.0, 20.0),
-                            blurRadius: 50.0
+                            offset: Offset(10.0, 25.0),
+                            blurRadius: 70.0
                           )
                         ]
                       ),
