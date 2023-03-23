@@ -42,7 +42,9 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           '/': (context) => Login(),
           '/Signup': (context) => SignUpPage(),
-          // '/': (context) => ImageUpload(),
+          //'/': (context) => ImageUpload(),
+          //'/': (context) => FaceDetection(),
+          //'/': (context) => FaceDetectorView(),
           '/Home': (context) => Home(),
           '/Break': (context) => Break(),
           '/Activities': (context) => Activities(),

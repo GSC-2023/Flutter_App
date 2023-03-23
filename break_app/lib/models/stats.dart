@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 import '../firebase/database.dart';
@@ -82,4 +80,18 @@ class breakUser {
     await DatabaseService().updateUser(friendUser, friendUID);
     return true;
   }
+
+  Future<List<breakUser>> onlineFriends(myName) async {
+    var userNames = await DatabaseService().getOnlineUsers();
+    List<breakUser> users = [];
+    for (var i = 0; i < userNames.length; i++) {
+      if (userNames[i] != myName) {
+        var friendUser = await DatabaseService().getUserWithName(userNames[i]);
+        users.add(friendUser!);
+      }
+    }
+    return users;
+  }
+
+  //allow individual to be online
 }

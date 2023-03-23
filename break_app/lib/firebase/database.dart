@@ -3,12 +3,27 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:break_app/models/stats.dart';
-import 'package:intl/intl.dart';
 
 class DatabaseService {
   DatabaseService();
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
+
+  Future<List<dynamic>> getOnlineUsers() async {
+    var users = [];
+    var user;
+    await usersCollection.where("online", isEqualTo: true).get().then(
+      (QuerySnapshot) {
+        final data = QuerySnapshot.docs;
+        for (var i = 0; i < data.length; i++) {
+          user = data[i].data();
+          users.add(user['name']);
+        }
+      },
+      onError: (e) => print('Error in query: $e'),
+    );
+    return users;
+  }
 
   Future<String?> getUidWithName(name) async {
     var uid;
