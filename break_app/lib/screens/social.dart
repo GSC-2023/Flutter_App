@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:break_app/firebase/database.dart';
 import 'package:break_app/models/stats.dart';
 import 'package:break_app/screens/socialSingle.dart';
@@ -43,8 +42,6 @@ class _SocialState extends State<Social> {
   Future _loadImages() async {
     bu = await DatabaseService().getUser(user.uid);
     friends = bu.meetups.keys.toList();
-    inspect(bu);
-    inspect(friends);
     FirebaseStorage storage = FirebaseStorage.instance;
     List<Map<String, dynamic>> files = [];
     final ListResult result = await storage.ref().list();
@@ -66,10 +63,27 @@ class _SocialState extends State<Social> {
     setState(() {
       loading = false;
     });
-    inspect(users);
     return;
   }
 
+  Future searchFriend(name, context) async {
+    var exists = await bu.addFriends(name);
+    await DatabaseService().updateUser(bu, user.uid);
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+            title: Text(
+                exists ? '$name has been added' : '$name does not exist')));
+    setState(() {
+      loading = true;
+    });
+    friends = [];
+    users = [];
+    this._loadImages();
+    searchNameController.text = '';
+  }
+
+  TextEditingController searchNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return loading
@@ -111,6 +125,9 @@ class _SocialState extends State<Social> {
                             borderRadius: BorderRadius.circular(50.0),
                           ),
                           child: TextFormField(
+                              controller: searchNameController,
+                              onFieldSubmitted: (value) =>
+                                  searchFriend(value, context),
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide.none,

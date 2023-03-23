@@ -202,8 +202,8 @@ class SocialSingle extends StatelessWidget {
                               height: 40,
                               width: 150,
                               child: ElevatedButton(
-                                onPressed: () {
-                                  deleteFriend(users.name);
+                                onPressed: () async {
+                                  await deleteFriend(users.name);
                                   Navigator.pushNamed(context, '/Social');
                                 },
                                 style: ElevatedButton.styleFrom(
