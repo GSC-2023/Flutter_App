@@ -1,6 +1,7 @@
 import 'package:break_app/firebase/FaceDetection.dart';
 import 'package:break_app/firebase/FaceDetectorView.dart';
 import 'package:break_app/firebase/auth.dart';
+import 'package:break_app/firebase/imageStorage.dart';
 import 'package:break_app/screens/activities/mental/mental_activities.dart';
 import 'package:break_app/screens/activities/mental/mental_breathing.dart';
 import 'package:break_app/screens/activities/mental/mental_podcast.dart';
@@ -20,7 +21,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:break_app/screens/signup.dart';
-import 'firebase/imageUpload.dart';
 import 'models/profile.dart';
 
 Future main() async {
