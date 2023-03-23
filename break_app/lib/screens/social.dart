@@ -25,12 +25,14 @@ class _SocialState extends State<Social> {
   late breakUser bu;
   late List<String> friends;
   late profile user;
+  late PhotoItem newFriend;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
       user = Provider.of<profile>(context, listen: false);
-      _loadImages();
+      _loadFriends();
     });
   }
 
@@ -39,13 +41,12 @@ class _SocialState extends State<Social> {
     await DatabaseService().updateUser(bu, user.uid);
   }
 
-  Future _loadImages() async {
+  Future _loadFriends() async {
     bu = await DatabaseService().getUser(user.uid);
     friends = bu.meetups.keys.toList();
-    FirebaseStorage storage = FirebaseStorage.instance;
-    List<Map<String, dynamic>> files = [];
-    final ListResult result = await storage.ref().list();
+    final ListResult result = await _loadImages();
     final List<Reference> allFiles = result.items;
+    List<Map<String, dynamic>> files = [];
     await Future.forEach<Reference>(allFiles, (file) async {
       final String fileUrl = await file.getDownloadURL();
       var name = file.fullPath.split('.')[0];
@@ -66,21 +67,35 @@ class _SocialState extends State<Social> {
     return;
   }
 
+  Future<ListResult> _loadImages() async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    final ListResult result = await storage.ref().list();
+    return result;
+  }
+
   Future searchFriend(name, context) async {
     var exists = await bu.addFriends(name);
     await DatabaseService().updateUser(bu, user.uid);
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-            title: Text(
-                exists ? '$name has been added' : '$name does not exist')));
-    setState(() {
-      loading = true;
+    if (!exists) {
+      showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(title: Text('$name does not exist')));
+    }
+    final ListResult result = await _loadImages();
+    final List<Reference> allFiles = result.items;
+    await Future.forEach<Reference>(allFiles, (file) async {
+      final String fileUrl = await file.getDownloadURL();
+      var friendName = file.fullPath.split('.')[0];
+      if (name == friendName) {
+        newFriend = PhotoItem(fileUrl, name);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SocialSingle(
+                    user: user, users: newFriend, deleteFriend: deleteFriend)));
+      }
     });
-    friends = [];
-    users = [];
-    this._loadImages();
-    searchNameController.text = '';
   }
 
   TextEditingController searchNameController = TextEditingController();
@@ -171,6 +186,7 @@ class _SocialState extends State<Social> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => SocialSingle(
+                                              user: user,
                                               users: users[index],
                                               deleteFriend: deleteFriend)));
                                 },
