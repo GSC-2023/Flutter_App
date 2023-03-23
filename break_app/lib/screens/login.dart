@@ -108,7 +108,10 @@ class _LoginState extends State<Login> {
                             if (profile != null) {
                               // var test =
                               //     await DatabaseService().getUser(profile.uid);
-                              // inspect(test);
+                              // await test.addFriends('shawn');
+                              // await test.addFriends('yufei');
+                              // await DatabaseService()
+                              //     .updateUser(test, profile.uid);
                               Navigator.pushNamed(context, '/Home');
                             } else {
                               setState(() {

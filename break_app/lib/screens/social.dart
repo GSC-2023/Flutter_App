@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:break_app/firebase/database.dart';
 import 'package:break_app/models/stats.dart';
 import 'package:break_app/screens/socialSingle.dart';
 import 'package:flutter/material.dart';
@@ -24,17 +25,26 @@ class _SocialState extends State<Social> {
   List<PhotoItem> users = [];
   late breakUser bu;
   late List<String> friends;
+  late profile user;
   @override
   void initState() {
-    var user;
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
       user = Provider.of<profile>(context, listen: false);
-      _loadImages(user);
+      _loadImages();
     });
   }
-  Future _loadImages(user) async {
+
+  Future deleteFriend(friendName) async {
+    await bu.removeFriend(friendName);
+    await DatabaseService().updateUser(bu, user.uid);
+  }
+
+  Future _loadImages() async {
+    bu = await DatabaseService().getUser(user.uid);
     friends = bu.meetups.keys.toList();
+    inspect(bu);
+    inspect(friends);
     FirebaseStorage storage = FirebaseStorage.instance;
     List<Map<String, dynamic>> files = [];
     final ListResult result = await storage.ref().list();
@@ -50,7 +60,6 @@ class _SocialState extends State<Social> {
         });
       }
     });
-    inspect(files);
     for (var i = 0; i < files.length; i++) {
       users.add(PhotoItem(files[i]['url'], files[i]['name']));
     }
@@ -144,9 +153,9 @@ class _SocialState extends State<Social> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            SocialSingle(users: users[index]),
-                                      ));
+                                          builder: (context) => SocialSingle(
+                                              users: users[index],
+                                              deleteFriend: deleteFriend)));
                                 },
                                 child: Material(
                                   color: Colors.transparent,

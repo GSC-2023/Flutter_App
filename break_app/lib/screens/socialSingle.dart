@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import './social.dart';
 
 class SocialSingle extends StatelessWidget {
-  const SocialSingle({super.key, required this.users});
-
+  const SocialSingle(
+      {super.key, required this.users, required this.deleteFriend});
+  final Function deleteFriend;
   final PhotoItem users;
 
   @override
@@ -201,7 +202,10 @@ class SocialSingle extends StatelessWidget {
                               height: 40,
                               width: 150,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  deleteFriend(users.name);
+                                  Navigator.pushNamed(context, '/Social');
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
                                       Color.fromARGB(255, 27, 115, 97),
