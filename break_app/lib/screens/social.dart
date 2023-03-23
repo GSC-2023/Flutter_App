@@ -41,6 +41,11 @@ class _SocialState extends State<Social> {
     await DatabaseService().updateUser(bu, user.uid);
   }
 
+  Future addFriend(friendName) async {
+    await bu.addFriends(friendName);
+    await DatabaseService().updateUser(bu, user.uid);
+  }
+
   Future _loadFriends() async {
     bu = await DatabaseService().getUser(user.uid);
     friends = bu.meetups.keys.toList();
@@ -74,28 +79,36 @@ class _SocialState extends State<Social> {
   }
 
   Future searchFriend(name, context) async {
-    var exists = await bu.addFriends(name);
-    await DatabaseService().updateUser(bu, user.uid);
+    bool exists = true;
+    var friendUser = await DatabaseService().getUserWithName(name);
+    if (friendUser == null) {
+      exists = false; //no such user
+    }
     if (!exists) {
       showDialog(
           context: context,
           builder: (context) =>
               AlertDialog(title: Text('$name does not exist')));
+    } else {
+      final ListResult result = await _loadImages();
+      final List<Reference> allFiles = result.items;
+      await Future.forEach<Reference>(allFiles, (file) async {
+        final String fileUrl = await file.getDownloadURL();
+        var friendName = file.fullPath.split('.')[0];
+        if (name == friendName) {
+          newFriend = PhotoItem(fileUrl, name);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SocialSingle(
+                      user: user,
+                      users: newFriend,
+                      deleteFriend: deleteFriend,
+                      addFriend: addFriend,
+                      add: true)));
+        }
+      });
     }
-    final ListResult result = await _loadImages();
-    final List<Reference> allFiles = result.items;
-    await Future.forEach<Reference>(allFiles, (file) async {
-      final String fileUrl = await file.getDownloadURL();
-      var friendName = file.fullPath.split('.')[0];
-      if (name == friendName) {
-        newFriend = PhotoItem(fileUrl, name);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SocialSingle(
-                    user: user, users: newFriend, deleteFriend: deleteFriend)));
-      }
-    });
   }
 
   TextEditingController searchNameController = TextEditingController();
@@ -188,7 +201,8 @@ class _SocialState extends State<Social> {
                                           builder: (context) => SocialSingle(
                                               user: user,
                                               users: users[index],
-                                              deleteFriend: deleteFriend)));
+                                              deleteFriend: deleteFriend,
+                                              addFriend: addFriend)));
                                 },
                                 child: Material(
                                   color: Colors.transparent,

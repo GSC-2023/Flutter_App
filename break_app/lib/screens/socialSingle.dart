@@ -7,14 +7,18 @@ import '../models/profile.dart';
 import './social.dart';
 
 class SocialSingle extends StatefulWidget {
-  const SocialSingle(
+  SocialSingle(
       {super.key,
       required this.user,
       required this.users,
-      required this.deleteFriend});
+      required this.deleteFriend,
+      required this.addFriend,
+      this.add = false});
   final Function deleteFriend;
+  final Function addFriend;
   final PhotoItem users;
   final profile user;
+  bool add;
 
   @override
   State<SocialSingle> createState() => _SocialSingleState();
@@ -226,28 +230,31 @@ class _SocialSingleState extends State<SocialSingle> {
                               // crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                SizedBox(
-                                  height: 40,
-                                  width: 150,
-                                  child: ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Color.fromARGB(255, 27, 115, 97),
-                                      shape: StadiumBorder(),
-                                    ),
-                                    child: Text(
-                                      'Message',
-                                    ),
-                                  ),
-                                ),
+                                // SizedBox(
+                                //   height: 40,
+                                //   width: 150,
+                                //   child: ElevatedButton(
+                                //     onPressed: () {},
+                                //     style: ElevatedButton.styleFrom(
+                                //       backgroundColor:
+                                //           Color.fromARGB(255, 27, 115, 97),
+                                //       shape: StadiumBorder(),
+                                //     ),
+                                //     child: Text(
+                                //       'Message',
+                                //     ),
+                                //   ),
+                                // ),
                                 SizedBox(
                                   height: 40,
                                   width: 150,
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      await widget
-                                          .deleteFriend(widget.users.name);
+                                      widget.add
+                                          ? await widget
+                                              .addFriend(widget.users.name)
+                                          : await widget
+                                              .deleteFriend(widget.users.name);
                                       Navigator.pushNamed(context, '/Social');
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -256,7 +263,9 @@ class _SocialSingleState extends State<SocialSingle> {
                                       shape: StadiumBorder(),
                                     ),
                                     child: Text(
-                                      'Remove Friend',
+                                      widget.add
+                                          ? 'Add Friend'
+                                          : 'Remove Friend',
                                     ),
                                   ),
                                 ),
