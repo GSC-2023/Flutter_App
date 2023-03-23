@@ -1,8 +1,11 @@
 import 'dart:developer';
+import 'package:break_app/models/stats.dart';
 import 'package:break_app/screens/socialSingle.dart';
 import 'package:flutter/material.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:provider/provider.dart';
+import '../models/profile.dart';
 
 class PhotoItem {
   final String image;
@@ -19,25 +22,33 @@ class Social extends StatefulWidget {
 class _SocialState extends State<Social> {
   bool loading = true;
   List<PhotoItem> users = [];
-
+  late breakUser bu;
+  late List<String> friends;
   @override
   void initState() {
+    var user;
     super.initState();
-    _loadImages();
+    WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
+      user = Provider.of<profile>(context, listen: false);
+      _loadImages(user);
+    });
   }
-
-  Future _loadImages() async {
+  Future _loadImages(user) async {
+    friends = bu.meetups.keys.toList();
     FirebaseStorage storage = FirebaseStorage.instance;
     List<Map<String, dynamic>> files = [];
     final ListResult result = await storage.ref().list();
     final List<Reference> allFiles = result.items;
     await Future.forEach<Reference>(allFiles, (file) async {
       final String fileUrl = await file.getDownloadURL();
-      files.add({
-        "url": fileUrl, //to pull image from firebase storage
-        "path": file.fullPath, //to delete image on firebase storage
-        "name": file.fullPath.split('.')[0],
-      });
+      var name = file.fullPath.split('.')[0];
+      if (friends.contains(name)) {
+        files.add({
+          "url": fileUrl, //to pull image from firebase storage
+          "path": file.fullPath, //to delete image on firebase storage
+          "name": name,
+        });
+      }
     });
     inspect(files);
     for (var i = 0; i < files.length; i++) {
@@ -46,13 +57,12 @@ class _SocialState extends State<Social> {
     setState(() {
       loading = false;
     });
-    inspect(loading);
+    inspect(users);
     return;
   }
 
   @override
   Widget build(BuildContext context) {
-    inspect(loading);
     return loading
         ? const Center(
             child: CircularProgressIndicator(),

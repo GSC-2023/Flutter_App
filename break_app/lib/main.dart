@@ -1,5 +1,3 @@
-import 'package:break_app/firebase/FaceDetection.dart';
-import 'package:break_app/firebase/FaceDetectorView.dart';
 import 'package:break_app/firebase/auth.dart';
 import 'package:break_app/firebase/imageStorage.dart';
 import 'package:break_app/screens/activities/mental/mental_activities.dart';
@@ -19,6 +17,7 @@ import 'package:break_app/screens/login.dart';
 import 'package:break_app/screens/home_utils/break.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'firebase/imageUpload.dart';
 import 'firebase_options.dart';
 import 'package:break_app/screens/signup.dart';
 import 'models/profile.dart';
@@ -45,8 +44,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => Login(),
           '/Signup': (context) => SignUpPage(),
           //'/': (context) => ImageUpload(),
-          //'/': (context) => FaceDetection(),
-          //'/': (context) => FaceDetectorView(),
+          //'/': (context) => Social(),
           '/Home': (context) => Home(),
           '/Break': (context) => Break(),
           '/Activities': (context) => Activities(),
