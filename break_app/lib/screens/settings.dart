@@ -1,6 +1,15 @@
+import 'dart:developer';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
+import 'package:provider/provider.dart';
+import 'package:break_app/models/profile.dart';
+import 'package:break_app/models/breakUser.dart';
+import 'package:break_app/firebase/database.dart';
+// import 'package:provider/provider.dart';
+
 
 
 
@@ -16,10 +25,51 @@ class _SettingsState extends State<Settings> {
   double _cycleTime = 60;
 
   late TextEditingController controller;
+  late profile user;
+  late breakUser bu;
+
+
+
+  // var bu;
+  Future<void> getBreakUser(user) async {
+    bu = await DatabaseService().getUser(user.uid); 
+
+    // breakUser? bu = await DatabaseService().getUserWithName(name);
+    if (bu!=null){
+    String lunchTimeStr = bu.lunchTime.toString();
+    String dinnerTimeStr = bu.dinnerTime.toString();
+    String lthh = lunchTimeStr.substring(0,2);
+    String dthh = dinnerTimeStr.substring(0,2);
+    String ltmm = lunchTimeStr.substring(2,4);
+    String dtmm = dinnerTimeStr.substring(2,4);
+
+    DateTime lunch = DateTime(2022, 9, 7, int.parse(lthh), int.parse(ltmm));
+    DateTime dinner = DateTime(2022,9,7, int.parse(dthh), int.parse(dtmm));
+
+    // _currentSliderValue = bu.workTime.toDouble();
+    // _cycleTime = bu.cycleTime.toDouble();
+    
+
+
+    setState(() {
+      _lunchTime = lunch;
+      _dinnerTime = dinner;
+      _currentSliderValue = bu.workTime.toDouble();
+      _cycleTime = bu.cycleTime.toDouble();  
+    });
+    }
+  }
+
+  
+
 
   @override
   void initState(){
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
+      user = Provider.of<profile>(context, listen: false);
+      getBreakUser(user);
+    });
 
     controller = TextEditingController();
   }
@@ -32,9 +82,18 @@ class _SettingsState extends State<Settings> {
 
 
 
-  @override
 
-  Widget build(BuildContext context){
+
+  @override
+  Widget build(BuildContext context) {
+    // user = Provider.of<profile>(context);
+    // inspect(user);
+    //getBreakUser(user!.name);
+
+
+    
+
+
     void submit(){
         Navigator.of(context).pop(controller.text);
       }
@@ -183,7 +242,7 @@ class _SettingsState extends State<Settings> {
               activeColor: Color(0xff2E593F),
               onChanged: (double value) {
                 setState(() {
-                  _currentSliderValue = 60 - value;
+                  _currentSliderValue = _cycleTime - value;
                 });
               },
             )
@@ -336,7 +395,19 @@ class _SettingsState extends State<Settings> {
           ),
           fixedSize: const Size(350,30),
         ),
-        onPressed: (){
+        onPressed: () async {
+          bu.cycleTime = _cycleTime.toInt();
+          bu.workTime = _currentSliderValue.toInt();
+          bu.restTime = (_cycleTime-_currentSliderValue).toInt();
+          int lunchH = _lunchTime.hour;
+          int lunchM = _lunchTime.minute;
+          int dinnerH = _dinnerTime.hour;
+          int dinnerM = _dinnerTime.minute;
+          bu.lunchTime = (lunchH*100 + lunchM).toInt();
+          bu.dinnerTime = (dinnerH*100 + dinnerM).toInt();
+
+          await DatabaseService().updateUser(bu, user.uid);
+
           final snackBar = SnackBar(
           behavior: SnackBarBehavior.floating,
           content: Text("Successfully Saved!"),
