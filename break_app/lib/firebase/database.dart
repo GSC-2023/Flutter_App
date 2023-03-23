@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:break_app/models/stats.dart';
+import 'package:break_app/models/breakUser.dart';
 
 class DatabaseService {
   DatabaseService();
