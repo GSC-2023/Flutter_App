@@ -1,3 +1,7 @@
+
+// import 'package:break_app/firebase/FaceDetection.dart';
+// import 'package:break_app/firebase/FaceDetectorView.dart';
+
 import 'package:break_app/firebase/auth.dart';
 import 'package:break_app/firebase/imageStorage.dart';
 import 'package:break_app/screens/activities/mental/mental_activities.dart';
@@ -21,6 +25,8 @@ import 'firebase/imageUpload.dart';
 import 'firebase_options.dart';
 import 'package:break_app/screens/signup.dart';
 import 'models/profile.dart';
+
+
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
