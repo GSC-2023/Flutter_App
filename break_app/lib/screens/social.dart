@@ -1,10 +1,10 @@
-import 'dart:developer';
-import 'package:break_app/models/stats.dart';
+import 'package:break_app/firebase/database.dart';
 import 'package:break_app/screens/socialSingle.dart';
 import 'package:flutter/material.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
+import '../models/breakUser.dart';
 import '../models/profile.dart';
 
 class PhotoItem {
@@ -24,21 +24,34 @@ class _SocialState extends State<Social> {
   List<PhotoItem> users = [];
   late breakUser bu;
   late List<String> friends;
+  late profile user;
+  late PhotoItem newFriend;
+
   @override
   void initState() {
-    var user;
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
       user = Provider.of<profile>(context, listen: false);
-      _loadImages(user);
+      _loadFriends();
     });
   }
-  Future _loadImages(user) async {
+
+  Future deleteFriend(friendName) async {
+    await bu.removeFriend(friendName);
+    await DatabaseService().updateUser(bu, user.uid);
+  }
+
+  Future addFriend(friendName) async {
+    await bu.addFriends(friendName);
+    await DatabaseService().updateUser(bu, user.uid);
+  }
+
+  Future _loadFriends() async {
+    bu = await DatabaseService().getUser(user.uid);
     friends = bu.meetups.keys.toList();
-    FirebaseStorage storage = FirebaseStorage.instance;
-    List<Map<String, dynamic>> files = [];
-    final ListResult result = await storage.ref().list();
+    final ListResult result = await _loadImages();
     final List<Reference> allFiles = result.items;
+    List<Map<String, dynamic>> files = [];
     await Future.forEach<Reference>(allFiles, (file) async {
       final String fileUrl = await file.getDownloadURL();
       var name = file.fullPath.split('.')[0];
@@ -50,17 +63,55 @@ class _SocialState extends State<Social> {
         });
       }
     });
-    inspect(files);
     for (var i = 0; i < files.length; i++) {
       users.add(PhotoItem(files[i]['url'], files[i]['name']));
     }
     setState(() {
       loading = false;
     });
-    inspect(users);
     return;
   }
 
+  Future<ListResult> _loadImages() async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    final ListResult result = await storage.ref().list();
+    return result;
+  }
+
+  Future searchFriend(name, context) async {
+    bool exists = true;
+    var friendUser = await DatabaseService().getUserWithName(name);
+    if (friendUser == null) {
+      exists = false; //no such user
+    }
+    if (!exists) {
+      showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(title: Text('$name does not exist')));
+    } else {
+      final ListResult result = await _loadImages();
+      final List<Reference> allFiles = result.items;
+      await Future.forEach<Reference>(allFiles, (file) async {
+        final String fileUrl = await file.getDownloadURL();
+        var friendName = file.fullPath.split('.')[0];
+        if (name == friendName) {
+          newFriend = PhotoItem(fileUrl, name);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SocialSingle(
+                      user: user,
+                      users: newFriend,
+                      deleteFriend: deleteFriend,
+                      addFriend: addFriend,
+                      add: true)));
+        }
+      });
+    }
+  }
+
+  TextEditingController searchNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return loading
@@ -102,6 +153,9 @@ class _SocialState extends State<Social> {
                             borderRadius: BorderRadius.circular(50.0),
                           ),
                           child: TextFormField(
+                              controller: searchNameController,
+                              onFieldSubmitted: (value) =>
+                                  searchFriend(value, context),
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
@@ -144,9 +198,11 @@ class _SocialState extends State<Social> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            SocialSingle(users: users[index]),
-                                      ));
+                                          builder: (context) => SocialSingle(
+                                              user: user,
+                                              users: users[index],
+                                              deleteFriend: deleteFriend,
+                                              addFriend: addFriend)));
                                 },
                                 child: Material(
                                   color: Colors.transparent,

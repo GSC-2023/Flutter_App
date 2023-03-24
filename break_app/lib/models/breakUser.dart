@@ -53,8 +53,17 @@ class breakUser {
     this.dailyStats[formattedDate] = [work, rest, walk];
   }
 
+  Future<bool> removeFriend(friendName) async {
+    var friendUser = await DatabaseService().getUserWithName(friendName);
+    if (friendUser == null) {
+      return false; //no such user
+    }
+    friendUser.meetups.remove(this.name);
+    this.meetups.remove(friendName);
+    return true;
+  }
+
   Future<bool> addFriends(friendName) async {
-    //test
     var friendUser = await DatabaseService().getUserWithName(friendName);
     if (friendUser == null) {
       return false; //no such user
@@ -68,12 +77,12 @@ class breakUser {
     }
   }
 
-  Future<bool> _addUserFriends(user, friend) async {
+  void _addUserFriends(user, friend) {
     if (friend.meetups.containsKey(user.name)) {
-      return true; //already added friend
+      return; //already added friend
     } else {
       friend.meetups[user.name] = [];
-      return true;
+      return;
     }
   }
 
