@@ -1,10 +1,10 @@
 import 'package:break_app/firebase/database.dart';
-import 'package:break_app/models/stats.dart';
 import 'package:break_app/screens/socialSingle.dart';
 import 'package:flutter/material.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
+import '../models/breakUser.dart';
 import '../models/profile.dart';
 
 class PhotoItem {
