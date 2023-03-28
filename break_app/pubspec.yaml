@@ -57,9 +57,7 @@ dependencies:
   firebase_storage: ^11.0.16
   image_picker: ^0.8.7
   permission_handler: ^10.2.0
-  
-  camera: ^0.10.0+4
-  google_ml_kit: ^0.13.0
+
 
 dev_dependencies:
   flutter_test:
