@@ -135,7 +135,7 @@ class breakUser {
     dailyStats.values.forEach((e) {
       var work = e[0];
       var rest = e[1];
-      var ratio = work / (work + rest);
+      var ratio = work /rest;
       variables.add(ratio);
       var happiness = e[3] + .0;
       happinessIndex.add(happiness);
