@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:break_app/colors/colors.dart';
+
 
 class MentalActivities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      drawer: CustomDrawer(),
+      drawer:CustomDrawer(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
@@ -15,85 +18,133 @@ class MentalActivities extends StatelessWidget {
               TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
         ),
         backgroundColor: Color(0xECEAEA),
-        foregroundColor: Color(0xECEAEA),
+        shadowColor: Color(0xECEAEA),
+        surfaceTintColor: Color(0xECEAEA),
+        foregroundColor:  Color(0xECEAEA),
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               child: Text(
                 "What activity would you like to do?",
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: DarkGreen,
+                ),
               ),
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
             ),
             Container(
               child: Column(
                 children: [
-                  Container(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton.icon(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/MentalActivities/Breathing');
-                        },
-                        icon: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Breathing Exercises',
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            Text(
-                              'Est Duration: 2min',
-                              style: TextStyle(fontSize: 15),
-                            )
-                          ],
+                  InkWell(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400,
+                            offset: Offset(10.0, 25.0),
+                            blurRadius: 70.0
+                          )
+                        ]
+                      ),
+                      child: GFImageOverlay(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        height: 200,
+                        width: double.infinity,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Breathing Exercises',
+                                style: TextStyle(
+                                  color: White,
+                                  fontSize: 30,
+                                  fontFamily: 'League Spartan'
+                                ),
+                              ),
+                              Text(
+                                'Est Duration: 2 min',
+                                style: TextStyle(
+                                  color: White,
+                                  fontSize: 15,
+                                  fontFamily: 'League Spartan'
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        label: Image.asset('assets/icons/Breathing.png'),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 60.0, horizontal: 10),
-                        ),
+                        image: AssetImage('assets/images/Breathing.png'),
+                        colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.darken),
                       ),
                     ),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                        context, '/MentalActivities/Breathing');
+                    },
                   ),
+                  
                   SizedBox(
                     height: 50,
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: TextButton.icon(
-                      icon: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Soothing Podcast',
-                            style: TextStyle(fontSize: 30),
-                          ),
-                          Text(
-                            'Est Duration: 5min',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ],
+
+                  InkWell(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400,
+                            offset: Offset(10.0, 25.0),
+                            blurRadius: 70.0
+                          )
+                        ]
                       ),
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, '/MentalActivities/Podcast');
-                      },
-                      label: Image.asset('assets/icons/Podcast.png'),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.green,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 60.0, horizontal: 10),
+                      child: GFImageOverlay(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        height: 200,
+                        width: double.infinity,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Soothing Podcast',
+                                style: TextStyle(
+                                  color: White,
+                                  fontSize: 30,
+                                  fontFamily: 'League Spartan'
+                                ),
+                              ),
+                              Text(
+                                'Est Duration: 5+ min',
+                                style: TextStyle(
+                                  color: White,
+                                  fontSize: 15,
+                                  fontFamily: 'League Spartan'
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        image: AssetImage('assets/images/Podcast.png'),
+                        colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.0), BlendMode.darken),
                       ),
                     ),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                        context, '/MentalActivities/Podcast');
+                    },
                   ),
                 ],
               ),
