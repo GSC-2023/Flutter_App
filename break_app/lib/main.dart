@@ -1,9 +1,9 @@
-
 // import 'package:break_app/firebase/FaceDetection.dart';
 // import 'package:break_app/firebase/FaceDetectorView.dart';
 
+import 'package:break_app/screens/camview.dart';
 import 'package:break_app/firebase/auth.dart';
-import 'package:break_app/firebase/imageStorage.dart';
+
 import 'package:break_app/screens/activities/mental/mental_activities.dart';
 import 'package:break_app/screens/activities/mental/mental_breathing.dart';
 import 'package:break_app/screens/activities/mental/mental_podcast.dart';
@@ -21,18 +21,19 @@ import 'package:break_app/screens/login.dart';
 import 'package:break_app/screens/home_utils/break.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'firebase/imageUpload.dart';
 import 'firebase_options.dart';
 import 'package:break_app/screens/signup.dart';
 import 'models/profile.dart';
+import 'package:camera/camera.dart';
 
-
+List<CameraDescription> cameras = [];
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  cameras = await availableCameras();
   runApp(MyApp());
 }
 
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
           '/Signup': (context) => SignUpPage(),
           //'/': (context) => ImageUpload(),
           //'/': (context) => Social(),
+          //'/': (context) => Camview(),
           '/Home': (context) => Home(),
           '/Break': (context) => Break(),
           '/Activities': (context) => Activities(),
