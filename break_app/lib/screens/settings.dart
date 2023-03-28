@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
@@ -19,12 +20,42 @@ class _SettingsState extends State<Settings> {
   DateTime _lunchTime = DateTime(2017, 9, 7, 11, 00);
   DateTime _dinnerTime = DateTime(2017, 9, 9, 18, 00);
   double _cycleTime = 60;
+  late String fileUrl;
+  bool loading=true;
 
   late TextEditingController controller;
   late profile user;
   late breakUser bu;
 
   // var bu;
+
+  Future<ListResult> _loadImages() async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    final ListResult result = await storage.ref().list();
+    return result;
+  }
+
+  Future searchFriend() async {
+
+    final ListResult result = await _loadImages();
+    inspect(result);
+    print(result);
+    final List<Reference> allFiles = result.items;
+    await Future.forEach<Reference>(allFiles, (file) async {
+      final String url = await file.getDownloadURL();
+      var friendName = file.fullPath.split('.')[0];
+      if (bu.name == friendName) {
+        fileUrl = url;
+      }
+    });
+
+    setState(() {
+      loading=false;
+    });
+  }
+
+
+
   Future<void> getBreakUser(user) async {
     bu = await DatabaseService().getUser(user.uid);
 
@@ -56,6 +87,7 @@ class _SettingsState extends State<Settings> {
     WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
       user = Provider.of<profile>(context, listen: false);
       getBreakUser(user);
+      searchFriend();
     });
 
     controller = TextEditingController();
@@ -87,7 +119,7 @@ class _SettingsState extends State<Settings> {
                 controller: controller),
             actions: [TextButton(child: Text("Submit"), onPressed: submit)]));
 
-    return Scaffold(
+    return loading? Container() : Scaffold(
         drawer: CustomDrawer(),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
@@ -109,15 +141,36 @@ class _SettingsState extends State<Settings> {
                   // mainAxisAlignment: MainAxisAlignment.center,
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+
                     ClipRRect(
                         borderRadius: BorderRadius.circular(300.0),
-                        child: Image.asset(
-                            'assets/images/Screenshot 2023-02-18 at 12.08.25 PM.png',
-                            height: 200,
-                            width: 194)),
+                        child: Container(
+                          margin:
+                              EdgeInsetsDirectional.only(top: 30, bottom: 20),
+                          height: 160,
+                          width: 160,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 5,
+                              color: Colors.transparent,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black,
+                                spreadRadius: 0,
+                                blurRadius: 0,
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(150),
+                            image: DecorationImage(
+                              image: NetworkImage(fileUrl),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        )),
                     Padding(
                       padding: EdgeInsets.all(15),
-                      child: Text("Wayne Tan",
+                      child: Text(bu.name,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
