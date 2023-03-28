@@ -2,12 +2,44 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:break_app/models/stats.dart';
+import 'package:break_app/models/breakUser.dart';
 
 class DatabaseService {
   DatabaseService();
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
+
+  final CollectionReference windDownMessagesCollection= 
+      FirebaseFirestore.instance.collection('windDownMessages');
+
+
+  Future<Map<String,dynamic>> getWindDownMessages() async{
+    var dataout;
+    await windDownMessagesCollection.doc("TN4RkOxNNCuYDKwmkR2n").get().then((DocumentSnapshot doc){
+      final data = doc.data() as Map<String,dynamic>;
+      // print(data);
+      // inspect(data);
+      dataout = data;
+    });
+      print(dataout);
+      return dataout;
+  }
+
+
+  // Future<breakUser> getUser(uid) async {
+  //   var user;
+  //   await usersCollection.doc(uid).get().then((DocumentSnapshot doc) {
+  //     final data = doc.data() as Map<String, dynamic>;
+  //     //inspect(data);
+  //     //print(data['meetups'].runtimeType);
+  //     //print(data['dailyStats'].runtimeType);
+  //     user = jsonToObject(data);
+  //   });
+  //   return user;
+  // }
+
+
+  
 
   Future<List<dynamic>> getOnBreakUsers(name) async {
     var users = [];

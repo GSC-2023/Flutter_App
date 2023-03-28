@@ -106,6 +106,12 @@ class _LoginState extends State<Login> {
                                 _passwordController.text);
                             //GET data for a UID
                             if (profile != null) {
+                              // var test =
+                              //     await DatabaseService().getUser(profile.uid);
+                              // await test.addFriends('shawn');
+                              // await test.addFriends('yufei');
+                              // await DatabaseService()
+                              //     .updateUser(test, profile.uid);
                               Navigator.pushNamed(context, '/Home');
                             } else {
                               setState(() {
