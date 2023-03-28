@@ -108,8 +108,8 @@ class _LoginState extends State<Login> {
                             if (profile != null) {
                               var test =
                                   await DatabaseService().getUser(profile.uid);
-                              test.degree2Recommender();
-                              //Navigator.pushNamed(context, '/Home');
+                              // test.degree2Recommender();
+                              Navigator.pushNamed(context, '/Home');
                             } else {
                               setState(() {
                                 showText = true;
