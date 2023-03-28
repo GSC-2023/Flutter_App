@@ -1,10 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AmenityCard extends StatelessWidget {
   final name;
   final type;
   final duration;
-  AmenityCard({required this.name, required this.type, required this.duration});
+  final lat;
+  final lng;
+  AmenityCard({required this.name, required this.type, required this.duration, required this.lat, required this.lng});
+
+  void openGmaps() async {
+  final String url = 'comgooglemaps://'; 
+  final Uri gmapsUrl = Uri.parse(url);
+  if (await canLaunchUrl(gmapsUrl)) {
+    await launchUrl(gmapsUrl);
+  } else {
+    // If the app is not installed, launch the website instead
+    final String weburl = 'https://www.google.com/maps/@$lat,$lng,13.67z'; //TODO: USE THE NAME OF THE LOCATION AS THE PATH
+    final Uri webUri = Uri.parse(weburl);
+    if (await canLaunchUrl(webUri)) {
+      await launchUrl(webUri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  } 
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +44,9 @@ class AmenityCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.0),
               ),
             ),
-            onPressed: () {}, //TODO logic to map to google
+            onPressed: () {
+              openGmaps();
+            }, 
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10),
               color: Color.fromARGB(255, 27, 115, 97),

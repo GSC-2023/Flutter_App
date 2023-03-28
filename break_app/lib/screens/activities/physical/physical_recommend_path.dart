@@ -71,12 +71,13 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
     //fxn to calculate the walk distance
     void _calculatedWalk() async{
       await _getCurrentLocation();
+      
       distance = time*80.4672;
+      
       String distance_string = distance.toString();
-
-
+      
       var url = Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude.toString() + ',' + longitude.toString() + '&radius=' + distance_string + '&key=' + apiKey + '&type=tourist_attraction');
-
+      
       var response = await http.post(url);
 
       inspect(jsonDecode(response.body));
@@ -84,7 +85,7 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
       nearbyPlacesResponse = NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
       for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
-        print(nearbyPlacesResponse.results![i].name);
+        inspect(nearbyPlacesResponse.results![i].name);
 
       setState(() {
       });
@@ -117,11 +118,13 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
                         name: nearbyPlacesResponse.results![i].name,
                         type: 'park',
                         duration: time,
+                        lat: 1.3567175,
+                        lng: 104.0124894
                         ),
                       ]
                       else... [
                       Text(
-                      'Aw snap!',
+                      'Aw, snap!',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 30,
