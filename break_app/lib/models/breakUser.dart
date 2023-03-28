@@ -10,9 +10,8 @@ class breakUser {
   int cycleTime;
   int lunchTime;
   int dinnerTime;
-  List<dynamic> happinessIndex;
   Map<String, dynamic> meetups; //name: [dates]
-  Map<String, dynamic> dailyStats; //daily: work, rest, walk
+  Map<String, dynamic> dailyStats; //daily: work, rest, walk, happinessIndex
   String imageurl;
   bool onBreak;
 
@@ -23,7 +22,6 @@ class breakUser {
     required this.cycleTime,
     required this.lunchTime,
     required this.dinnerTime,
-    required this.happinessIndex,
     required this.meetups,
     required this.dailyStats,
     required this.imageurl,
@@ -38,7 +36,6 @@ class breakUser {
       'cycleTime': cycleTime,
       'lunchTime': lunchTime,
       'dinnerTime': dinnerTime,
-      'happinessIndex': happinessIndex,
       'meetups': meetups,
       'dailyStats': dailyStats,
       'imageurl': imageurl,
@@ -46,11 +43,11 @@ class breakUser {
     };
   }
 
-  void addDailyStatsNow(work, rest, walk) {
+  void addDailyStatsNow(work, rest, walk, happiness) {
     DateTime now = new DateTime.now();
     var formatter = new DateFormat('ddMMyy');
     String formattedDate = formatter.format(now);
-    this.dailyStats[formattedDate] = [work, rest, walk];
+    this.dailyStats[formattedDate] = [work, rest, walk, happiness];
   }
 
   Future<bool> removeFriend(friendName) async {
