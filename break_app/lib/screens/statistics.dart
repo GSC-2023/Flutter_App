@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:break_app/misc_utils/customDrawer.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:break_app/models/profile.dart';
+import 'package:break_app/models/breakUser.dart';
+import 'package:break_app/firebase/database.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'dart:math';
+
 
 
 class ChartData {
@@ -16,82 +25,93 @@ class Statistics extends StatefulWidget {
 
 class _StatisticsState extends State<Statistics>{
   double _currentSliderValue = 5.0;
-  final String windDownMessage = "Good evening Wayne, hope you have had a pleasant day today. Your daily mental wellness breaks have played an integral role in keeping your happiness index high. Now, wind down, relax and enjoy your daily wrapped.";
-  
-  // define any params here
-    final List<ChartData> chartData = [
-        ChartData('Walk', 5, color : Color.fromARGB(255, 171, 201, 183)),
-        ChartData('Rest', 15, color : Color.fromARGB(255, 16, 163, 124)),
-        ChartData('Work', 45, color : Color.fromARGB(255, 27, 115, 97)),
-    ];
+  double _walk = 5.0;
+  double _rest = 5.0;
+  double _work = 45.0;
 
-  @override
+  String _windDownMessage = "Good evening Wayne, hope you have had a pleasant day today. Your daily mental wellness breaks have played an integral role in keeping your happiness index high. Now, wind down, relax and enjoy your daily wrapped.";
+  late profile user;
+  late breakUser bu;
+  // late List windDownMessages;
+
+
+  Future<void> getBreakUser(user) async {
+    bu = await DatabaseService().getUser(user.uid);
+    Map<String, dynamic> windDownMessages = await DatabaseService().getWindDownMessages();
+
+    // print(windDownMessages['7']);
+
+    Map<String,dynamic> dailyStats = bu.dailyStats;
+
+    String dateStr = DateFormat('ddMMyy').format(DateTime.now());
+    var rng = Random();
+    int randint = rng.nextInt(10);
+    if (randint==0){ randint++; };
+
+
+    
+
+    setState(() {
+      chartData = [
+        ChartData('Walk', dailyStats[dateStr][2].toDouble(), color : Color.fromARGB(255, 171, 201, 183)),
+        ChartData('Rest', dailyStats[dateStr][1].toDouble(), color : Color.fromARGB(255, 16, 163, 124)),
+        ChartData('Work', dailyStats[dateStr][0].toDouble(), color : Color.fromARGB(255, 27, 115, 97)),
+      ];
+      _work = dailyStats[dateStr][0].toDouble();
+      _rest = dailyStats[dateStr][1].toDouble();
+      _walk = dailyStats[dateStr][2].toDouble();
+      _windDownMessage = windDownMessages[randint.toString()];
+    });
+
+
+
+  }
+  
+
+
+
+  // define any params here
+    List<ChartData> chartData = [
+        ChartData('Walk', 0, color : Color.fromARGB(255, 171, 201, 183)),
+        ChartData('Rest', 0, color : Color.fromARGB(255, 16, 163, 124)),
+        ChartData('Work', 0, color : Color.fromARGB(255, 27, 115, 97)),
+    ];
 
   // insert any helper functions here
 
 
+  
+  void openSpotify() async {
+  final String url = 'spotify:playlist:37i9dQZF1E4xkQ7XUTk8SN'; // URI scheme for launching the Spotify app
+  final Uri spotifyUri = Uri.parse(url);
+  if (await canLaunchUrl(spotifyUri)) {
+    await launchUrl(spotifyUri);
+  } else {
+    // If the app is not installed, launch the website instead
+    final String weburl = 'https://open.spotify.com/playlist/37i9dQZF1E4xkQ7XUTk8SN?si=311fc0b393e04c42';
+    final Uri webUri = Uri.parse(weburl);
+    if (await canLaunchUrl(webUri)) {
+      await launchUrl(webUri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  }  
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
+    user = Provider.of<profile>(context, listen: false);
+    getBreakUser(user);
+  });
 
+  }
 
-
-
-
+  @override
   Widget build(BuildContext context){
     return Scaffold(
-      drawer: Container(
-        width:200,
-        child: Drawer(
-        child: Column(
-          children: <Widget>[
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: Text('Home'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Home');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.local_activity_outlined),
-            title: Text('Activities'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Activities');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.child_care_rounded),
-            title: Text('Social'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Social');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.bar_chart_outlined),
-            title: Text('Statistics'),
-            onTap: (){
-              Navigator.pushNamed(context, '/Statistics');
-            },
-          ),
-          Expanded(
-            child: Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: ListTile(
-                dense: true,
-                visualDensity: VisualDensity(vertical: -4),
-                leading: Icon(
-                  Icons.settings,
-                ),
-                title: Text('Settings'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/Settings');
-                },
-              ),
-            ),
-          ),
-          ],
-        ),
-      ),
-
-      ),
+      drawer: CustomDrawer(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         title: Text("Statistics",
@@ -132,7 +152,7 @@ class _StatisticsState extends State<Statistics>{
                       style: TextStyle(fontSize : 20.0, fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
                     ),
                     Padding(padding: EdgeInsets.symmetric(vertical:10.0),
-                    child:Text("4.2",
+                    child:Text((_work / (_rest + _walk)).toString(),
                       style: TextStyle(fontSize : 32.0, fontWeight: FontWeight.w900, color: Color(0xff2E593F)),
                     ), ),
                   ],
@@ -206,14 +226,14 @@ class _StatisticsState extends State<Statistics>{
         
         Padding(padding: EdgeInsets.symmetric(horizontal: 10.0),
         child: Container(
-          height : 100,
+          height : 130,
           width : 4000,
           decoration: BoxDecoration(
             color: Color(0xFFD9D9D9),
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           child: Padding(padding: EdgeInsets.all(15.0),
-                  child: Text(windDownMessage, 
+                  child: Text(_windDownMessage, 
                   style: TextStyle(fontSize: 13.0),)
           )
         )),
@@ -232,7 +252,8 @@ class _StatisticsState extends State<Statistics>{
         onPressed: (){
           // send happines scale to db for backend analysis
           // pop up to open spotify for calming tracks
-          Navigator.pushNamed(context, "/Home");
+          openSpotify();
+          // Navigator.pushNamed(context, "/Home");
           }, 
           child: Text("Wind Down")),
         )

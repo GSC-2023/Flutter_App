@@ -23,27 +23,40 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  getwidget: ^2.0.4
-  syncfusion_flutter_charts: ^19.1.54
+  getwidget: ^3.0.1
+  syncfusion_flutter_charts: ^20.4.54
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   animations: ^2.0.7
-
   neon_circular_timer: ^0.0.7
-
   flutter_datetime_picker: ^1.5.1
   flutter_spinbox: ^0.13.0
+
   google_maps_flutter: ^2.2.5
   flutter_dotenv: ^5.0.2
   location: ^4.4.0
   geolocator: ^9.0.2
-  permission_handler: ^10.2.0
   geocoding: ^2.1.0
   google_maps_utils: ^1.5.0+0
   http: ^0.13.5
   floating_pullup_card: ^1.2.0
+
+
+  video_player: ^2.6.0
+  flutter_spinkit: ^5.1.0
+  url_launcher: ^6.1.10
+  intl: ^0.17.0
+  #firebase
+  firebase_core: ^2.7.1
+  cloud_firestore: ^4.4.3
+  firebase_auth: ^4.2.9
+  provider: ^6.0.0
+  firebase_storage: ^11.0.16
+  image_picker: ^0.8.7
+  permission_handler: ^10.2.0
 
 
 dev_dependencies:
@@ -60,8 +73,14 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  fonts:
+    - family: League Spartan
+      fonts:
+        - asset: assets/fonts/LeagueSpartan-VariableFont_wght.ttf
+
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/exercises.json
     - assets/images/
     - assets/icons/
     - assets/images/stretches/
