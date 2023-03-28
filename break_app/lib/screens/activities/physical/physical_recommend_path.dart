@@ -76,7 +76,7 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
       String distance_string = distance.toString();
 
 
-      var url = Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude.toString() + ',' + longitude.toString() + '&radius=' + distance_string + '&key=' + apiKey);
+      var url = Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude.toString() + ',' + longitude.toString() + '&radius=' + distance_string + '&key=' + apiKey + '&type=tourist_attraction');
 
       var response = await http.post(url);
 
@@ -101,7 +101,7 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
                       AmenityCard(
                         name: nearbyPlacesResponse.results![i].name,
                         type: 'park',
-                        duration: 4,
+                        duration: time,
                         ),
                       ]
                       else... [
@@ -123,127 +123,77 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
       backgroundColor: Colors.grey[200],
       drawer: CustomDrawer(),
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
           "Activities",
           style:
               TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
         ),
-        backgroundColor: Colors.grey[200],
-        foregroundColor: Colors.grey[200],
-        elevation: 0,
       ),
 
       body: 
       
-      Container(
-        child: Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 20,
-          ),
-          child: Column(
-            children: [
-              
-              Material(
-                color: Colors.transparent,
-                elevation: 5,
-                shadowColor: Colors.black,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                child: TextFormField(
-                    autofocus: true,
-                    textInputAction: TextInputAction.go,
-                    controller: _durationController,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(width: 2, color: Colors.white )
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(width: 2, color: Colors.white )
-                        ),
-                      prefixIcon: Icon(Icons.timer_sharp, color: Color.fromARGB(255, 27, 115, 97),),
-                      fillColor: Colors.white,
-                      filled: true,
-                      hintText: 'Walk duration',
-                      suffixIcon: Container(
-                        // margin: ,
-                        child: IconButton(
-                          padding: EdgeInsets.only(right: 30, bottom: 35),
-                          onPressed: _calculatedWalk,
-                          icon: Icon(Icons.arrow_right, size: 60,),
-                          color: Color.fromARGB(255, 27, 115, 97),
-                          ),
-                      )
+      Stack(
+        children: [
+          GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(_currentPosition?.latitude ?? 1.362411725249463, _currentPosition?.longitude ?? 103.69650653627447), 
+                      zoom: 11.0,
                     ),
-                    onFieldSubmitted: (value) => time = double.parse(value),
+                    zoomControlsEnabled: false,
+                    onMapCreated: (GoogleMapController controller) {
+                        mapController = controller;
+                    },
                   ),
 
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              
-              if (_currentPosition != null)...[
-                Container(
-                height: 300,
-                width: MediaQuery.of(context).size.width,
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(_currentPosition?.latitude ?? 1.362411725249463, _currentPosition?.longitude ?? 103.69650653627447), 
-                    zoom: 11.0,
+          Positioned(
+            top: 20,
+            child: Material(
+                  color: Colors.transparent,
+                  elevation: 5,
+                  shadowColor: Colors.black,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width-20,
+                      child: TextFormField(
+                          autofocus: true,
+                          textInputAction: TextInputAction.go,
+                          controller: _durationController,
+                          decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: BorderSide(width: 2, color: Colors.white )
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: BorderSide(width: 2, color: Colors.white )
+                              ),
+                            prefixIcon: Icon(Icons.timer_sharp, color: Color.fromARGB(255, 27, 115, 97),),
+                            fillColor: Colors.white,
+                            filled: true,
+                            hintText: 'Walk duration',
+                            suffixIcon: Container(
+                              // margin: ,
+                              child: IconButton(
+                                padding: EdgeInsets.only(right: 30, bottom: 35),
+                                onPressed: _calculatedWalk,
+                                icon: Icon(Icons.arrow_right, size: 60,),
+                                color: Color.fromARGB(255, 27, 115, 97),
+                                ),
+                            )
+                          ),
+                          onFieldSubmitted: (value) => time = double.parse(value),
+                        ),
+                    ),
                   ),
-                  zoomControlsEnabled: false,
-                  onMapCreated: (GoogleMapController controller) {
-                      mapController = controller;
-                  },
+
                 ),
-              ),] else...[
-                Container(
-                  height: 300,
-                  color: Colors.black,
-                  width: MediaQuery.of(context).size.width,
-                )
-              ],
-
-              Text(
-                'Walk to a place of interest!', 
-                style: TextStyle(fontSize: 25,),
-                ),
-              
-              SizedBox(
-                height: 20,
-              ),
-
-              // Expanded(
-              //   child: ListView(
-              //   children: [
-              //     if(nearbyPlacesResponse.results != null)...[
-              //       for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
-              //         AmenityCard(
-              //           name: nearbyPlacesResponse.results![i].name,
-              //           type: 'park',
-              //           duration: 4,
-              //           ),
-              //         ]
-              //         else... [
-              //         AmenityCard(
-              //           name: 'NO DATA',
-              //           type: 'park',
-              //           duration: 4,
-              //           ),
-              //         ]
-              //       ],
-              //    ),
-              // ),
-            
-
-              
-            ],
-            
           ),
-        ),
+        ]
       ),
     );
   }
