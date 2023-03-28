@@ -19,6 +19,10 @@ import 'package:break_app/screens/social.dart';
 import 'package:break_app/screens/settings.dart';
 import 'package:break_app/screens/login.dart';
 import 'package:break_app/screens/home_utils/break.dart';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase/imageUpload.dart';
@@ -29,6 +33,7 @@ import 'models/profile.dart';
 
 
 Future main() async {
+ await dotenv.load(fileName: '.env');
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
