@@ -16,7 +16,8 @@ import 'package:break_app/screens/home_utils/break.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
-void main() {
+Future main() async{
+  await dotenv.load(fileName: '.env');
   runApp(MyApp());
 }
 

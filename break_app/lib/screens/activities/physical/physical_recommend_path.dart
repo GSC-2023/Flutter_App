@@ -1,12 +1,14 @@
-import 'dart:math';
+
+import 'dart:convert';
+import 'dart:developer';
+import 'package:break_app/models/nearby_response.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:break_app/screens/activities/physical/components/amenityCard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_utils/google_maps_utils.dart';
+import 'package:http/http.dart' as http;
 
 class PhysicalRecommendPath extends StatefulWidget {
   @override
@@ -24,19 +26,8 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
     mapController = controller;
   }
 
-  //Function to calculate the distance between current location and walk radius
-  Point _destinations(point) {
-    double distance = 1000;
-    double bearing = 10;
-    return SphericalUtils.computeOffset(point, distance, bearing);
-  }
-
-  Map data = {
-    //TODO dynamically render data
-    'Yunan Garden': ["park", 3],
-    'Nanyang Lake': ["pond", 4],
-    'Chinese Heritage Centre': ["heritage", 5]
-  };
+  int  count = 1;
+  NearbyPlacesResponse nearbyPlacesResponse = NearbyPlacesResponse();
 
   @override
   Widget build(BuildContext context) {
@@ -57,17 +48,74 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
       }
     
     //controller for tracking user inputs for duration of walk 
-    TextEditingController _controller = TextEditingController();
+    final _durationController = TextEditingController();
     
-    double distance = 0.0;
-
-    void _calculatedWalk(String time) {
-      double inputValue = double.parse(time);
-      distance = inputValue*0.067056;
+    
+    @override
+    void dispose() {
+      _durationController.dispose();
+      super.dispose();
     }
 
-    var locations = data.keys.toList();
-    for (var location in locations) print(data[location][0]);
+    
+    double time = 0 ; //in minutes
+    double distance; //in meters
+    double latitude = _currentPosition?.latitude ?? 1.362411725249463;
+    double longitude = _currentPosition?.longitude ?? 103.69650653627447;
+    String apiKey = dotenv.env['API'].toString();
+
+    
+
+    //fxn to calculate the walk distance
+    void _calculatedWalk() async{
+      await _getCurrentLocation();
+      distance = time*80.4672;
+      String distance_string = distance.toString();
+
+
+      var url = Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude.toString() + ',' + longitude.toString() + '&radius=' + distance_string + '&key=' + apiKey);
+
+      var response = await http.post(url);
+
+      inspect(jsonDecode(response.body));
+
+      nearbyPlacesResponse = NearbyPlacesResponse.fromJson(jsonDecode(response.body));
+
+      for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
+        print(nearbyPlacesResponse.results![i].name);
+
+      setState(() {
+      });
+
+      showModalBottomSheet(
+        context: context, 
+        builder: (context) {
+          return Expanded(
+                child: ListView(
+                children: [
+                  if(nearbyPlacesResponse.results != null)...[
+                    for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
+                      AmenityCard(
+                        name: nearbyPlacesResponse.results![i].name,
+                        type: 'park',
+                        duration: 4,
+                        ),
+                      ]
+                      else... [
+                      AmenityCard(
+                        name: 'NO DATA',
+                        type: 'park',
+                        duration: 4,
+                        ),
+                      ]
+                    ],
+                 ),
+              );
+        }
+        );
+
+    }
+  
     return Scaffold(
       backgroundColor: Colors.grey[200],
       drawer: Container(
@@ -130,11 +178,14 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
           style:
               TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
         ),
-        backgroundColor: Color(0xECEAEA),
-        foregroundColor: Color(0xECEAEA),
+        backgroundColor: Colors.grey[200],
+        foregroundColor: Colors.grey[200],
+        elevation: 0,
       ),
 
-      body: Container(
+      body: 
+      
+      Container(
         child: Container(
           margin: EdgeInsets.symmetric(
             horizontal: 20,
@@ -142,43 +193,45 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
           ),
           child: Column(
             children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    TextFormField(
-                        controller: _controller,
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.timer_sharp),
-                          hintText: 'Walk duration',
-                        ),
-                        onChanged: (value) => _calculatedWalk(value),
+              
+              Material(
+                color: Colors.transparent,
+                elevation: 5,
+                shadowColor: Colors.black,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                child: TextFormField(
+                    autofocus: true,
+                    textInputAction: TextInputAction.go,
+                    controller: _durationController,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(width: 2, color: Colors.white )
                       ),
-
-                    Text(distance.toString()),
-                  ],
-                ),
-
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(width: 2, color: Colors.white )
+                        ),
+                      prefixIcon: Icon(Icons.timer_sharp, color: Color.fromARGB(255, 27, 115, 97),),
+                      fillColor: Colors.white,
+                      filled: true,
+                      hintText: 'Walk duration',
+                      suffixIcon: Container(
+                        // margin: ,
+                        child: IconButton(
+                          padding: EdgeInsets.only(right: 30, bottom: 35),
+                          onPressed: _calculatedWalk,
+                          icon: Icon(Icons.arrow_right, size: 60,),
+                          color: Color.fromARGB(255, 27, 115, 97),
+                          ),
+                      )
+                    ),
+                    onFieldSubmitted: (value) => time = double.parse(value),
+                  ),
               ),
-              
-              
-              // ElevatedButton(
-              //   onPressed: (){}, //TODO logic to calculate route
-                
-              //   style: ElevatedButton.styleFrom(
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(30.0),
-              //     ),
-              //   ),
-              //   child: Container(
-              //     alignment: Alignment.center,
-              //     padding: EdgeInsets.symmetric(vertical: 10),
-              //     width: double.infinity,
-              //     child: Text(
-              //       'Generate Amenities',
-              //       style: TextStyle(fontSize: 20),
-              //     ),
-              //   ),
-              // ),
+              SizedBox(
+                height: 20,
+              ),
               
               if (_currentPosition != null)...[
                 Container(
@@ -197,47 +250,46 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
               ),] else...[
                 Container(
                   height: 300,
+                  color: Colors.black,
                   width: MediaQuery.of(context).size.width,
-                  child: Text('Click to load map'),
                 )
               ],
 
-              if (_currentPosition != null) Text(
-              "LAT: ${_currentPosition!.latitude}, LNG: ${_currentPosition!.longitude}"
-              ),
-
-              if (_currentPosition!= null) Text(
-                _destinations(Point(_currentPosition!.latitude, _currentPosition!.longitude)).toString()
-              ),
-
-              ElevatedButton(
-                child: Text("Get location"),
-                onPressed: () {
-                  _getCurrentLocation();
-                },
-              ),
-
+              Text(
+                'Walk to a place of interest!', 
+                style: TextStyle(fontSize: 25,),
+                ),
+              
               SizedBox(
                 height: 20,
               ),
-              data.isEmpty
-                  ? Text("no data!")
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "List of Amenities:",
-                          style: TextStyle(fontSize: 30),
-                        ),
-                        for (var location in locations)
-                          AmenityCard(
-                            name: location,
-                            type: (data[location][0]),
-                            duration: "${data[location][1]}",
-                          ),
-                      ],
-                    ),
+
+              // Expanded(
+              //   child: ListView(
+              //   children: [
+              //     if(nearbyPlacesResponse.results != null)...[
+              //       for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
+              //         AmenityCard(
+              //           name: nearbyPlacesResponse.results![i].name,
+              //           type: 'park',
+              //           duration: 4,
+              //           ),
+              //         ]
+              //         else... [
+              //         AmenityCard(
+              //           name: 'NO DATA',
+              //           type: 'park',
+              //           duration: 4,
+              //           ),
+              //         ]
+              //       ],
+              //    ),
+              // ),
+            
+
+              
             ],
+            
           ),
         ),
       ),

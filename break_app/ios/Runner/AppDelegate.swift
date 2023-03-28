@@ -2,6 +2,7 @@ import UIKit
 import Flutter
 import GoogleMaps
 import Foundation
+import os
 
 
 
@@ -21,7 +22,7 @@ import Foundation
     // let apiKey = ProcessInfo.processInfo.environment["API"]!
     // print(ProcessInfo.processInfo.environment["API"])
 
-    GMSServices.provideAPIKey("AIzaSyA5FGj3pY5dVoqNa-TCQ3GqRrQ5Mxi9Vco")
+    GMSServices.provideAPIKey(os.env("API"))
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
