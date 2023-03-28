@@ -120,6 +120,24 @@ class breakUser {
     return onBreak;
   }
 
+  double degree2Recommender() {
+    List variables = [];
+    List happinessIndex = [];
+    dailyStats.values.forEach((e) {
+      var work = e[0];
+      var rest = e[1];
+      var ratio = work / rest;
+      variables.add(ratio);
+      var happiness = e[3] + .0;
+      happinessIndex.add(happiness);
+    });
+    PolyFit best = PolyFit(Array(variables.cast<double>()),
+        Array(happinessIndex.cast<double>()), 2);
+    var ratio = (best.coefficient(1) / 2 * best.coefficient(0));
+    print(ratio);
+    return ratio;
+  }
+
   double workRestRatioRecommender() {
     PolyFit best = polynomialDegreeRecommender();
     print(best.coefficients());
@@ -135,19 +153,19 @@ class breakUser {
     dailyStats.values.forEach((e) {
       var work = e[0];
       var rest = e[1];
-      var ratio = work /rest;
+      var ratio = work / rest;
       variables.add(ratio);
       var happiness = e[3] + .0;
       happinessIndex.add(happiness);
     });
-    var degrees = [1, 2, 3, 4, 5];
-    var bestR2value = 1.0;
+    var degrees = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    var bestR2value = 0.0;
     late PolyFit best;
     for (var degree in degrees) {
       var current = PolyFit(Array(variables.cast<double>()),
           Array(happinessIndex.cast<double>()), degree);
       inspect(current.R2());
-      if (current.R2() < bestR2value) {
+      if (current.R2() > bestR2value) {
         bestR2value = current.R2();
         best = current;
       }
