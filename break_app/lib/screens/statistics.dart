@@ -24,7 +24,7 @@ class Statistics extends StatefulWidget {
 }
 
 class _StatisticsState extends State<Statistics>{
-  double _currentSliderValue = 5.0;
+  double _currentSliderValue = 8.0;
   double _walk = 5.0;
   double _rest = 5.0;
   double _work = 45.0;
@@ -32,7 +32,9 @@ class _StatisticsState extends State<Statistics>{
   String _windDownMessage = "Good evening Wayne, hope you have had a pleasant day today. Your daily mental wellness breaks have played an integral role in keeping your happiness index high. Now, wind down, relax and enjoy your daily wrapped.";
   late profile user;
   late breakUser bu;
-  // late List windDownMessages;
+  // late String dateStr;
+
+  String dateStr = DateFormat('ddMMyy').format(DateTime.now());
 
 
   Future<void> getBreakUser(user) async {
@@ -43,10 +45,12 @@ class _StatisticsState extends State<Statistics>{
 
     Map<String,dynamic> dailyStats = bu.dailyStats;
 
-    String dateStr = DateFormat('ddMMyy').format(DateTime.now());
+
     var rng = Random();
     int randint = rng.nextInt(10);
     if (randint==0){ randint++; };
+
+    // print(dailyStats[dateStr][3].toDouble());
 
 
     
@@ -165,7 +169,7 @@ class _StatisticsState extends State<Statistics>{
                       style: TextStyle(fontSize : 20.0, fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
                     ),
                     Padding(padding: EdgeInsets.symmetric(vertical:10.0),
-                    child:Text("8.0",
+                    child:Text(_currentSliderValue.toString(),
                       style: TextStyle(fontSize : 32.0, fontWeight: FontWeight.w900, color: Color(0xff2E593F)),
                     ), ),
                   ],
@@ -249,8 +253,10 @@ class _StatisticsState extends State<Statistics>{
           ),
           fixedSize: const Size(350,30),
         ),
-        onPressed: (){
+        onPressed: () async {
           // send happines scale to db for backend analysis
+          bu.dailyStats[dateStr][3] = _currentSliderValue;
+          await DatabaseService().updateUser(bu, user.uid);
           // pop up to open spotify for calming tracks
           openSpotify();
           // Navigator.pushNamed(context, "/Home");
