@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:break_app/models/profile.dart';
 import 'package:break_app/models/breakUser.dart';
 import 'package:break_app/firebase/database.dart';
-// import 'package:provider/provider.dart';
+
 
 class Settings extends StatefulWidget {
   @override
@@ -28,28 +28,26 @@ class _SettingsState extends State<Settings> {
   Future<void> getBreakUser(user) async {
     bu = await DatabaseService().getUser(user.uid);
 
-    // breakUser? bu = await DatabaseService().getUserWithName(name);
-    if (bu != null) {
-      String lunchTimeStr = bu.lunchTime.toString();
-      String dinnerTimeStr = bu.dinnerTime.toString();
-      String lthh = lunchTimeStr.substring(0, 2);
-      String dthh = dinnerTimeStr.substring(0, 2);
-      String ltmm = lunchTimeStr.substring(2, 4);
-      String dtmm = dinnerTimeStr.substring(2, 4);
 
-      DateTime lunch = DateTime(2022, 9, 7, int.parse(lthh), int.parse(ltmm));
-      DateTime dinner = DateTime(2022, 9, 7, int.parse(dthh), int.parse(dtmm));
+    String lunchTimeStr = bu.lunchTime.toString();
+    String dinnerTimeStr = bu.dinnerTime.toString();
+    String lthh = lunchTimeStr.substring(0, 2);
+    String dthh = dinnerTimeStr.substring(0, 2);
+    String ltmm = lunchTimeStr.substring(2, 4);
+    String dtmm = dinnerTimeStr.substring(2, 4);
 
-      // _currentSliderValue = bu.workTime.toDouble();
-      // _cycleTime = bu.cycleTime.toDouble();
+    DateTime lunch = DateTime(2022, 9, 7, int.parse(lthh), int.parse(ltmm));
+    DateTime dinner = DateTime(2022, 9, 7, int.parse(dthh), int.parse(dtmm));
 
-      setState(() {
-        _lunchTime = lunch;
-        _dinnerTime = dinner;
-        _currentSliderValue = bu.workTime.toDouble();
-        _cycleTime = bu.cycleTime.toDouble();
-      });
-    }
+
+
+    setState(() {
+      _lunchTime = lunch;
+      _dinnerTime = dinner;
+      _currentSliderValue = bu.workTime.toDouble();
+      _cycleTime = bu.cycleTime.toDouble();
+    });
+
   }
 
   @override

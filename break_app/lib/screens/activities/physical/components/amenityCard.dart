@@ -13,6 +13,9 @@ class AmenityCard extends StatelessWidget {
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
+              elevation: 5,
+              shadowColor: Colors.black,
+              backgroundColor: Color.fromARGB(255, 27, 115, 97),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
@@ -20,6 +23,7 @@ class AmenityCard extends StatelessWidget {
             onPressed: () {}, //TODO logic to map to google
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10),
+              color: Color.fromARGB(255, 27, 115, 97),
               child: Row(
                 children: [
                   Flexible(
@@ -47,14 +51,14 @@ class AmenityCard extends StatelessWidget {
                   Flexible(
                     flex: 1,
                     fit: FlexFit.tight,
-                    child: Text('$duration min'),
+                    child: Text('${duration} min'),
                   ),
                 ],
               ),
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
         ],
       ),
