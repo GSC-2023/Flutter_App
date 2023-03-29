@@ -133,3 +133,4 @@ app.*.symbols
 break_app/lib/firebase_options.dart
 *.pbxproj
 *.xcworkspacedata
+break_app/.env
