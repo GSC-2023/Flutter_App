@@ -135,6 +135,7 @@ class Geometry {
   Geometry({this.location, this.viewport});
 
   Geometry.fromJson(Map<String, dynamic> json) {
+    
     location = json['location'] != null
         ?  Location.fromJson(json['location'])
         : null;
