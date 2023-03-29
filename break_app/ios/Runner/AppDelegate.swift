@@ -22,7 +22,7 @@ import os
     // let apiKey = ProcessInfo.processInfo.environment["API"]!
     // print(ProcessInfo.processInfo.environment["API"])
 
-    GMSServices.provideAPIKey(os.env("API"))
+    GMSServices.provideAPIKey("AIzaSyARJ20gb_jW3GOelj_jtsDjol3WL7ecPhM")
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
