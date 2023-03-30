@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
+import 'package:break_app/screens/activities/mental/podcast.dart';
 
 import '../../../colors/colors.dart';
 import 'VideoPlayer.dart';
@@ -26,37 +27,7 @@ class Mental_Breathing extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Column(
-              children: [
-                Container(
-                  child: Text(
-                    'Breathing Exercise',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: DarkGreen,
-                    ),
-                  ),
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
-                ),
-                Container(
-                  // decoration: BoxDecoration(
-                  //       shape: BoxShape.rectangle,
-                  //       boxShadow: [
-                  //         BoxShadow(
-                  //           color: Colors.grey.shade400,
-                  //           offset: Offset(0, 0),
-                  //           blurRadius: 5.0
-                  //         )
-                  //       ]
-                  //     ),
-                  child: VideoApp(type: 'breathing'),
-                ),
-              ],
-            ),
-            //child: YoutubeWidget(),//doesnt work for android
-          ),
+          Podcast(type: 'breathing')
         ],
       ),
     );

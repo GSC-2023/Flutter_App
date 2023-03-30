@@ -15,7 +15,7 @@ class PhysicalReliefExercises extends StatelessWidget {
         title: Text(
           "Activities",
           style:
-              TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
+              TextStyle(fontWeight: FontWeight.bold, color: Color(0xff2E593F)), 
         ),
         backgroundColor: Color(0xECEAEA),
         shadowColor: Color(0xECEAEA),
