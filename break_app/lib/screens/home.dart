@@ -1,11 +1,14 @@
 import 'dart:developer';
 
 import 'package:break_app/colors/colors.dart';
+import 'package:break_app/models/breakUser.dart';
 import 'package:flutter/material.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
 import 'package:provider/provider.dart';
+import 'package:break_app/firebase/database.dart';
+
 
 import 'package:break_app/models/profile.dart';
 
@@ -21,11 +24,40 @@ class _HomeState extends State<Home> {
   bool restartPressed = false;
   final CountDownController controller = new CountDownController();
   late profile user;
+  late breakUser bu;
+  int userWorkTime = 60; // default
+
+  Future<void> getBreakUser(user) async {
+    bu = await DatabaseService().getUser(user.uid);
+    // print("entered... ");
+    // inspect(bu);
+
+    setState(() {
+      userWorkTime = bu.workTime;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // user = Provider.of<profile>(context);
+    // inspect(user);
+
+    WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
+      user = Provider.of<profile>(context, listen: false);
+      getBreakUser(user);
+    });
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
     user = Provider.of<profile>(context);
-    inspect(user);
+    getBreakUser(user);
+    // inspect(user);
+    // inspect(bu);
+
     return Scaffold(
       backgroundColor: Grey,
       drawer: CustomDrawer(),
@@ -69,7 +101,7 @@ class _HomeState extends State<Home> {
                   },
                   width: 250,
                   controller: controller,
-                  duration: 10,
+                  duration: userWorkTime*60, // only accepts seconds
                   autoStart: false,
                   strokeWidth: 5,
                   isTimerTextShown: true,
