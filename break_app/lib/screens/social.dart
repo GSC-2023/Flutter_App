@@ -121,7 +121,8 @@ class _SocialState extends State<Social> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 231, 235, 227),
+        // backgroundColor: Color.fromARGB(255, 231, 235, 227),
+        backgroundColor: Colors.grey[200],
         drawer: CustomDrawer(),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
@@ -130,7 +131,7 @@ class _SocialState extends State<Social> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Color(0xff2E593F),
-              fontSize: 30,
+              // fontSize: 30,
             ),
           ),
           backgroundColor: Color(0xECEAEA),
@@ -139,7 +140,7 @@ class _SocialState extends State<Social> {
           foregroundColor: Color(0xECEAEA),
         ),
         body: Container(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
           child: Column(
             children: [
               //SEARCH BAR
@@ -152,29 +153,34 @@ class _SocialState extends State<Social> {
                       elevation: 10.0,
                       shadowColor: Colors.black,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      child: TextFormField(
-                          controller: searchNameController,
-                          onFieldSubmitted: (value) =>
-                              searchFriend(value, context),
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                              hintText: 'Search',
-                              hintStyle: TextStyle(
-                                  color: Color.fromARGB(255, 27, 115, 97)),
-                              fillColor: Colors.white,
-                              filled: true,
-                              prefixIcon: Icon(Icons.search),
-                              prefixIconColor:
-                                  Color.fromARGB(255, 27, 115, 97))),
+                      child: Container(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width-25,
+                          child: TextFormField(
+                              controller: searchNameController,
+                              onFieldSubmitted: (value) =>
+                                  searchFriend(value, context),
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderSide: BorderSide(width: 2, color: Colors.white )
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderSide: BorderSide(width: 2, color: Colors.white )
+                                  ),
+                                  hintText: 'Search',
+                                  hintStyle: TextStyle(
+                                      color: Color.fromARGB(255, 27, 115, 97)),
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.search),
+                                  prefixIconColor:
+                                      Color.fromARGB(255, 27, 115, 97))),
+                          )
+                        )
                     ),
                   ],
                 ),
@@ -205,7 +211,7 @@ class _SocialState extends State<Social> {
                                   crossAxisCount: 2,
                                   childAspectRatio: 1,
                                   mainAxisSpacing: 0,
-                                  crossAxisSpacing: 20),
+                                  crossAxisSpacing: 0),
                           itemCount: users.length,
                           itemBuilder: (BuildContext ctx, index) {
                             return Container(
@@ -227,7 +233,7 @@ class _SocialState extends State<Social> {
                                     child: Container(
                                       margin: EdgeInsetsDirectional.symmetric(
                                           vertical: 0),
-                                      height: 100,
+                                      height: 130,
                                       decoration: BoxDecoration(
                                           border: Border.all(
                                               width: 4,

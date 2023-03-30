@@ -1,14 +1,46 @@
+import 'dart:convert';
+
+import 'package:break_app/models/nearby_response.dart';
 import 'package:flutter/material.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+
 
 class AmenityCard extends StatelessWidget {
   final name;
   final type;
   final duration;
-  AmenityCard({required this.name, required this.type, required this.duration});
+  final latDest;
+  final lngDest;
+  AmenityCard({required this.name, required this.type, required this.duration, required this.latDest, required this.lngDest,});
+
+  
+
+
+  void openGmaps() async {
+  final String url = 'comgooglemaps://'; 
+  final Uri gmapsUrl = Uri.parse(url);
+  if (await canLaunchUrl(gmapsUrl)) {
+    await launchUrl(gmapsUrl);
+  } else {
+    // If the app is not installed, launch the website instead
+    final String weburl = 'https://www.google.com/maps?f=d&daddr=$latDest,$lngDest&directionsmode=walking'; 
+    final Uri webUri = Uri.parse(weburl);
+    if (await canLaunchUrl(webUri)) {
+      await launchUrl(webUri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  } 
+
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
       child: Column(
         children: [
           ElevatedButton(
@@ -20,7 +52,9 @@ class AmenityCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.0),
               ),
             ),
-            onPressed: () {}, //TODO logic to map to google
+            onPressed: () {
+              openGmaps();
+            }, 
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10),
               color: Color.fromARGB(255, 27, 115, 97),
@@ -31,8 +65,8 @@ class AmenityCard extends StatelessWidget {
                     fit: FlexFit.tight,
                     child: CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage(
-                          'assets/icons/${type}.png'), //TODO have more categories of amenities for diff icons
+                      backgroundImage: NetworkImage(
+                          '$type'), //TODO have more categories of amenities for diff icons
                       backgroundColor: Colors.grey[200],
                     ),
                   ),
@@ -42,6 +76,7 @@ class AmenityCard extends StatelessWidget {
                     child: Container(
                         child: Text(
                           name,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 20,
                           ),

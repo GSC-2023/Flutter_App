@@ -8,6 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
+import 'package:break_app/screens/home_utils/clickableText.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import '../../firebase/database.dart';
 import '../../models/breakUser.dart';
@@ -29,6 +32,8 @@ class _BreakState extends State<Break> {
   List<String> onlineFriends = [];
   List<PhotoItem> users = [];
   bool loading = true;
+  late int userBreakTime; // default
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +42,138 @@ class _BreakState extends State<Break> {
       _loadFriends();
     });
   }
+
+
+
+
+void launchTelegram(username) async{
+  String url =
+          "https://telegram.me/" + username + "GSC";
+  Uri toLaunch = Uri.parse(url);
+    // print("launchingUrl: $url");
+    if (await canLaunchUrl(toLaunch)) {
+      await launchUrl(toLaunch, 
+      mode: LaunchMode.externalApplication);
+    }
+
+}
+
+    /* This alert is called when the timer naturally runs down and redirects user to work page */
+  showNaturalWorkAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("Start Work"),
+      onPressed: () {
+        int time = userBreakTime - (controller.getTimeInSeconds() / 60).ceil();
+        user.userBreakMinutesElapsed += time;
+        print("Cumulative break time increased by: $time");
+        Navigator.of(context).pop();
+        Navigator.pushNamed(context, '/Home');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Alert"),
+      content: Text("It's time for work!"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  /* This alert is called when the timer is forcefully disrupted by user */
+  showForcedWorkAlertDialog(BuildContext context) {
+    // set up the button
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop(); // dismiss dialog
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Confirm"),
+      onPressed: () {
+        int time = userBreakTime - (controller.getTimeInSeconds() / 60).ceil();
+        user.userBreakMinutesElapsed += time;
+        print("Cumulative break time increased by: $time");
+        Navigator.of(context).pop(); // dismiss dialog
+        Navigator.pushNamed(context, '/Home');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Alert"),
+      content: Text("Do you wish to start work now?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  /* This alert is called when the user clicks on the `End Work` button */
+  showForcedEndDayalertDialog(BuildContext context) {
+    // set up the button
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop(); // dismiss dialog
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Confirm"),
+      onPressed: () async {
+        int _work = user.userWorkMinutesElapsed;
+        int _break = user.userBreakMinutesElapsed;
+        print("Ended. Work: $_work, Break: $_break");
+        bu.addDailyStatsNow(_work, _break, 0, -1);
+        print("Daily stats updated.");
+        print(bu.dailyStats);
+
+        await DatabaseService().updateUser(bu, user.uid);
+
+        Navigator.of(context).pop(); // dismiss dialog
+        Navigator.pushNamed(context, '/Statistics');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Alert"),
+      content: Text("Are you sure you wish to end your work day now?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 
   final CountDownController controller = new CountDownController();
 
@@ -68,6 +205,7 @@ class _BreakState extends State<Break> {
       users.add(PhotoItem(files[i]['url'], files[i]['name']));
     }
     setState(() {
+      userBreakTime = bu.restTime;
       loading = false;
     });
     return;
@@ -93,7 +231,7 @@ class _BreakState extends State<Break> {
               scrollDirection: Axis.horizontal,
               children: users
                   .map(
-                    (user) => Column(
+                    (friendUser) => Column(
                       children: [
                         Container(
                           height: 75,
@@ -105,20 +243,27 @@ class _BreakState extends State<Break> {
                             ),
                             borderRadius: BorderRadius.circular(150),
                             image: DecorationImage(
-                              image: NetworkImage(user.image),
+                              image: NetworkImage(friendUser.image),
                               fit: BoxFit.fill,
                             ),
                           ),
                           margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                         ),
-                        Text(
-                          toBeginningOfSentenceCase(user.name)!,
-                          style: TextStyle(
-                            fontSize: 15,
-                            // fontFamily:
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        // ElevatedButton(
+                        //   onPressed: (){}, 
+                        //   child: Text(user.name))
+                        ClickableUnderlineText(text: friendUser.name,  onTap: (){
+                          bu.addMeetupNow(friendUser.name, user.uid);
+                          launchTelegram(friendUser.name);
+                        },),
+                        // Text(
+                        //   toBeginningOfSentenceCase(user.name)!,
+                        //   style: TextStyle(
+                        //     fontSize: 15,
+                        //     // fontFamily:
+                        //     fontWeight: FontWeight.bold,
+                        //   ),
+                        // ),
                       ],
                     ),
                   )
@@ -172,18 +317,22 @@ class _BreakState extends State<Break> {
                     offset: Offset(0.0, 20.0),
                     blurRadius: 30.0)
               ]),
-              child: NeonCircularTimer(
+              child: loading ? 
+              Container() :
+              NeonCircularTimer(
                   onComplete: () {
                     setState(() {});
                     if (!restartPressed) showNaturalWorkAlertDialog(context);
                   },
                   width: 250,
                   controller: controller,
-                  duration: 10,
+                  duration: userBreakTime*60, // only accepts seconds
                   autoStart: false,
                   strokeWidth: 5,
                   isTimerTextShown: true,
                   neumorphicEffect: true,
+                  isReverse: true,
+                  isReverseAnimation: true,
                   outerStrokeColor: Colors.grey.shade100,
                   innerFillGradient: LinearGradient(colors: [
                     DarkBlue,
@@ -311,7 +460,7 @@ class _BreakState extends State<Break> {
                                 showForcedEndDayalertDialog(context);
                               }
                             : null,
-                        text: "End Work",
+                        text: "End",
                         textColor: White,
                         shape: GFButtonShape.pills,
                         color: Colors.red,
@@ -324,105 +473,4 @@ class _BreakState extends State<Break> {
           ]),
     );
   }
-}
-
-/* This alert is called when the timer naturally runs down and redirects user to work page */
-showNaturalWorkAlertDialog(BuildContext context) {
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("Start Work"),
-    onPressed: () {
-      Navigator.of(context).pop();
-      Navigator.pushNamed(context, '/Home');
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Alert"),
-    content: Text("It's time for work!"),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
-/* This alert is called when the timer is forcefully disrupted by user */
-showForcedWorkAlertDialog(BuildContext context) {
-  // set up the button
-  Widget cancelButton = TextButton(
-    child: Text("Cancel"),
-    onPressed: () {
-      Navigator.of(context).pop(); // dismiss dialog
-    },
-  );
-  Widget continueButton = TextButton(
-    child: Text("Confirm"),
-    onPressed: () {
-      Navigator.of(context).pop(); // dismiss dialog
-      Navigator.pushNamed(context, '/Home');
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Alert"),
-    content: Text("Do you wish to start work now?"),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
-/* This alert is called when the user clicks on the `End Work` button */
-showForcedEndDayalertDialog(BuildContext context) {
-  // set up the button
-  Widget cancelButton = TextButton(
-    child: Text("Cancel"),
-    onPressed: () {
-      Navigator.of(context).pop(); // dismiss dialog
-    },
-  );
-  Widget continueButton = TextButton(
-    child: Text("Confirm"),
-    onPressed: () {
-      Navigator.of(context).pop(); // dismiss dialog
-      Navigator.pushNamed(context, '/Statistics');
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Alert"),
-    content: Text("Are you sure you wish to end your work day now?"),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }

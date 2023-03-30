@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
                 Container(
                   padding: EdgeInsets.all(80),
                   child: Text(
-                    "REQUIEM",
+                    "BREAKIFY",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: DarkGreen,
@@ -106,10 +106,10 @@ class _LoginState extends State<Login> {
                                 _passwordController.text);
                             //GET data for a UID
                             if (profile != null) {
-                              var test =
-                                  await DatabaseService().getUser(profile.uid);
-                              test.degree2Recommender();
-                              Navigator.pushNamed(context, '/Home');
+                              Navigator.pushNamed(
+                                context, 
+                                '/Home',
+                              );
                             } else {
                               setState(() {
                                 showText = true;
