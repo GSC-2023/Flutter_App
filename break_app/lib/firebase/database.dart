@@ -133,6 +133,7 @@ class DatabaseService {
   }
 
   Future updateUser(breakUser user, String uid) async {
-    return await usersCollection.doc(uid).update(user.toMap());
+    print('called updateUser');
+    //return await usersCollection.doc(uid).update(user.toMap()); TODO update functionality
   }
 }

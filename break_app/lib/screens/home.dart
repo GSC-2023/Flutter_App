@@ -9,7 +9,6 @@ import 'package:break_app/misc_utils/customDrawer.dart';
 import 'package:provider/provider.dart';
 import 'package:break_app/firebase/database.dart';
 
-
 import 'package:break_app/models/profile.dart';
 
 class Home extends StatefulWidget {
@@ -27,7 +26,6 @@ class _HomeState extends State<Home> {
   late breakUser bu;
   late int userWorkTime;
   bool isLoading = true;
-  
 
   /* This alert is called when the timer naturally runs down and redirects user to break page */
   showNaturalBreakAlertDialog(BuildContext context) {
@@ -123,7 +121,6 @@ class _HomeState extends State<Home> {
 
         user.userWorkMinutesElapsed = 0;
         user.userBreakMinutesElapsed = 0;
-
         Navigator.of(context).pop(); // dismiss dialog
         Navigator.pushReplacementNamed(context, '/Statistics');
       },
@@ -148,19 +145,16 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<void> getBreakUser(user) async {
+  Future<void> getBreakUser() async {
+    user = Provider.of<profile>(context, listen: false);
     bu = await DatabaseService().getUser(user.uid);
-    // print("entered... ");
-    // inspect(bu);
-
-    setState(() {
-      userWorkTime = bu.workTime;
-      bu.onBreak = false;
-      isLoading=false;
-    });
-
+    inspect(bu);
+    userWorkTime = bu.workTime;
+    bu.onBreak = false;
+    isLoading = false;
     print("Work Duration: $userWorkTime");
-    await DatabaseService().updateUser(bu, user.uid);
+    await DatabaseService().updateUser(bu, user.uid); 
+    setState(() {});
   }
 
   // Future<void> endWork() async {
@@ -174,20 +168,12 @@ class _HomeState extends State<Home> {
     // inspect(user);
 
     WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
-      user = Provider.of<profile>(context, listen: false);
-      getBreakUser(user);
+      getBreakUser();
     });
-
   }
-
 
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<profile>(context);
-    getBreakUser(user);
-    // inspect(user);
-    // inspect(bu);
-
     return Scaffold(
       backgroundColor: Grey,
       drawer: CustomDrawer(),
@@ -224,37 +210,37 @@ class _HomeState extends State<Home> {
                     offset: Offset(0.0, 20.0),
                     blurRadius: 30.0)
               ]),
-              child: isLoading ?
-              Container():
-              NeonCircularTimer(
-                  onComplete: () {
-                    setState(() {
-                    });
-                    if (!restartPressed) showNaturalBreakAlertDialog(context);
-                  },
-                  width: 250,
-                  controller: controller,
-                  // duration: userWorkTime*60,
-                  duration: userWorkTime*60,
-                  autoStart: false,
-                  strokeWidth: 5,
-                  isTimerTextShown: true,
-                  neumorphicEffect: true,
-                  outerStrokeColor: Colors.grey.shade100,
-                  isReverse: true,
-                  isReverseAnimation: true,
-                  innerFillGradient: LinearGradient(colors: [
-                    DarkGreen,
-                    Colors.green,
-                  ]),
-                  neonGradient: LinearGradient(colors: [
-                    DarkGreen,
-                    Colors.green,
-                  ]),
-                  strokeCap: StrokeCap.round,
-                  innerFillColor: White,
-                  backgroudColor: White,
-                  neonColor: Colors.blue.shade900),
+              child: isLoading
+                  ? Container()
+                  : NeonCircularTimer(
+                      onComplete: () {
+                        setState(() {});
+                        if (!restartPressed)
+                          showNaturalBreakAlertDialog(context);
+                      },
+                      width: 250,
+                      controller: controller,
+                      // duration: userWorkTime*60,
+                      duration: userWorkTime * 60,
+                      autoStart: false,
+                      strokeWidth: 5,
+                      isTimerTextShown: true,
+                      neumorphicEffect: true,
+                      outerStrokeColor: Colors.grey.shade100,
+                      isReverse: true,
+                      isReverseAnimation: true,
+                      innerFillGradient: LinearGradient(colors: [
+                        DarkGreen,
+                        Colors.green,
+                      ]),
+                      neonGradient: LinearGradient(colors: [
+                        DarkGreen,
+                        Colors.green,
+                      ]),
+                      strokeCap: StrokeCap.round,
+                      innerFillColor: White,
+                      backgroudColor: White,
+                      neonColor: Colors.blue.shade900),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(
@@ -285,9 +271,8 @@ class _HomeState extends State<Home> {
                                     }
                                   : () {
                                       controller.pause();
-                                      print(
-                                        (controller.getTimeInSeconds() / 60).ceil()
-                                      );
+                                      print((controller.getTimeInSeconds() / 60)
+                                          .ceil());
                                       setState(() {
                                         paused = true;
                                       });
@@ -305,12 +290,10 @@ class _HomeState extends State<Home> {
                         child: GFButton(
                           onPressed: started
                               ? () {
-                                  setState(() {
-                                    started = true;
-                                    paused = true;
-                                    completed = false;
-                                    restartPressed = true;
-                                  });
+                                  started = true;
+                                  paused = true;
+                                  completed = false;
+                                  restartPressed = true;
                                   controller.restart();
                                   controller.pause();
                                   setState(() {});
@@ -328,31 +311,29 @@ class _HomeState extends State<Home> {
                     width: double.infinity,
                     padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Container(
-                      decoration: started ? 
-                        null : BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.shade500,
-                            offset: Offset(10.0, 10.0),
-                            blurRadius: 30.0
-                          )
-                        ]
-                      ),
+                      decoration: started
+                          ? null
+                          : BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey.shade500,
+                                      offset: Offset(10.0, 10.0),
+                                      blurRadius: 30.0)
+                                ]),
                       height: 45,
                       child: GFButton(
                         onPressed: started
                             ? () {
-                                setState(() {
-                                  completed = true;
-                                });
+                                completed = true;
                                 showForcedBreakAlertDialog(context);
+                                setState(() {});
                               }
-                            : () {setState(() { 
-                              started = true;
-                            });
-                            controller.start();
-                            },
+                            : () {
+                                started = true;
+                                controller.start();
+                                setState(() {});
+                              },
                         text: started ? "Break Now" : "Begin Work",
                         textColor: White,
                         shape: GFButtonShape.pills,
@@ -367,9 +348,9 @@ class _HomeState extends State<Home> {
                       height: 45,
                       child: GFButton(
                         onPressed: () {
-                                completed = true;
-                                showForcedEndDayalertDialog(context);
-                              },
+                          completed = true;
+                          showForcedEndDayalertDialog(context);
+                        },
                         text: "End Session",
                         textColor: White,
                         shape: GFButtonShape.pills,
