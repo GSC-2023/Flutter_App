@@ -10,6 +10,8 @@ import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
 import 'package:break_app/screens/home_utils/clickableText.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 import '../../firebase/database.dart';
 import '../../models/breakUser.dart';
@@ -61,7 +63,7 @@ class _BreakState extends State<Break> {
         user.userBreakMinutesElapsed += time;
         print("Cumulative break time increased by: $time");
         Navigator.of(context).pop();
-        Navigator.pushNamed(context, '/Home');
+        Navigator.pushReplacementNamed(context, '/Home');
       },
     );
 
@@ -99,7 +101,7 @@ class _BreakState extends State<Break> {
         user.userBreakMinutesElapsed += time;
         print("Cumulative break time increased by: $time");
         Navigator.of(context).pop(); // dismiss dialog
-        Navigator.pushNamed(context, '/Home');
+        Navigator.pushReplacementNamed(context, '/Home');
       },
     );
 
@@ -143,8 +145,11 @@ class _BreakState extends State<Break> {
 
         await DatabaseService().updateUser(bu, user.uid);
 
+        user.userWorkMinutesElapsed = 0;
+        user.userBreakMinutesElapsed = 0;
+
         Navigator.of(context).pop(); // dismiss dialog
-        Navigator.pushNamed(context, '/Statistics');
+        Navigator.pushReplacementNamed(context, '/Statistics');
       },
     );
 
@@ -204,8 +209,6 @@ class _BreakState extends State<Break> {
 
     print("Break Duration: $userBreakTime");
     await DatabaseService().updateUser(bu, user.uid);
-    bool breakStatus = bu.onBreak;
-    print("Updated BreakStatus: $breakStatus");
 
     return;
   }
@@ -292,7 +295,21 @@ class _BreakState extends State<Break> {
         surfaceTintColor: Color(0xECEAEA),
         foregroundColor: Color(0xECEAEA),
       ),
-      body: Column(
+      body: loading ? Column(children: [
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Container(
+                        height: 200,
+                        child: Center(
+                          child: SpinKitFadingCircle(
+                            color: LightBlue,
+                            size: 75.0,
+                          ),
+                        ),
+                      ),
+                    ]) : 
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -306,9 +323,7 @@ class _BreakState extends State<Break> {
                 ),
               ),
             ),
-            loading
-                ? Container()
-                : Container(
+            Container(
                     child: getFriendPics(),
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                   ),
@@ -457,12 +472,10 @@ class _BreakState extends State<Break> {
                     child: Container(
                       height: 45,
                       child: GFButton(
-                        onPressed: started
-                            ? () {
+                        onPressed: () {
                                 completed = true;
                                 showForcedEndDayalertDialog(context);
-                              }
-                            : null,
+                              },
                         text: "End Session",
                         textColor: White,
                         shape: GFButtonShape.pills,

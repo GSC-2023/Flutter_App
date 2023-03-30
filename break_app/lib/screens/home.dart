@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
         user.userWorkMinutesElapsed += time;
         print("Cumulative work time increased by: $time");
         Navigator.of(context).pop();
-        Navigator.pushNamed(context, '/Break');
+        Navigator.pushReplacementNamed(context, '/Break');
       },
     );
 
@@ -77,7 +77,7 @@ class _HomeState extends State<Home> {
         user.userWorkMinutesElapsed += time;
         print("Cumulative work time increased by: $time");
         Navigator.of(context).pop(); // dismiss dialog
-        Navigator.pushNamed(context, '/Break');
+        Navigator.pushReplacementNamed(context, '/Break');
       },
     );
 
@@ -121,8 +121,11 @@ class _HomeState extends State<Home> {
 
         await DatabaseService().updateUser(bu, user.uid);
 
+        user.userWorkMinutesElapsed = 0;
+        user.userBreakMinutesElapsed = 0;
+
         Navigator.of(context).pop(); // dismiss dialog
-        Navigator.pushNamed(context, '/Statistics');
+        Navigator.pushReplacementNamed(context, '/Statistics');
       },
     );
 
@@ -158,8 +161,6 @@ class _HomeState extends State<Home> {
 
     print("Work Duration: $userWorkTime");
     await DatabaseService().updateUser(bu, user.uid);
-    bool breakStatus = bu.onBreak;
-    print("Updated BreakStatus: $breakStatus");
   }
 
   // Future<void> endWork() async {
@@ -365,12 +366,10 @@ class _HomeState extends State<Home> {
                     child: Container(
                       height: 45,
                       child: GFButton(
-                        onPressed: started
-                            ? () {
+                        onPressed: () {
                                 completed = true;
                                 showForcedEndDayalertDialog(context);
-                              }
-                            : null,
+                              },
                         text: "End Session",
                         textColor: White,
                         shape: GFButtonShape.pills,
