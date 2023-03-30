@@ -4,11 +4,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:break_app/models/profile.dart';
 import 'package:break_app/models/breakUser.dart';
 import 'package:break_app/firebase/database.dart';
-
 
 class Settings extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _SettingsState extends State<Settings> {
   DateTime _dinnerTime = DateTime(2017, 9, 9, 18, 00);
   double _cycleTime = 60;
   late String fileUrl;
-  bool loading=true;
+  bool loading = true;
 
   late TextEditingController controller;
   late profile user;
@@ -30,35 +30,34 @@ class _SettingsState extends State<Settings> {
   // var bu;
 
   Future<ListResult> _loadImages() async {
-    FirebaseStorage storage = FirebaseStorage.instance;
-    final ListResult result = await storage.ref().list();
+    final storageRef = FirebaseStorage.instance.ref();
+    final profilesRef = storageRef.child("Profiles");
+    final ListResult result = await profilesRef.list();
     return result;
   }
 
   Future searchFriend() async {
-
     final ListResult result = await _loadImages();
     inspect(result);
     print(result);
     final List<Reference> allFiles = result.items;
     await Future.forEach<Reference>(allFiles, (file) async {
       final String url = await file.getDownloadURL();
-      var friendName = file.fullPath.split('.')[0];
+      var friendName = file.fullPath.split('.')[0].split('/')[1];
+      print(friendName);
+      inspect(friendName);
       if (bu.name == friendName) {
         fileUrl = url;
       }
     });
 
     setState(() {
-      loading=false;
+      loading = false;
     });
   }
 
-
-
   Future<void> getBreakUser(user) async {
     bu = await DatabaseService().getUser(user.uid);
-
 
     String lunchTimeStr = bu.lunchTime.toString();
     String dinnerTimeStr = bu.dinnerTime.toString();
@@ -70,15 +69,12 @@ class _SettingsState extends State<Settings> {
     DateTime lunch = DateTime(2022, 9, 7, int.parse(lthh), int.parse(ltmm));
     DateTime dinner = DateTime(2022, 9, 7, int.parse(dthh), int.parse(dtmm));
 
-
-
     setState(() {
       _lunchTime = lunch;
       _dinnerTime = dinner;
       _currentSliderValue = bu.workTime.toDouble();
       _cycleTime = bu.cycleTime.toDouble();
     });
-
   }
 
   @override
@@ -141,7 +137,6 @@ class _SettingsState extends State<Settings> {
                   // mainAxisAlignment: MainAxisAlignment.center,
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-
                     ClipRRect(
                         borderRadius: BorderRadius.circular(300.0),
                         child: Container(
@@ -163,16 +158,22 @@ class _SettingsState extends State<Settings> {
                             ],
                             borderRadius: BorderRadius.circular(150),
                             image: DecorationImage(
-                              image:loading?Image.asset('assets/images/dpPlaceholder.png').image:NetworkImage(fileUrl),
+                              image: loading
+                                  ? Image.asset(
+                                          'assets/images/dpPlaceholder.png')
+                                      .image
+                                  : NetworkImage(fileUrl),
                               fit: BoxFit.fill,
                             ),
                           ),
                         )),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0,0,0,30),
-                      child: loading?Text(""):Text(bu.name,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                      child: loading
+                          ? Text("")
+                          : Text(toBeginningOfSentenceCase(bu.name)!,
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
                   ]),
             ),
@@ -183,28 +184,27 @@ class _SettingsState extends State<Settings> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-
                         Padding(
                           padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                           child: Text("Work Time",
-                               style: TextStyle(
+                              style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold)),
                         ),
-
                         Padding(
-                          padding:EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
                                   primary: Color(0xff2E593F),
                                   fixedSize: const Size(170, 30)),
-                            child: Text("Recommend Cycle"), onPressed: () {
-                            double workRest = -bu.degree2Recommender();
-                            setState(() {
-                              _currentSliderValue = _cycleTime/(1+workRest)*workRest;
-                            });
-                            
-                          },)
-                        ), 
+                              child: Text("Recommend Cycle"),
+                              onPressed: () {
+                                double workRest = -bu.degree2Recommender();
+                                setState(() {
+                                  _currentSliderValue =
+                                      _cycleTime / (1 + workRest) * workRest;
+                                });
+                              },
+                            )),
                         Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
                             child: Text(_currentSliderValue.toInt().toString() +
@@ -333,9 +333,6 @@ class _SettingsState extends State<Settings> {
                           Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                               child: Text(_cycleTime.toString() + " mins")),
-                          
-              
-                          
                         ]),
 
                         // LUNCH ===========================
@@ -383,7 +380,7 @@ class _SettingsState extends State<Settings> {
                         Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.fromLTRB(20,20,20,0),
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       primary: Color(0xff2E593F),
@@ -436,7 +433,6 @@ class _SettingsState extends State<Settings> {
                     fixedSize: const Size(350, 30),
                   ),
                   onPressed: () async {
-
                     bu.cycleTime = _cycleTime.toInt();
                     bu.workTime = _currentSliderValue.toInt();
                     bu.restTime = (_cycleTime - _currentSliderValue).toInt();
@@ -446,7 +442,6 @@ class _SettingsState extends State<Settings> {
                     int dinnerM = _dinnerTime.minute;
                     bu.lunchTime = (lunchH * 100 + lunchM).toInt();
                     bu.dinnerTime = (dinnerH * 100 + dinnerM).toInt();
-
 
                     await DatabaseService().updateUser(bu, user.uid);
 
