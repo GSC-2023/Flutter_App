@@ -29,6 +29,8 @@ class _BreakState extends State<Break> {
   List<String> onlineFriends = [];
   List<PhotoItem> users = [];
   bool loading = true;
+  int userBreakTime = 60; // default
+
   @override
   void initState() {
     super.initState();
@@ -68,6 +70,7 @@ class _BreakState extends State<Break> {
     }
     setState(() {
       loading = false;
+      userBreakTime = bu.restTime;
     });
     return;
   }
@@ -178,7 +181,7 @@ class _BreakState extends State<Break> {
                   },
                   width: 250,
                   controller: controller,
-                  duration: 10,
+                  duration: userBreakTime*60, // only accepts seconds
                   autoStart: false,
                   strokeWidth: 5,
                   isTimerTextShown: true,
