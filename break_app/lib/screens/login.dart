@@ -106,7 +106,10 @@ class _LoginState extends State<Login> {
                                 _passwordController.text);
                             //GET data for a UID
                             if (profile != null) {
-                              Navigator.pushNamed(context, '/Home');
+                              Navigator.pushNamed(
+                                context, 
+                                '/Home',
+                              );
                             } else {
                               setState(() {
                                 showText = true;

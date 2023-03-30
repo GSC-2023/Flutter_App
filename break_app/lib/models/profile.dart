@@ -1,5 +1,7 @@
 class profile {
   final String uid;
   final String name;
-  profile({required this.name, required this.uid});
+  int userWorkMinutesElapsed;
+  int userBreakMinutesElapsed;
+  profile({required this.name, required this.uid, required this.userWorkMinutesElapsed, required this.userBreakMinutesElapsed});
 }
