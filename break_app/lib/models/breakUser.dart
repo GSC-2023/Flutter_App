@@ -56,6 +56,8 @@ class breakUser {
       return false; //no such user
     }
     friendUser.meetups.remove(this.name);
+    var friendUid = await DatabaseService().getUidWithName(friendName);
+    await DatabaseService().updateUser(friendUser, friendUid!);
     this.meetups.remove(friendName);
     return true;
   }
@@ -66,6 +68,8 @@ class breakUser {
       return false; //no such user
     }
     _addUserFriends(this, friendUser);
+    var friendUid = await DatabaseService().getUidWithName(friendName);
+    await DatabaseService().updateUser(friendUser, friendUid!);
     if (this.meetups.containsKey(friendName)) {
       return true; //already added friend
     } else {
@@ -74,12 +78,10 @@ class breakUser {
     }
   }
 
-  void _addUserFriends(user, friend) {
+  void _addUserFriends(user, friend) async {
     if (friend.meetups.containsKey(user.name)) {
-      return; //already added friend
     } else {
       friend.meetups[user.name] = [];
-      return;
     }
   }
 
@@ -127,7 +129,7 @@ class breakUser {
       var work = e[0];
       var rest = e[1];
       var walk = e[2];
-      var ratio = work / (rest+walk);
+      var ratio = work / (rest + walk);
       variables.add(ratio);
       var happiness = e[3] + .0;
       happinessIndex.add(happiness);
