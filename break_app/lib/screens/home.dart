@@ -44,8 +44,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    user = Provider.of<profile>(context);
-    inspect(user);
+    // user = Provider.of<profile>(context);
+    // inspect(user);
 
     WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
       user = Provider.of<profile>(context, listen: false);
@@ -57,10 +57,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // user = Provider.of<profile>(context);
-    inspect(user);
-    inspect(bu);
+    user = Provider.of<profile>(context);
     // getBreakUser(user);
+    // inspect(user);
+    inspect(bu);
+
     return Scaffold(
       backgroundColor: Grey,
       drawer: CustomDrawer(),
