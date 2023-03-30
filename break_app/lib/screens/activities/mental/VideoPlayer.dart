@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -5,7 +7,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:break_app/colors/colors.dart';
 
 class VideoApp extends StatefulWidget {
-  const VideoApp({super.key});
+  final String type;
+  VideoApp({required this.type});
 
   @override
   _VideoAppState createState() => _VideoAppState();
@@ -13,34 +16,33 @@ class VideoApp extends StatefulWidget {
 
 class _VideoAppState extends State<VideoApp> {
   late VideoPlayerController _controller;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _initVideoPlayer();
-    // _controller = VideoPlayerController.network(
-    //     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
-    //   ..initialize().then((_) {
-    //     // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-    //     setState(() {});
-    //   });
   }
 
   void _initVideoPlayer() async {
     final storageRef = FirebaseStorage.instance.ref();
-    final breathingRef = storageRef.child('Breathing Exercises');
-    final ListResult result = await breathingRef.list();
+    final videoRef = widget.type == "breathing"
+        ? storageRef.child('Breathing Exercises')
+        : storageRef.child('Soothing Podcasts');
+    final ListResult result = await videoRef.list();
     final List<Reference> allFiles = result.items;
-    List<Map<String, dynamic>> files = [];
+    List<String> files = [];
     await Future.forEach<Reference>(allFiles, (file) async {
       final String fileUrl = await file.getDownloadURL();
-      files.add({
-        "url": fileUrl, //to pull image from firebase storage
-      });
+      files.add(fileUrl);
     });
-    _controller = VideoPlayerController.network(files[0]['url']);
+    var rng = Random();
+    int randint = rng.nextInt(5);
+    _controller = VideoPlayerController.network(files[randint]);
     await _controller.initialize();
-    setState(() {});
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -53,23 +55,12 @@ class _VideoAppState extends State<VideoApp> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _controller.value.isInitialized
+        !isLoading
             ? Column(
                 children: [
                   Container(
-                    // decoration: BoxDecoration(
-                    //     shape: BoxShape.rectangle,
-                    //     boxShadow: [
-                    //       BoxShadow(
-                    //         color: Colors.grey.shade400,
-                    //         offset: Offset(0, 5.0),
-                    //         blurRadius: 20.0
-                    //       )
-                    //     ]
-                    //   ),
                     child: AspectRatio(
                         aspectRatio: _controller.value.aspectRatio,
-                        // child: VideoPlayer(_controller),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: VideoPlayer(_controller),
