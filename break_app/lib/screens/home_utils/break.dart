@@ -8,6 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
+import 'package:break_app/screens/home_utils/clickableText.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import '../../firebase/database.dart';
 import '../../models/breakUser.dart';
@@ -39,6 +42,20 @@ class _BreakState extends State<Break> {
       _loadFriends();
     });
   }
+
+
+
+void launchTelegram(username) async{
+  String url =
+          "https://telegram.me/" + username + "GSC";
+  Uri toLaunch = Uri.parse(url);
+    // print("launchingUrl: $url");
+    if (await canLaunchUrl(toLaunch)) {
+      await launchUrl(toLaunch, 
+      mode: LaunchMode.externalApplication);
+    }
+
+}
 
   final CountDownController controller = new CountDownController();
 
@@ -95,7 +112,7 @@ class _BreakState extends State<Break> {
               scrollDirection: Axis.horizontal,
               children: users
                   .map(
-                    (user) => Column(
+                    (friendUser) => Column(
                       children: [
                         Container(
                           height: 75,
@@ -107,20 +124,27 @@ class _BreakState extends State<Break> {
                             ),
                             borderRadius: BorderRadius.circular(150),
                             image: DecorationImage(
-                              image: NetworkImage(user.image),
+                              image: NetworkImage(friendUser.image),
                               fit: BoxFit.fill,
                             ),
                           ),
                           margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                         ),
-                        Text(
-                          toBeginningOfSentenceCase(user.name)!,
-                          style: TextStyle(
-                            fontSize: 15,
-                            // fontFamily:
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        // ElevatedButton(
+                        //   onPressed: (){}, 
+                        //   child: Text(user.name))
+                        ClickableUnderlineText(text: friendUser.name,  onTap: (){
+                          bu.addMeetupNow(friendUser.name, user.uid);
+                          launchTelegram(friendUser.name);
+                        },),
+                        // Text(
+                        //   toBeginningOfSentenceCase(user.name)!,
+                        //   style: TextStyle(
+                        //     fontSize: 15,
+                        //     // fontFamily:
+                        //     fontWeight: FontWeight.bold,
+                        //   ),
+                        // ),
                       ],
                     ),
                   )

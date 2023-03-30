@@ -156,7 +156,7 @@ class _StatisticsState extends State<Statistics>{
                       style: TextStyle(fontSize : 20.0, fontWeight: FontWeight.bold, color: Color(0xff2E593F)),
                     ),
                     Padding(padding: EdgeInsets.symmetric(vertical:10.0),
-                    child:Text((_work / (_rest + _walk)).toString(),
+                    child:Text((_work / (_rest + _walk)).toStringAsPrecision(3),
                       style: TextStyle(fontSize : 32.0, fontWeight: FontWeight.w900, color: Color(0xff2E593F)),
                     ), ),
                   ],
