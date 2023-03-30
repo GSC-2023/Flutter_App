@@ -21,23 +21,9 @@ class DatabaseService {
       // inspect(data);
       dataout = data;
     });
-      print(dataout);
+      // print(dataout);
       return dataout;
   }
-
-
-  // Future<breakUser> getUser(uid) async {
-  //   var user;
-  //   await usersCollection.doc(uid).get().then((DocumentSnapshot doc) {
-  //     final data = doc.data() as Map<String, dynamic>;
-  //     //inspect(data);
-  //     //print(data['meetups'].runtimeType);
-  //     //print(data['dailyStats'].runtimeType);
-  //     user = jsonToObject(data);
-  //   });
-  //   return user;
-  // }
-
 
   
 
@@ -121,9 +107,8 @@ class DatabaseService {
       cycleTime: data['cycleTime'],
       lunchTime: data['lunchTime'],
       dinnerTime: data['dinnerTime'],
-      happinessIndex: data['happinessIndex'],
       meetups: data['meetups'], //{name: [dates]}
-      dailyStats: data['dailyStats'], //{day:[work,rest,walk]}
+      dailyStats: data['dailyStats'], //{day:[work,rest,walk, happiness]}
       imageurl: data['imageurl'],
       onBreak: data['onBreak'],
     );
@@ -138,16 +123,15 @@ class DatabaseService {
       cycleTime: 3,
       lunchTime: 1200,
       dinnerTime: 1400,
-      happinessIndex: [1, 2, 3, 4, 5],
       meetups: {
         'tommy': ['170323'],
         'timmy': ['170323', '180323'],
         'sammy': ['170323', '180323', '190323']
       },
       dailyStats: {
-        '170323': [1, 2, 3],
-        '180323': [4, 5, 7],
-        '190323': [2, 8, 9]
+        '170323': [1, 2, 3, 5],
+        '180323': [4, 5, 7, 6],
+        '190323': [2, 8, 9, 7]
       }, //daily: work, rest, walk
       imageurl: 'imageurl',
       onBreak: true,

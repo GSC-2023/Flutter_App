@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:intl/intl.dart';
-
+import 'package:scidart/numdart.dart';
 import '../firebase/database.dart';
 
 class breakUser {
@@ -10,9 +10,8 @@ class breakUser {
   int cycleTime;
   int lunchTime;
   int dinnerTime;
-  List<dynamic> happinessIndex;
   Map<String, dynamic> meetups; //name: [dates]
-  Map<String, dynamic> dailyStats; //daily: work, rest, walk
+  Map<String, dynamic> dailyStats; //daily: work, rest, walk, happinessIndex
   String imageurl;
   bool onBreak;
 
@@ -23,7 +22,6 @@ class breakUser {
     required this.cycleTime,
     required this.lunchTime,
     required this.dinnerTime,
-    required this.happinessIndex,
     required this.meetups,
     required this.dailyStats,
     required this.imageurl,
@@ -38,7 +36,6 @@ class breakUser {
       'cycleTime': cycleTime,
       'lunchTime': lunchTime,
       'dinnerTime': dinnerTime,
-      'happinessIndex': happinessIndex,
       'meetups': meetups,
       'dailyStats': dailyStats,
       'imageurl': imageurl,
@@ -46,11 +43,11 @@ class breakUser {
     };
   }
 
-  void addDailyStatsNow(work, rest, walk) {
+  void addDailyStatsNow(work, rest, walk, happiness) {
     DateTime now = new DateTime.now();
     var formatter = new DateFormat('ddMMyy');
     String formattedDate = formatter.format(now);
-    this.dailyStats[formattedDate] = [work, rest, walk];
+    this.dailyStats[formattedDate] = [work, rest, walk, happiness];
   }
 
   Future<bool> removeFriend(friendName) async {
@@ -121,5 +118,59 @@ class breakUser {
     //to be called when on and off
     onBreak = status;
     return onBreak;
+  }
+
+  double degree2Recommender() {
+    List variables = [];
+    List happinessIndex = [];
+    dailyStats.values.forEach((e) {
+      var work = e[0];
+      var rest = e[1];
+      var walk = e[2];
+      var ratio = work / (rest+walk);
+      variables.add(ratio);
+      var happiness = e[3] + .0;
+      happinessIndex.add(happiness);
+    });
+    PolyFit best = PolyFit(Array(variables.cast<double>()),
+        Array(happinessIndex.cast<double>()), 2);
+    var ratio = -(best.coefficient(1) / 2 * best.coefficient(0));
+    print(ratio);
+    return ratio;
+  }
+
+  double workRestRatioRecommender() {
+    PolyFit best = polynomialDegreeRecommender();
+    print(best.coefficients());
+    print(best.polyDegree());
+    var ratio = (-best.coefficient(1) / 2 * best.coefficient(0));
+    print(ratio);
+    return ratio;
+  }
+
+  PolyFit polynomialDegreeRecommender() {
+    List variables = [];
+    List happinessIndex = [];
+    dailyStats.values.forEach((e) {
+      var work = e[0];
+      var rest = e[1];
+      var ratio = work / rest;
+      variables.add(ratio);
+      var happiness = e[3] + .0;
+      happinessIndex.add(happiness);
+    });
+    var degrees = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    var bestR2value = 0.0;
+    late PolyFit best;
+    for (var degree in degrees) {
+      var current = PolyFit(Array(variables.cast<double>()),
+          Array(happinessIndex.cast<double>()), degree);
+      inspect(current.R2());
+      if (current.R2() > bestR2value) {
+        bestR2value = current.R2();
+        best = current;
+      }
+    }
+    return best;
   }
 }
