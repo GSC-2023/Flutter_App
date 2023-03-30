@@ -1,4 +1,4 @@
-# Breakify
+# Breakify | Google Solutions Challenge 2023
 <img width="849" alt="Screen Shot 2023-03-31 at 00 49 27 AM" src="https://user-images.githubusercontent.com/83695082/228908293-4e76bf60-3973-4dae-9b74-1ccf34d77edf.png">
 
 ## Background
@@ -8,6 +8,8 @@ Numerous Singaporeans adopt a ‘rise and grind’ mentality, deeply ingraining 
 ## Overview
 
 Being students ourselves, we felt that this was an important problem which required our attention. This led to the birth of Breakify, a one-stop platform  primarily targetted at students and working adults to help keep track of their work and rest schedules. Breakify aims to allievate these pains by helping the user keep track of the time that they are working, and remind them to take breaks through the day. Breakify uses a recommendation model to tailor one's work-rest cycle based on past user data. This ensures optimal work and rest timings to aid the user in functioning at his/her peak. 
+
+## [Product Demonstration](https://youtu.be/4fpKCs9l5eE)  
 
 ## Core Functionality
 
@@ -22,7 +24,6 @@ Under the social pages, users can add friends to go on breaks with.
 
 <img width="849" alt="Screen Shot 2023-03-31 at 00 51 28 AM" src="https://user-images.githubusercontent.com/83695082/228908715-9bf2f354-5bea-4733-b2d0-77279057306f.png">
 
-
 ### Activities
 
 Breakify also incorporates the social element by showing other friends who are on breaks as well. The user can simply click on the name of a friend before being linked to Telegram to schedule a meet with them.
@@ -35,7 +36,7 @@ Breakify also incorporates a walk feature, which uses the Google Maps API to gen
 
 <img width="839" alt="Screen Shot 2023-03-31 at 00 52 30 AM" src="https://user-images.githubusercontent.com/83695082/228909437-17571742-d8a4-4f40-b4cd-7000236c633d.png">
 
-### Built With
+## Built With
 <div display:flex>
   <img src="https://user-images.githubusercontent.com/77315991/228887687-b1a889d8-f944-4b93-b3a7-4217b281fbe6.svg" width="48">
   <img src="https://user-images.githubusercontent.com/77315991/228889729-a5ef322c-07cd-40f3-a535-9d4802d3462c.svg" width="60">
@@ -62,7 +63,7 @@ git clone https://github.com/GSC-2023/Flutter_App.git
 Flutter pub get
 ```
 5. This app currently has sign-up capability, however API keys required to be input for the app's functionality:
-* Generate your Firebase Config file at [Firebase](https://firebase.google.com) and insert into the lib directory
+* Generate your Firebase Config file at [Firebase](https://firebase.google.com)
 * Generate your Google Maps API key at [Google Cloud Product](https://cloud.google.com)
 
 6.Running the Application on a Local Simulator. This is best viewed on the iPhone 14 Pro Max or a Pixel 6 Pro Simulator.
@@ -72,7 +73,8 @@ flutter run
 ```
 
 ## UN Sustainable Development Goals
-![image](https://user-images.githubusercontent.com/77315991/228859088-62662343-3e8f-46b2-a487-35aa4912fc5b.png)
+![image](https://user-images.githubusercontent.com/77315991/228919087-0e350441-1a59-47e1-aff1-11a20a3bdf11.png)
+
 Target 3.4: Reduce mortality from non-communicable diseases and promote mental health, is tackled through 
 the following approaches:
 1. Empowering users with instructions on an array of meaningful activities that can be taken during a break to enhance the effectiveness of mental breaks.
@@ -80,10 +82,12 @@ the following approaches:
 3. Leveraging on collected data to recommend a personalised work-rest ratio, Breakify can cater to differing needs.
 4. Intentionally evaluating their mental state at the end of the day subsciously build in users a habit to reflecting their mental state.
 
+![image](https://user-images.githubusercontent.com/77315991/228918953-33dc78c7-02af-49db-9db6-def05b261c07.png)
 
-![4 (1)](https://user-images.githubusercontent.com/83695082/228912332-1b621b79-dcdc-4844-a2ce-9e4dd8f8287b.gif)
 Target 4.7: Education for sustainable development and global citizenship, is tackled through: 
-1. Making accessible easy-to-follow instructions on activities users can take to improve their mental health, a topic that is overlooked in Singapore's education system. 
+1. As university undergraduates who have undergone the Singapore education system, we deeply resonate with the above-mentioned issues
+2. Mental health is an often overlooked topic in our society as it does not manifest itself in a tangible manner compared to physical illnesses
+3. Despite Singapore’s rigorous curriculum, information surrounding mental health is few and far between
 
 ## Developers
 - [Chan Ming Han](https://github.com/minghancmh)
