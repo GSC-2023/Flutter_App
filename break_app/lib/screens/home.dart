@@ -25,22 +25,26 @@ class _HomeState extends State<Home> {
   final CountDownController controller = new CountDownController();
   late profile user;
   late breakUser bu;
-
+  int userWorkTime = 60; // default
+  int userBreakTime = 60; // default
 
   Future<void> getBreakUser(user) async {
     bu = await DatabaseService().getUser(user.uid);
-    print("entered... ");
-    inspect(bu);
+    // print("entered... ");
+    // inspect(bu);
 
     setState(() {
-      
+      userWorkTime = bu.workTime;
+      userBreakTime = bu.restTime;
+      print(userWorkTime);
+      print(userBreakTime);
     });
   }
 
   @override
   void initState() {
     super.initState();
-    user = Provider.of<profile>(context);
+    // user = Provider.of<profile>(context);
     // inspect(user);
 
     WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
@@ -53,10 +57,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // user = Provider.of<profile>(context);
+    user = Provider.of<profile>(context);
+    getBreakUser(user);
     // inspect(user);
     // inspect(bu);
-    // getBreakUser(user);
+
     return Scaffold(
       backgroundColor: Grey,
       drawer: CustomDrawer(),
