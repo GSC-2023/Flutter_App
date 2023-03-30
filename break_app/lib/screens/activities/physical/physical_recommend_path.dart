@@ -97,79 +97,77 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
         context: context, 
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         builder: (context) {
-          return Expanded(
-                child: ListView(
-                children: [
-                  SizedBox(height: 20,),
+          return ListView(
+            children: [
+              SizedBox(height: 20,),
+              
+              if(nearbyPlacesResponse.results!.length != 0)...[
+                Text(
+                'Tap for directions',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  // fontFamily: ,
+                  color: Color(0xff2E593F)
+                  ),
+                ),
+
+                SizedBox(height: 20,),
+
+                for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
                   
-                  if(nearbyPlacesResponse.results!.length != 0)...[
-                    Text(
-                    'Tap for directions',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      // fontFamily: ,
-                      color: Color(0xff2E593F)
-                      ),
+
+                  AmenityCard(
+                    name: nearbyPlacesResponse.results![i].name,
+                    type: nearbyPlacesResponse.results![i].icon,
+                    duration: time,
+                    latDest: nearbyPlacesResponse.results![i].geometry!.location!.lat,
+                    lngDest: nearbyPlacesResponse.results![i].geometry!.location!.lng
                     ),
+                  ]
+                  else... [
+                  Text(
+                  'Aw, snap!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    // fontFamily: ,
+                    color: Color(0xff2E593F)
+                    ),
+                  ),
 
-                    SizedBox(height: 20,),
+                  SizedBox(height: 20,),
+                
+                  Container(
+                    margin: EdgeInsets.only(right: 20, left: 20),
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Icon(
+                              Icons.wrong_location_outlined,
+                              size: 120,
+                              color: Color(0xff2E593F)
+                            ),
+                        
+                        SizedBox(height: 10,),
 
-                    for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
-                      
-
-                      AmenityCard(
-                        name: nearbyPlacesResponse.results![i].name,
-                        type: nearbyPlacesResponse.results![i].icon,
-                        duration: time,
-                        latDest: nearbyPlacesResponse.results![i].geometry!.location!.lat,
-                        lngDest: nearbyPlacesResponse.results![i].geometry!.location!.lng
-                        ),
-                      ]
-                      else... [
-                      Text(
-                      'Aw, snap!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        // fontFamily: ,
-                        color: Color(0xff2E593F)
-                        ),
-                      ),
-
-                      SizedBox(height: 20,),
-                    
-                      Container(
-                        margin: EdgeInsets.only(right: 20, left: 20),
-                        alignment: Alignment.center,
-                        child: Column(
-                          children: [
-                            Icon(
-                                  Icons.wrong_location_outlined,
-                                  size: 120,
-                                  color: Color(0xff2E593F)
-                                ),
+                        Text(
+                          'Sorry! We are unable to find any points of interest nearby. Try entering a longer walk duration!',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Color(0xff2E593F),
                             
-                            SizedBox(height: 10,),
-
-                            Text(
-                              'Sorry! We are unable to find any points of interest nearby. Try entering a longer walk duration!',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Color(0xff2E593F),
-                                
-                              ),
-                              textAlign: TextAlign.center,
-                              )
-                          ],
-                        ),
-                      )
-                      ]
-                    ],
-                 ),
-              );
+                          ),
+                          textAlign: TextAlign.center,
+                          )
+                      ],
+                    ),
+                  )
+                  ]
+                ],
+            );
         }
         );
 

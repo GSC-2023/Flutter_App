@@ -198,8 +198,15 @@ class _BreakState extends State<Break> {
     }
     setState(() {
       userBreakTime = bu.restTime;
+      bu.onBreak = true;
       loading = false;
     });
+
+    print("Break Duration: $userBreakTime");
+    await DatabaseService().updateUser(bu, user.uid);
+    bool breakStatus = bu.onBreak;
+    print("Updated BreakStatus: $breakStatus");
+
     return;
   }
 

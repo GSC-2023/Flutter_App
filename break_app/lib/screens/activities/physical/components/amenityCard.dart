@@ -19,7 +19,7 @@ class AmenityCard extends StatelessWidget {
 
 
   void openGmaps() async {
-  final String url = 'comgooglemaps://'; 
+  final String url = 'comgooglemaps://?daddr=$latDest,$lngDest&directionsmode=walking'; 
   final Uri gmapsUrl = Uri.parse(url);
   if (await canLaunchUrl(gmapsUrl)) {
     await launchUrl(gmapsUrl);
