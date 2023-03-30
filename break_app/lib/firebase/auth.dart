@@ -8,7 +8,7 @@ class AuthService {
   profile? _userFromFireBaseUser(User? user) {
     user != null ? print("welcome " + user.email!.split('@')[0]) : print('nth');
     return user != null
-        ? profile(name: user.email!.split('@')[0], uid: user.uid)
+        ? profile(name: user.email!.split('@')[0], uid: user.uid, userWorkMinutesElapsed: 0, userBreakMinutesElapsed: 0)
         : null;
   }
 
