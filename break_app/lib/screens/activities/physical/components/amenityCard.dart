@@ -6,9 +6,9 @@ class AmenityCard extends StatelessWidget {
   final name;
   final type;
   final duration;
-  final lat;
-  final lng;
-  AmenityCard({required this.name, required this.type, required this.duration, required this.lat, required this.lng});
+  final latDest;
+  final lngDest;
+  AmenityCard({required this.name, required this.type, required this.duration, required this.latDest, required this.lngDest,});
 
   void openGmaps() async {
   final String url = 'comgooglemaps://'; 
@@ -17,7 +17,7 @@ class AmenityCard extends StatelessWidget {
     await launchUrl(gmapsUrl);
   } else {
     // If the app is not installed, launch the website instead
-    final String weburl = 'https://www.google.com/maps/@$lat,$lng,13.67z'; //TODO: USE THE NAME OF THE LOCATION AS THE PATH
+    final String weburl = 'https://www.google.com/maps?f=d&daddr=$latDest,$lngDest&directionsmode=walking'; //TODO: USE THE NAME OF THE LOCATION AS THE PATH
     final Uri webUri = Uri.parse(weburl);
     if (await canLaunchUrl(webUri)) {
       await launchUrl(webUri);
@@ -57,8 +57,8 @@ class AmenityCard extends StatelessWidget {
                     fit: FlexFit.tight,
                     child: CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage(
-                          'assets/icons/${type}.png'), //TODO have more categories of amenities for diff icons
+                      backgroundImage: NetworkImage(
+                          '$type'), //TODO have more categories of amenities for diff icons
                       backgroundColor: Colors.grey[200],
                     ),
                   ),

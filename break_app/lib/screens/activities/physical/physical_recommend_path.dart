@@ -1,13 +1,15 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math';
 import 'package:break_app/models/nearby_response.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:break_app/screens/activities/physical/components/amenityCard.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_utils/utils/poly_utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:break_app/misc_utils/customDrawer.dart';
@@ -22,15 +24,12 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
   
   //Initialised variables for the map
   Position? _currentPosition;
-
   late GoogleMapController mapController;
 
   //Create a controller instance for the Google map widget
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
-
-  NearbyPlacesResponse nearbyPlacesResponse = NearbyPlacesResponse();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,7 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
             setState(() {
               _currentPosition = position;
             });
-            print(_currentPosition);
+            // print(_currentPosition);
           }).catchError((e) {
             print(e);
           });
@@ -67,25 +66,52 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
     double latitude = _currentPosition?.latitude ?? 1.362411725249463;
     double longitude = _currentPosition?.longitude ?? 103.69650653627447;
     String apiKey = dotenv.env['API'].toString();
+    Set<Polyline> _polylines = Set<Polyline>(); //set collection to hold all the polylines 
+    List<LatLng> polylineCoordinates = []; //coordinates making up each polyline
+    PolylinePoints polylinePoints; //reference fetches route betwen source and destination
 
+    // @override
+    // void initState() {
+    //   super.initState();
+    //   polylinePoints = PolylinePoints();
+    // }
+
+    // void _setPolylines() async {
+    //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+    //     apiKey, 
+    //     PointLatLng(latitude, longitude), 
+    //     PointLatLng(latitude, longitude)
+    //     );
+
+    //     if (result.status == 'OK') {
+    //       result.points.forEach((PointLatLng point) {
+    //         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+    //       });
+
+    //       setState(() {
+    //         _polylines.add(
+    //           Polyline(
+    //           width:10 ,
+    //           polylineId: PolylineId('polyline'),
+    //           color: Colors.black,
+    //           points: polylineCoordinates
+    //           )
+    //         );
+    //       });
+    //     }
+    // }
     //fxn to calculate the walk distance
     void _calculatedWalk() async{
       await _getCurrentLocation();
-      
       distance = time*80.4672;
-      
       String distance_string = distance.toString();
-      
       var url = Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude.toString() + ',' + longitude.toString() + '&radius=' + distance_string + '&key=' + apiKey + '&type=tourist_attraction');
       
       var response = await http.post(url);
-
       inspect(jsonDecode(response.body));
-
-      nearbyPlacesResponse = NearbyPlacesResponse.fromJson(jsonDecode(response.body));
-
+      NearbyPlacesResponse nearbyPlacesResponse = NearbyPlacesResponse.fromJson(jsonDecode(response.body));
       for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
-        inspect(nearbyPlacesResponse.results![i].name);
+        print(nearbyPlacesResponse.results![i].geometry!.location!.lat);
 
       setState(() {
       });
@@ -116,10 +142,10 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
                     for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
                       AmenityCard(
                         name: nearbyPlacesResponse.results![i].name,
-                        type: 'park',
+                        type: nearbyPlacesResponse.results![i].icon,
                         duration: time,
-                        lat: 1.3567175,
-                        lng: 104.0124894
+                        latDest: nearbyPlacesResponse.results![i].geometry!.location!.lat,
+                        lngDest: nearbyPlacesResponse.results![i].geometry!.location!.lng
                         ),
                       ]
                       else... [
@@ -193,6 +219,7 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
             compassEnabled: true,
             zoomGesturesEnabled: true,
             zoomControlsEnabled:true,
+            polylines: _polylines,
             initialCameraPosition: CameraPosition(
               target: LatLng(_currentPosition?.latitude ?? 1.362411725249463, _currentPosition?.longitude ?? 103.69650653627447), 
               zoom: 11.0,
