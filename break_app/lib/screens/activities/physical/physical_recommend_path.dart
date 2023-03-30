@@ -58,6 +58,7 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
     void dispose() {
       _durationController.dispose();
       super.dispose();
+
     }
 
     
@@ -67,44 +68,15 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
     double longitude = _currentPosition?.longitude ?? 103.69650653627447;
     String apiKey = dotenv.env['API'].toString();
     Set<Polyline> _polylines = Set<Polyline>(); //set collection to hold all the polylines 
-    List<LatLng> polylineCoordinates = []; //coordinates making up each polyline
-    PolylinePoints polylinePoints; //reference fetches route betwen source and destination
+ 
 
-    // @override
-    // void initState() {
-    //   super.initState();
-    //   polylinePoints = PolylinePoints();
-    // }
-
-    // void _setPolylines() async {
-    //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-    //     apiKey, 
-    //     PointLatLng(latitude, longitude), 
-    //     PointLatLng(latitude, longitude)
-    //     );
-
-    //     if (result.status == 'OK') {
-    //       result.points.forEach((PointLatLng point) {
-    //         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-    //       });
-
-    //       setState(() {
-    //         _polylines.add(
-    //           Polyline(
-    //           width:10 ,
-    //           polylineId: PolylineId('polyline'),
-    //           color: Colors.black,
-    //           points: polylineCoordinates
-    //           )
-    //         );
-    //       });
-    //     }
-    // }
     //fxn to calculate the walk distance
-    void _calculatedWalk() async{
+    void _calculatedWalk(double time) async{
       await _getCurrentLocation();
-      distance = time*80.4672;
+      distance = time*75;
+      print(distance);
       String distance_string = distance.toString();
+      print(distance_string);
       var url = Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude.toString() + ',' + longitude.toString() + '&radius=' + distance_string + '&key=' + apiKey + '&type=tourist_attraction');
       
       var response = await http.post(url);
@@ -240,7 +212,9 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
                     margin: EdgeInsets.only(left: 10, right: 10),
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width-20,
-                      child: TextFormField(
+                      child: TextField(
+                          cursorColor: Color.fromARGB(255, 27, 115, 97),
+                          showCursor: true,
                           autofocus: true,
                           textInputAction: TextInputAction.go,
                           controller: _durationController,
@@ -257,17 +231,10 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
                             fillColor: Colors.white,
                             filled: true,
                             hintText: 'Walk duration',
-                            suffixIcon: Container(
-                              // margin: ,
-                              child: IconButton(
-                                padding: EdgeInsets.only(right: 30, bottom: 35),
-                                onPressed: _calculatedWalk,
-                                icon: Icon(Icons.arrow_right, size: 60,),
-                                color: Color.fromARGB(255, 27, 115, 97),
-                                ),
-                            )
+                            
                           ),
-                          onFieldSubmitted: (value) => time = double.parse(value),
+                          onSubmitted: (value) {_calculatedWalk(double.parse(value));},
+                          // onFieldSubmitted: (value) => time = double.parse(value), 
                         ),
                     ),
                   ),

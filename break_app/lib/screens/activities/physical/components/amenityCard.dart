@@ -68,6 +68,7 @@ class AmenityCard extends StatelessWidget {
                     child: Container(
                         child: Text(
                           name,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 20,
                           ),
