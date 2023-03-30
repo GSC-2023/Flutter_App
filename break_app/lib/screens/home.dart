@@ -13,6 +13,10 @@ import 'package:break_app/firebase/database.dart';
 import 'package:break_app/models/profile.dart';
 
 class Home extends StatefulWidget {
+  // int userWorkMinutesElapsed;
+  // int userBreakMinutesElapsed;
+  // Home(this.userWorkMinutesElapsed, this.userBreakMinutesElapsed);
+  
   @override
   _HomeState createState() => _HomeState();
 }
@@ -25,7 +29,125 @@ class _HomeState extends State<Home> {
   final CountDownController controller = new CountDownController();
   late profile user;
   late breakUser bu;
-  int userWorkTime = 60; // default
+  late int userWorkTime;
+  bool isLoading = true;
+  
+
+  /* This alert is called when the timer naturally runs down and redirects user to break page */
+  showNaturalBreakAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("Start My Break"),
+      onPressed: () {
+        int time = userWorkTime - (controller.getTimeInSeconds() / 60).ceil();
+        user.userWorkMinutesElapsed += time;
+        print("Cumulative work time increased by: $time");
+        Navigator.of(context).pop();
+        Navigator.pushNamed(context, '/Break');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Alert"),
+      content: Text("It's time for a break!"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  /* This alert is called when the timer is forcefully disrupted by user */
+  showForcedBreakAlertDialog(BuildContext context) {
+    // set up the button
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop(); // dismiss dialog
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Confirm"),
+      onPressed: () {
+        int time = userWorkTime - (controller.getTimeInSeconds() / 60).ceil();
+        user.userWorkMinutesElapsed += time;
+        print("Cumulative work time increased by: $time");
+        Navigator.of(context).pop(); // dismiss dialog
+        Navigator.pushNamed(context, '/Break');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Alert"),
+      content: Text("Do you wish to take a break now?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  /* This alert is called when the user clicks on the `End Work` button */
+  showForcedEndDayalertDialog(BuildContext context) {
+    // set up the button
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop(); // dismiss dialog
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Confirm"),
+      onPressed: () async {
+        int _work = user.userWorkMinutesElapsed;
+        int _break = user.userBreakMinutesElapsed;
+        print("Ended. Work: $_work, Break: $_break");
+        bu.addDailyStatsNow(_work, _break, 0, -1);
+        print("Daily stats updated.");
+        print(bu.dailyStats);
+
+        await DatabaseService().updateUser(bu, user.uid);
+
+        Navigator.of(context).pop(); // dismiss dialog
+        Navigator.pushNamed(context, '/Statistics');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Alert"),
+      content: Text("Are you sure you wish to end your work day now?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   Future<void> getBreakUser(user) async {
     bu = await DatabaseService().getUser(user.uid);
@@ -34,8 +156,14 @@ class _HomeState extends State<Home> {
 
     setState(() {
       userWorkTime = bu.workTime;
+      isLoading=false;
+      print("Work Duration: $userWorkTime");
     });
   }
+
+  // Future<void> endWork() async {
+  //   bu.addDailyStatsNow(args, widget.userBreakMinutesElapsed, -1, -1);
+  // }
 
   @override
   void initState() {
@@ -94,19 +222,25 @@ class _HomeState extends State<Home> {
                     offset: Offset(0.0, 20.0),
                     blurRadius: 30.0)
               ]),
-              child: NeonCircularTimer(
+              child: isLoading ?
+              Container():
+              NeonCircularTimer(
                   onComplete: () {
-                    setState(() {});
+                    setState(() {
+                    });
                     if (!restartPressed) showNaturalBreakAlertDialog(context);
                   },
                   width: 250,
                   controller: controller,
-                  duration: userWorkTime*60, // only accepts seconds
+                  // duration: userWorkTime*60,
+                  duration: userWorkTime*60,
                   autoStart: false,
                   strokeWidth: 5,
                   isTimerTextShown: true,
                   neumorphicEffect: true,
                   outerStrokeColor: Colors.grey.shade100,
+                  isReverse: true,
+                  isReverseAnimation: true,
                   innerFillGradient: LinearGradient(colors: [
                     DarkGreen,
                     Colors.green,
@@ -149,6 +283,9 @@ class _HomeState extends State<Home> {
                                     }
                                   : () {
                                       controller.pause();
+                                      print(
+                                        (controller.getTimeInSeconds() / 60).ceil()
+                                      );
                                       setState(() {
                                         paused = true;
                                       });
@@ -246,105 +383,4 @@ class _HomeState extends State<Home> {
           ]),
     );
   }
-}
-
-/* This alert is called when the timer naturally runs down and redirects user to break page */
-showNaturalBreakAlertDialog(BuildContext context) {
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("Start My Break"),
-    onPressed: () {
-      Navigator.of(context).pop();
-      Navigator.pushNamed(context, '/Break');
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Alert"),
-    content: Text("It's time for a break!"),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
-/* This alert is called when the timer is forcefully disrupted by user */
-showForcedBreakAlertDialog(BuildContext context) {
-  // set up the button
-  Widget cancelButton = TextButton(
-    child: Text("Cancel"),
-    onPressed: () {
-      Navigator.of(context).pop(); // dismiss dialog
-    },
-  );
-  Widget continueButton = TextButton(
-    child: Text("Confirm"),
-    onPressed: () {
-      Navigator.of(context).pop(); // dismiss dialog
-      Navigator.pushNamed(context, '/Break');
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Alert"),
-    content: Text("Do you wish to take a break now?"),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
-/* This alert is called when the user clicks on the `End Work` button */
-showForcedEndDayalertDialog(BuildContext context) {
-  // set up the button
-  Widget cancelButton = TextButton(
-    child: Text("Cancel"),
-    onPressed: () {
-      Navigator.of(context).pop(); // dismiss dialog
-    },
-  );
-  Widget continueButton = TextButton(
-    child: Text("Confirm"),
-    onPressed: () {
-      Navigator.of(context).pop(); // dismiss dialog
-      Navigator.pushNamed(context, '/Statistics');
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Alert"),
-    content: Text("Are you sure you wish to end your work day now?"),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }
