@@ -54,7 +54,7 @@ class _SocialSingleState extends State<SocialSingle> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 231, 235, 227),
+        backgroundColor: Colors.grey[200],
         drawer: CustomDrawer(),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),

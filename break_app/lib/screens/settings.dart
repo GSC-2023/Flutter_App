@@ -119,7 +119,7 @@ class _SettingsState extends State<Settings> {
                 controller: controller),
             actions: [TextButton(child: Text("Submit"), onPressed: submit)]));
 
-    return loading? Container() : Scaffold(
+    return Scaffold(
         drawer: CustomDrawer(),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
@@ -163,14 +163,14 @@ class _SettingsState extends State<Settings> {
                             ],
                             borderRadius: BorderRadius.circular(150),
                             image: DecorationImage(
-                              image: NetworkImage(fileUrl),
+                              image:loading?Image.asset('assets/images/dpPlaceholder.png').image:NetworkImage(fileUrl),
                               fit: BoxFit.fill,
                             ),
                           ),
                         )),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0,0,0,30),
-                      child: Text(bu.name,
+                      child: loading?Text(""):Text(bu.name,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
