@@ -1,9 +1,9 @@
-
 // import 'package:break_app/firebase/FaceDetection.dart';
 // import 'package:break_app/firebase/FaceDetectorView.dart';
 
 import 'package:break_app/firebase/auth.dart';
 import 'package:break_app/firebase/imageStorage.dart';
+import 'package:break_app/firebase/imageUpload.dart';
 import 'package:break_app/screens/activities/mental/mental_activities.dart';
 import 'package:break_app/screens/activities/mental/mental_breathing.dart';
 import 'package:break_app/screens/activities/mental/mental_podcast.dart';
@@ -26,10 +26,8 @@ import 'firebase_options.dart';
 import 'package:break_app/screens/signup.dart';
 import 'models/profile.dart';
 
-
-
 Future main() async {
- await dotenv.load(fileName: '.env');
+  await dotenv.load(fileName: '.env');
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -50,7 +48,7 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           '/': (context) => Login(),
           '/Signup': (context) => SignUpPage(),
-          //'/': (context) => ImageUpload(),
+          //'/': (context) => imageStorage(),
           //'/': (context) => Social(),
           '/Home': (context) => Home(),
           '/Break': (context) => Break(),

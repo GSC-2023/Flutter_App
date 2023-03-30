@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:break_app/firebase/database.dart';
 import 'package:break_app/screens/socialSingle.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +58,8 @@ class _SocialState extends State<Social> {
     List<Map<String, dynamic>> files = [];
     await Future.forEach<Reference>(allFiles, (file) async {
       final String fileUrl = await file.getDownloadURL();
-      var name = file.fullPath.split('.')[0];
+      var pathname = file.fullPath.split('.')[0];
+      var name = pathname.split('/')[1];
       if (friends.contains(name)) {
         files.add({
           "url": fileUrl, //to pull image from firebase storage
@@ -75,8 +78,9 @@ class _SocialState extends State<Social> {
   }
 
   Future<ListResult> _loadImages() async {
-    FirebaseStorage storage = FirebaseStorage.instance;
-    final ListResult result = await storage.ref().list();
+    final storageRef = FirebaseStorage.instance.ref();
+    final profilesRef = storageRef.child("Profiles");
+    final ListResult result = await profilesRef.list();
     return result;
   }
 
@@ -96,7 +100,7 @@ class _SocialState extends State<Social> {
       final List<Reference> allFiles = result.items;
       await Future.forEach<Reference>(allFiles, (file) async {
         final String fileUrl = await file.getDownloadURL();
-        var friendName = file.fullPath.split('.')[0];
+        var friendName = file.fullPath.split('.')[0].split('/')[1];
         if (name == friendName) {
           newFriend = PhotoItem(fileUrl, name);
           Navigator.push(

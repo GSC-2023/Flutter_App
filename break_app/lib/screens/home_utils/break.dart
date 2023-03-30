@@ -178,7 +178,8 @@ void launchTelegram(username) async{
   final CountDownController controller = new CountDownController();
 
   Future _loadFriends() async {
-    FirebaseStorage storage = FirebaseStorage.instance;
+    final storageRef = FirebaseStorage.instance.ref();
+    final profilesRef = storageRef.child("Profiles");
     bu = await DatabaseService().getUser(user.uid);
     var friends = bu.meetups.keys.toList();
     for (var friend in friends) {
@@ -187,12 +188,12 @@ void launchTelegram(username) async{
         onlineFriends.add(friend);
       }
     }
-    final ListResult result = await storage.ref().list();
+    final ListResult result = await profilesRef.list();
     final List<Reference> allFiles = result.items;
     List<Map<String, dynamic>> files = [];
     await Future.forEach<Reference>(allFiles, (file) async {
       final String fileUrl = await file.getDownloadURL();
-      var name = file.fullPath.split('.')[0];
+      var name = file.fullPath.split('.')[0].split('/')[1];
       if (onlineFriends.contains(name)) {
         files.add({
           "url": fileUrl, //to pull image from firebase storage
