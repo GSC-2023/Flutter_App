@@ -70,10 +70,14 @@ class _SocialSingleState extends State<SocialSingle> {
           foregroundColor: Color(0xECEAEA),
         ),
         body: Container(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-          child: Column(children: [
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
             loading
-                ? Column(children: [
+                ? Column(
+                  children: [
                     SizedBox(
                       height: 100,
                     ),
@@ -88,6 +92,17 @@ class _SocialSingleState extends State<SocialSingle> {
                     ),
                   ])
                 : Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: White,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade500,
+                        offset: Offset(10.0, 25.0),
+                        blurRadius: 70.0
+                      )
+                    ]
+                  ),
                     margin: EdgeInsetsDirectional.symmetric(
                         vertical: 10, horizontal: 0),
                     child: Column(
@@ -99,8 +114,9 @@ class _SocialSingleState extends State<SocialSingle> {
                               toBeginningOfSentenceCase(widget.users.name)!,
                               style: TextStyle(
                                 fontSize: 30,
-                                // fontFamily:
-                                fontWeight: FontWeight.bold,
+                                color: DarkGreen
+                                // fontFamily: 'League Spartan',
+                                // fontWeight: FontWeight.bold,
                               ),
                             )),
                         //USER IMAGE
@@ -195,7 +211,7 @@ class _SocialSingleState extends State<SocialSingle> {
 
                         //SOCIAL BUTTONS
                         Container(
-                          margin: EdgeInsetsDirectional.only(top: 30),
+                          margin: EdgeInsetsDirectional.only(top: 30, bottom: 30),
                           child: Row(
                               // crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
