@@ -29,23 +29,19 @@ class _HomeState extends State<Home> {
 
   Future<void> getBreakUser(user) async {
     bu = await DatabaseService().getUser(user.uid);
-    // inspect(bu);
-
-
-
-
+    print("entered... ");
+    inspect(bu);
 
     setState(() {
       
     });
-
   }
 
   @override
   void initState() {
     super.initState();
     user = Provider.of<profile>(context);
-    inspect(user);
+    // inspect(user);
 
     WidgetsBinding.instance.addPostFrameCallback((Timestamp) {
       user = Provider.of<profile>(context, listen: false);
@@ -58,8 +54,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     // user = Provider.of<profile>(context);
-    inspect(user);
-    inspect(bu);
+    // inspect(user);
+    // inspect(bu);
     // getBreakUser(user);
     return Scaffold(
       backgroundColor: Grey,
