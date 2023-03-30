@@ -5,7 +5,6 @@ import 'package:break_app/misc_utils/customDrawer.dart';
 import 'VideoPlayer.dart';
 import 'package:break_app/colors/colors.dart';
 
-
 class Mental_Podcast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class Mental_Podcast extends StatelessWidget {
         backgroundColor: Color(0xECEAEA),
         shadowColor: Color(0xECEAEA),
         surfaceTintColor: Color(0xECEAEA),
-        foregroundColor:  Color(0xECEAEA),
+        foregroundColor: Color(0xECEAEA),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +52,7 @@ class Mental_Podcast extends StatelessWidget {
                   //         )
                   //       ]
                   //     ),
-                  child: VideoApp(),
+                  child: VideoApp(type: 'soothing'),
                 ),
               ],
             ),
