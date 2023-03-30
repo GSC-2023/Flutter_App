@@ -163,33 +163,33 @@ class _SocialSingleState extends State<SocialSingle> {
                                     ],
                                   ),
                                 ),
-                                Container(
-                                  height: 90,
-                                  width: 150,
-                                  padding: EdgeInsets.all(10),
-                                  color: Colors.transparent,
-                                  alignment: Alignment.topCenter,
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'Streak',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          // fontWeight: FontWeight.bold
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        '$streak',
-                                        style: TextStyle(
-                                            fontSize: 35,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                // Container(
+                                //   height: 90,
+                                //   width: 150,
+                                //   padding: EdgeInsets.all(10),
+                                //   color: Colors.transparent,
+                                //   alignment: Alignment.topCenter,
+                                //   child: Column(
+                                //     children: [
+                                //       Text(
+                                //         'Streak',
+                                //         style: TextStyle(
+                                //           fontSize: 15,
+                                //           // fontWeight: FontWeight.bold
+                                //         ),
+                                //       ),
+                                //       SizedBox(
+                                //         height: 10,
+                                //       ),
+                                //       Text(
+                                //         '$streak',
+                                //         style: TextStyle(
+                                //             fontSize: 35,
+                                //             fontWeight: FontWeight.bold),
+                                //       )
+                                //     ],
+                                //   ),
+                                // ),
                               ]),
                         ),
 

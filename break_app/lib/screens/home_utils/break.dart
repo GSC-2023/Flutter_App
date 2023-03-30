@@ -12,7 +12,6 @@ import 'package:break_app/screens/home_utils/clickableText.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-
 import '../../firebase/database.dart';
 import '../../models/breakUser.dart';
 import '../../models/profile.dart';
@@ -201,15 +200,14 @@ class _BreakState extends State<Break> {
     for (var i = 0; i < files.length; i++) {
       users.add(PhotoItem(files[i]['url'], files[i]['name']));
     }
-    setState(() {
-      userBreakTime = bu.restTime;
-      bu.onBreak = true;
-      loading = false;
-    });
+
+    userBreakTime = bu.restTime;
+    bu.onBreak = true;
+    loading = false;
 
     print("Break Duration: $userBreakTime");
     await DatabaseService().updateUser(bu, user.uid);
-
+    setState(() {});
     return;
   }
 
@@ -296,198 +294,196 @@ class _BreakState extends State<Break> {
         surfaceTintColor: Color(0xECEAEA),
         foregroundColor: Color(0xECEAEA),
       ),
-      body: loading ? Column(children: [
-                      SizedBox(
-                        height: 100,
-                      ),
-                      Container(
-                        height: 200,
-                        child: Center(
-                          child: SpinKitFadingCircle(
-                            color: LightBlue,
-                            size: 75.0,
-                          ),
-                        ),
-                      ),
-                    ]) : 
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-              child: Text(
-                "Time to rest!",
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Blue,
+      body: loading
+          ? Column(children: [
+              SizedBox(
+                height: 100,
+              ),
+              Container(
+                height: 200,
+                child: Center(
+                  child: SpinKitFadingCircle(
+                    color: LightBlue,
+                    size: 75.0,
+                  ),
                 ),
               ),
-            ),
-            Container(
-                    child: getFriendPics(),
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                  ),
-            Container(
-              decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.shade400,
-                    offset: Offset(0.0, 20.0),
-                    blurRadius: 30.0)
-              ]),
-              child: loading
-                  ? Container()
-                  : NeonCircularTimer(
-                      onComplete: () {
-                        setState(() {});
-                        if (!restartPressed)
-                          showNaturalWorkAlertDialog(context);
-                      },
-                      width: 250,
-                      controller: controller,
-                      duration: userBreakTime * 60, // only accepts seconds
-                      autoStart: false,
-                      strokeWidth: 5,
-                      isTimerTextShown: true,
-                      neumorphicEffect: true,
-                      isReverse: true,
-                      isReverseAnimation: true,
-                      outerStrokeColor: Colors.grey.shade100,
-                      innerFillGradient: LinearGradient(colors: [
-                        DarkBlue,
-                        LightBlue,
-                      ]),
-                      neonGradient: LinearGradient(colors: [
-                        DarkBlue,
-                        LightBlue,
-                      ]),
-                      strokeCap: StrokeCap.round,
-                      innerFillColor: White,
-                      backgroudColor: White,
-                      neonColor: Colors.blue.shade900),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  0, 0, 0, 0), // TEMP LEFT IN FOR EASY DEV STYLING
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(40, 80, 40, 0),
-              width: double.infinity,
-              height: 275,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 150,
-                        height: 45,
-                        child: GFButton(
-                          onPressed: started
-                              ? (paused
-                                  ? () {
-                                      controller.resume();
-                                      setState(() {
-                                        paused = false;
-                                        started = true;
-                                        restartPressed = false;
-                                      });
-                                    }
-                                  : () {
-                                      controller.pause();
-                                      setState(() {
-                                        paused = true;
-                                      });
-                                    })
-                              : null,
-                          text: paused ? "Resume" : "Pause",
-                          textColor: Blue,
-                          shape: GFButtonShape.pills,
-                          color: White,
-                        ),
-                      ),
-                      Container(
-                        width: 150,
-                        height: 45,
-                        child: GFButton(
-                          onPressed: started
-                              ? () {
-                                  setState(() {
-                                    started = true;
-                                    paused = true;
-                                    completed = false;
-                                    restartPressed = true;
-                                  });
-                                  controller.restart();
-                                  controller.pause();
-                                  setState(() {});
-                                }
-                              : null,
-                          text: "Restart",
-                          textColor: Blue,
-                          shape: GFButtonShape.pills,
-                          color: White,
-                        ),
-                      ),
-                    ],
-                  ),
+            ])
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
                   Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Container(
-                      decoration: started
-                          ? null
-                          : BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey.shade500,
-                                      offset: Offset(10.0, 10.0),
-                                      blurRadius: 30.0)
-                                ]),
-                      height: 45,
-                      child: GFButton(
-                        onPressed: started
-                            ? () {
-                                setState(() {
-                                  completed = true;
-                                });
-                                showForcedWorkAlertDialog(context);
-                              }
-                            : () {
-                                setState(() {
-                                  started = true;
-                                });
-                                controller.start();
-                              },
-                        text: started ? "Go back to Work" : "Begin Break",
-                        textColor: White,
-                        shape: GFButtonShape.pills,
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                    child: Text(
+                      "Time to rest!",
+                      style: TextStyle(
+                        fontSize: 25,
                         color: Blue,
                       ),
                     ),
                   ),
                   Container(
+                    child: getFriendPics(),
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  ),
+                  Container(
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.shade400,
+                          offset: Offset(0.0, 20.0),
+                          blurRadius: 30.0)
+                    ]),
+                    child: loading
+                        ? Container()
+                        : NeonCircularTimer(
+                            onComplete: () {
+                              if (!restartPressed)
+                                showNaturalWorkAlertDialog(context);
+                              setState(() {});
+                            },
+                            width: 250,
+                            controller: controller,
+                            duration:
+                                userBreakTime * 60, // only accepts seconds
+                            autoStart: false,
+                            strokeWidth: 5,
+                            isTimerTextShown: true,
+                            neumorphicEffect: true,
+                            isReverse: true,
+                            isReverseAnimation: true,
+                            outerStrokeColor: Colors.grey.shade100,
+                            innerFillGradient: LinearGradient(colors: [
+                              DarkBlue,
+                              LightBlue,
+                            ]),
+                            neonGradient: LinearGradient(colors: [
+                              DarkBlue,
+                              LightBlue,
+                            ]),
+                            strokeCap: StrokeCap.round,
+                            innerFillColor: White,
+                            backgroudColor: White,
+                            neonColor: Colors.blue.shade900),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                        0, 0, 0, 0), // TEMP LEFT IN FOR EASY DEV STYLING
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(40, 80, 40, 0),
                     width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                    child: Container(
-                      height: 45,
-                      child: GFButton(
-                        onPressed: () {
+                    height: 275,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 150,
+                              height: 45,
+                              child: GFButton(
+                                onPressed: started
+                                    ? (paused
+                                        ? () {
+                                            controller.resume();
+                                            paused = false;
+                                            started = true;
+                                            restartPressed = false;
+                                            setState(() {});
+                                          }
+                                        : () {
+                                            controller.pause();
+                                            paused = true;
+                                            setState(() {});
+                                          })
+                                    : null,
+                                text: paused ? "Resume" : "Pause",
+                                textColor: Blue,
+                                shape: GFButtonShape.pills,
+                                color: White,
+                              ),
+                            ),
+                            Container(
+                              width: 150,
+                              height: 45,
+                              child: GFButton(
+                                onPressed: started
+                                    ? () {
+                                        started = true;
+                                        paused = true;
+                                        completed = false;
+                                        restartPressed = true;
+                                        setState(() {});
+                                        controller.restart();
+                                        controller.pause();
+                                        setState(() {});
+                                      }
+                                    : null,
+                                text: "Restart",
+                                textColor: Blue,
+                                shape: GFButtonShape.pills,
+                                color: White,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                          child: Container(
+                            decoration: started
+                                ? null
+                                : BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey.shade500,
+                                            offset: Offset(10.0, 10.0),
+                                            blurRadius: 30.0)
+                                      ]),
+                            height: 45,
+                            child: GFButton(
+                              onPressed: started
+                                  ? () {
+                                      completed = true;
+                                      setState(() {});
+                                      showForcedWorkAlertDialog(context);
+                                    }
+                                  : () {
+                                      started = true;
+                                      setState(() {});
+                                      controller.start();
+                                    },
+                              text: started ? "Go back to Work" : "Begin Break",
+                              textColor: White,
+                              shape: GFButtonShape.pills,
+                              color: Blue,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                          child: Container(
+                            height: 45,
+                            child: GFButton(
+                              onPressed: () {
                                 completed = true;
                                 showForcedEndDayalertDialog(context);
                               },
-                        text: "End Session",
-                        textColor: White,
-                        shape: GFButtonShape.pills,
-                        color: Colors.red,
-                      ),
+                              text: "End Session",
+                              textColor: White,
+                              shape: GFButtonShape.pills,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            )
-          ]),
+                  )
+                ]),
     );
   }
 }

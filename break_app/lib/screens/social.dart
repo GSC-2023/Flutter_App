@@ -214,7 +214,7 @@ class _SocialState extends State<Social> {
                           itemCount: users.length,
                           itemBuilder: (BuildContext ctx, index) {
                             return Container(
-                                padding: EdgeInsets.only(top: 10),
+                                padding: EdgeInsets.only(top: 20),
                                 child: Column(
                                   children: [
                                     InkWell(
@@ -258,8 +258,6 @@ class _SocialState extends State<Social> {
                                         ),
                                       ),
                                     ),
-
-                                    // Spacer(flex: 1,),
 
                                     Container(
                                       margin:

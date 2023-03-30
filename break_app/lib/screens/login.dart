@@ -1,9 +1,13 @@
 import 'package:break_app/firebase/database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:developer';
 import '../firebase/auth.dart';
 import 'package:break_app/colors/colors.dart';
 import 'package:break_app/screens/home_utils/clickableText.dart';
+
+import '../models/profile.dart';
+import '../models/profile.dart';
 // this page handles auth!
 
 class Login extends StatefulWidget {
@@ -101,15 +105,14 @@ class _LoginState extends State<Login> {
                             fixedSize: const Size(350, 30),
                           ),
                           onPressed: () async {
-                            var profile = await AuthService().signIn(
+                            var profileUser = await AuthService().signIn(
                                 _usernameController.text,
                                 _passwordController.text);
                             //GET data for a UID
-                            if (profile != null) {
-                              Navigator.pushNamed(
-                                context, 
-                                '/Home',
-                              );
+                            if (profileUser != null) {
+                              await Provider.of<profile>(context,
+                                  listen: false);
+                              Navigator.pushNamed(context, '/Home');
                             } else {
                               setState(() {
                                 showText = true;
