@@ -1,4 +1,5 @@
 # Breakify
+<img width="849" alt="Screen Shot 2023-03-31 at 00 49 27 AM" src="https://user-images.githubusercontent.com/83695082/228908293-4e76bf60-3973-4dae-9b74-1ccf34d77edf.png">
 
 ## Background
 
@@ -11,19 +12,24 @@ Being students ourselves, we felt that this was an important problem which requi
 ## Core Functionality
 
 ### Break - Work Timer
+<img width="851" alt="Screen Shot 2023-03-31 at 00 50 36 AM" src="https://user-images.githubusercontent.com/83695082/228908497-7a37fc09-d62e-41fd-a6e6-02d9853ae741.png">
 
 
 ### Social and Meetups
+<img width="849" alt="Screen Shot 2023-03-31 at 00 51 28 AM" src="https://user-images.githubusercontent.com/83695082/228908715-9bf2f354-5bea-4733-b2d0-77279057306f.png">
 
 
 ### Activities
 
-
-
-
 Breakify also incorporates the social element by showing other friends who are on breaks as well. The user can then simply click on the name of their friend which is linked to Telegram to schedule set up a meet with them.
 
+<img width="849" alt="Screen Shot 2023-03-31 at 00 59 20 AM" src="https://user-images.githubusercontent.com/83695082/228910604-978a729a-0e21-428b-9023-8bda76203f74.png">
+
+
+
 Breakify also features a walk feature, which uses the Google Maps API to generate a walking route to a notable landmark based on a user-specified duration.
+
+<img width="839" alt="Screen Shot 2023-03-31 at 00 52 30 AM" src="https://user-images.githubusercontent.com/83695082/228909437-17571742-d8a4-4f40-b4cd-7000236c633d.png">
 
 ### Built With
 <div display:flex>
