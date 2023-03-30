@@ -57,8 +57,8 @@ class AmenityCard extends StatelessWidget {
                     fit: FlexFit.tight,
                     child: CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage(
-                          'assets/icons/${type}.png'), //TODO have more categories of amenities for diff icons
+                      backgroundImage: NetworkImage(
+                          '$type'), //TODO have more categories of amenities for diff icons
                       backgroundColor: Colors.grey[200],
                     ),
                   ),

@@ -142,7 +142,7 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
                     for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
                       AmenityCard(
                         name: nearbyPlacesResponse.results![i].name,
-                        type: 'park',
+                        type: nearbyPlacesResponse.results![i].icon,
                         duration: time,
                         latDest: nearbyPlacesResponse.results![i].geometry!.location!.lat,
                         lngDest: nearbyPlacesResponse.results![i].geometry!.location!.lng
