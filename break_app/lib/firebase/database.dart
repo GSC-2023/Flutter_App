@@ -9,23 +9,23 @@ class DatabaseService {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
 
-  final CollectionReference windDownMessagesCollection= 
+  final CollectionReference windDownMessagesCollection =
       FirebaseFirestore.instance.collection('windDownMessages');
 
-
-  Future<Map<String,dynamic>> getWindDownMessages() async{
+  Future<Map<String, dynamic>> getWindDownMessages() async {
     var dataout;
-    await windDownMessagesCollection.doc("TN4RkOxNNCuYDKwmkR2n").get().then((DocumentSnapshot doc){
-      final data = doc.data() as Map<String,dynamic>;
+    await windDownMessagesCollection
+        .doc("TN4RkOxNNCuYDKwmkR2n")
+        .get()
+        .then((DocumentSnapshot doc) {
+      final data = doc.data() as Map<String, dynamic>;
       // print(data);
       // inspect(data);
       dataout = data;
     });
-      // print(dataout);
-      return dataout;
+    // print(dataout);
+    return dataout;
   }
-
-  
 
   Future<List<dynamic>> getOnBreakUsers(name) async {
     var users = [];
@@ -117,22 +117,15 @@ class DatabaseService {
 
   Future createUser(name, uid) async {
     var user = new breakUser(
+      //default user values
       name: name,
-      workTime: 1,
-      restTime: 2,
-      cycleTime: 3,
+      workTime: 45,
+      restTime: 15,
+      cycleTime: 60,
       lunchTime: 1200,
-      dinnerTime: 1400,
-      meetups: {
-        'tommy': ['170323'],
-        'timmy': ['170323', '180323'],
-        'sammy': ['170323', '180323', '190323']
-      },
-      dailyStats: {
-        '170323': [1, 2, 3, 5],
-        '180323': [4, 5, 7, 6],
-        '190323': [2, 8, 9, 7]
-      }, //daily: work, rest, walk
+      dinnerTime: 1800,
+      meetups: {},
+      dailyStats: {}, //daily: work, rest, walk
       imageurl: 'imageurl',
       onBreak: true,
     );

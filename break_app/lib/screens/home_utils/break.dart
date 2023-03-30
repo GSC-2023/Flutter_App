@@ -258,6 +258,7 @@ class _BreakState extends State<Break> {
                           text: toBeginningOfSentenceCase(friendUser.name)!,
                           onTap: () {
                             bu.addMeetupNow(friendUser.name, user.uid);
+                            DatabaseService().updateUser(bu, user.uid);
                             launchTelegram(friendUser.name);
                           },
                         ),
