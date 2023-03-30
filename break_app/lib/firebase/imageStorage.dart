@@ -15,12 +15,15 @@ class _imageStorageState extends State<imageStorage> {
   bool loading = true;
 
   Future<List<Map<String, dynamic>>> _loadImages() async {
-    FirebaseStorage storage = FirebaseStorage.instance;
+    final storageRef = FirebaseStorage.instance.ref();
+    final profilesRef = storageRef.child("Profiles");
     List<Map<String, dynamic>> files = [];
-    final ListResult result = await storage.ref().list();
+    //final ListResult result = await storage.ref().child("Profiles").list();
+    final ListResult result = await profilesRef.list();
     final List<Reference> allFiles = result.items;
     await Future.forEach<Reference>(allFiles, (file) async {
       final String fileUrl = await file.getDownloadURL();
+      print(fileUrl);
       files.add({
         "url": fileUrl, //to pull image from firebase storage
         "path": file.fullPath, //to delete image on firebase storage
@@ -38,7 +41,7 @@ class _imageStorageState extends State<imageStorage> {
 
   @override
   void initState() {
-     _loadImages();
+    _loadImages();
     super.initState();
   }
 
