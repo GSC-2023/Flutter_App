@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
                 Container(
                   padding: EdgeInsets.all(80),
                   child: Text(
-                    "REQUIEM",
+                    "BREAKIFY",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: DarkGreen,
