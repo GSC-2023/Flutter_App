@@ -203,7 +203,7 @@ class _SocialState extends State<Social> {
                   //GRID OF FRIENDS
                   Expanded(
                       child: Container(
-                      margin: EdgeInsets.only(top: 30),
+                      // margin: EdgeInsets.only(top: 30),
                       child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
