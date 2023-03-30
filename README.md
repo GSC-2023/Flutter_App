@@ -21,7 +21,7 @@ Being students ourselves, we felt that this was an important problem which requi
 
 
 
-Breakify also incorporates the social element by showing other friends who are on breaks as well. The user can then simply click on the name of their friend to set up a meet with them.
+Breakify also incorporates the social element by showing other friends who are on breaks as well. The user can then simply click on the name of their friend which is linked to Telegram to schedule set up a meet with them.
 
 Breakify also features a walk feature, which uses the Google Maps API to generate a walking route to a notable landmark based on a user-specified duration.
 
@@ -30,8 +30,8 @@ Breakify also features a walk feature, which uses the Google Maps API to generat
   <img src="https://user-images.githubusercontent.com/77315991/228887687-b1a889d8-f944-4b93-b3a7-4217b281fbe6.svg" width="48">
   <img src="https://user-images.githubusercontent.com/77315991/228889729-a5ef322c-07cd-40f3-a535-9d4802d3462c.svg" width="60">
   <img src="https://user-images.githubusercontent.com/77315991/228887802-fa5c231a-23f9-4434-b500-099d03aa8d93.svg" width="48">
-  <img src="https://user-images.githubusercontent.com/77315991/228890013-858db7d2-02d6-4f88-bc14-3293185a353d.svg" width="48">
-  <img src="https://user-images.githubusercontent.com/83695082/228895156-8ff3fda1-35bb-49ff-a59a-4ed2b65598a5.svg" width="60">
+  <img src="https://user-images.githubusercontent.com/77315991/228890013-858db7d2-02d6-4f88-bc14-3293185a353d.svg" width="44">
+  <img src="https://user-images.githubusercontent.com/83695082/228895156-8ff3fda1-35bb-49ff-a59a-4ed2b65598a5.svg" width="66">
   <img src="https://user-images.githubusercontent.com/77315991/228890051-3404b183-3cec-4a78-9e3a-b85a49a2781c.svg" width="60">
   <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" width="56">
 </div>
@@ -40,24 +40,26 @@ Breakify also features a walk feature, which uses the Google Maps API to generat
 ## Running Locally
 
 1. Clone the repository
-
 ```sh
 git clone https://github.com/GSC-2023/Flutter_App.git
 ```
-
 2. Install [Flutter](https://docs.flutter.dev/get-started/install)
 
 3. Install [XCode](https://www.freecodecamp.org/news/how-to-download-and-install-xcode/)
 
-4. Running the Application on a Local Simulator. This is best viewed with the iPhone 14 Pro Max Simulator.
+4. Install Flutter packages
 ```sh
-open -a simulator 
-flutter run
+Flutter pub get
 ```
 5. This app currently has sign-up capability, however API keys required to be input for the app's functionality:
 * Generate your Firebase Config file at [Firebase](https://firebase.google.com) and insert into the lib directory
 * Generate your Google Maps API key at [Google Cloud Product](https://cloud.google.com)
 
+6.Running the Application on a Local Simulator. This is best viewed on the iPhone 14 Pro Max or a Pixel 6 Pro Simulator.
+```sh
+open -a simulator 
+flutter run
+```
 
 ## UN Sustainable Development Goals
 ![image](https://user-images.githubusercontent.com/77315991/228859088-62662343-3e8f-46b2-a487-35aa4912fc5b.png)
@@ -73,7 +75,7 @@ the following approaches:
 Target 4.7: Education for sustainable development and global citizenship, is tackled through: 
 1. Making accessible easy-to-follow instructions on activities users can take to improve their mental health, a topic that is overlooked in Singapore's education system. 
 
-## Breakify Developers
+## Developers
 - [Chan Ming Han](https://github.com/minghancmh)
 - [Shawn Chan](https://github.com/shawnkchan)
 - [Wayne Tan Jing Heng](https://github.com/waynetanjingheng)
