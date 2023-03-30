@@ -152,9 +152,14 @@ class _HomeState extends State<Home> {
 
     setState(() {
       userWorkTime = bu.workTime;
+      bu.onBreak = false;
       isLoading=false;
-      print("Work Duration: $userWorkTime");
     });
+
+    print("Work Duration: $userWorkTime");
+    await DatabaseService().updateUser(bu, user.uid);
+    bool breakStatus = bu.onBreak;
+    print("Updated BreakStatus: $breakStatus");
   }
 
   // Future<void> endWork() async {
