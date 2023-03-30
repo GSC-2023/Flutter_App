@@ -1,8 +1,8 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:break_app/colors/colors.dart';
-
 
 class VideoApp extends StatefulWidget {
   const VideoApp({super.key});
@@ -27,8 +27,18 @@ class _VideoAppState extends State<VideoApp> {
   }
 
   void _initVideoPlayer() async {
-    _controller = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+    final storageRef = FirebaseStorage.instance.ref();
+    final breathingRef = storageRef.child('Breathing Exercises');
+    final ListResult result = await breathingRef.list();
+    final List<Reference> allFiles = result.items;
+    List<Map<String, dynamic>> files = [];
+    await Future.forEach<Reference>(allFiles, (file) async {
+      final String fileUrl = await file.getDownloadURL();
+      files.add({
+        "url": fileUrl, //to pull image from firebase storage
+      });
+    });
+    _controller = VideoPlayerController.network(files[0]['url']);
     await _controller.initialize();
     setState(() {});
   }
@@ -58,13 +68,12 @@ class _VideoAppState extends State<VideoApp> {
                     //     ]
                     //   ),
                     child: AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      // child: VideoPlayer(_controller),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: VideoPlayer(_controller),
-                      )
-                    ),
+                        aspectRatio: _controller.value.aspectRatio,
+                        // child: VideoPlayer(_controller),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: VideoPlayer(_controller),
+                        )),
                   ),
                   SizedBox(
                     height: 50,
