@@ -169,7 +169,7 @@ class _SettingsState extends State<Settings> {
                           ),
                         )),
                     Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.fromLTRB(0,0,0,30),
                       child: Text(bu.name,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
@@ -183,12 +183,28 @@ class _SettingsState extends State<Settings> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+
                         Padding(
                           padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                           child: Text("Work Time",
-                              style: TextStyle(
+                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold)),
                         ),
+
+                        Padding(
+                          padding:EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                  primary: Color(0xff2E593F),
+                                  fixedSize: const Size(170, 30)),
+                            child: Text("Recommend Cycle"), onPressed: () {
+                            double workRest = -bu.degree2Recommender();
+                            setState(() {
+                              _currentSliderValue = _cycleTime/(1+workRest)*workRest;
+                            });
+                            
+                          },)
+                        ), 
                         Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
                             child: Text(_currentSliderValue.toInt().toString() +
@@ -227,7 +243,7 @@ class _SettingsState extends State<Settings> {
                       ],
                     ),
                     Padding(
-                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                         child: Column(
                           children: [
                             Row(
@@ -297,7 +313,7 @@ class _SettingsState extends State<Settings> {
                       children: [
                         Row(children: [
                           Padding(
-                            padding: EdgeInsets.all(20),
+                            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                             child: ElevatedButton(
                               child: Text("Cycle Time"),
                               style: ElevatedButton.styleFrom(
@@ -316,14 +332,17 @@ class _SettingsState extends State<Settings> {
                           ),
                           Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: Text(_cycleTime.toString() + " minutes"))
+                              child: Text(_cycleTime.toString() + " mins")),
+                          
+              
+                          
                         ]),
 
                         // LUNCH ===========================
                         Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(20),
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       primary: Color(0xff2E593F),
@@ -364,7 +383,7 @@ class _SettingsState extends State<Settings> {
                         Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(20),
+                              padding: EdgeInsets.fromLTRB(20,20,20,0),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       primary: Color(0xff2E593F),
@@ -408,7 +427,7 @@ class _SettingsState extends State<Settings> {
 
             //   )
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 2),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff2E593F),
@@ -417,6 +436,7 @@ class _SettingsState extends State<Settings> {
                     fixedSize: const Size(350, 30),
                   ),
                   onPressed: () async {
+
                     bu.cycleTime = _cycleTime.toInt();
                     bu.workTime = _currentSliderValue.toInt();
                     bu.restTime = (_cycleTime - _currentSliderValue).toInt();
@@ -426,6 +446,7 @@ class _SettingsState extends State<Settings> {
                     int dinnerM = _dinnerTime.minute;
                     bu.lunchTime = (lunchH * 100 + lunchM).toInt();
                     bu.dinnerTime = (dinnerH * 100 + dinnerM).toInt();
+
 
                     await DatabaseService().updateUser(bu, user.uid);
 

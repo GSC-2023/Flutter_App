@@ -26,7 +26,6 @@ class _HomeState extends State<Home> {
   late profile user;
   late breakUser bu;
   int userWorkTime = 60; // default
-  int userBreakTime = 60; // default
 
   Future<void> getBreakUser(user) async {
     bu = await DatabaseService().getUser(user.uid);
@@ -35,9 +34,6 @@ class _HomeState extends State<Home> {
 
     setState(() {
       userWorkTime = bu.workTime;
-      userBreakTime = bu.restTime;
-      print(userWorkTime);
-      print(userBreakTime);
     });
   }
 
@@ -105,7 +101,7 @@ class _HomeState extends State<Home> {
                   },
                   width: 250,
                   controller: controller,
-                  duration: 10,
+                  duration: userWorkTime*60, // only accepts seconds
                   autoStart: false,
                   strokeWidth: 5,
                   isTimerTextShown: true,

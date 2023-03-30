@@ -126,14 +126,15 @@ class breakUser {
     dailyStats.values.forEach((e) {
       var work = e[0];
       var rest = e[1];
-      var ratio = work / rest;
+      var walk = e[2];
+      var ratio = work / (rest+walk);
       variables.add(ratio);
       var happiness = e[3] + .0;
       happinessIndex.add(happiness);
     });
     PolyFit best = PolyFit(Array(variables.cast<double>()),
         Array(happinessIndex.cast<double>()), 2);
-    var ratio = (best.coefficient(1) / 2 * best.coefficient(0));
+    var ratio = -(best.coefficient(1) / 2 * best.coefficient(0));
     print(ratio);
     return ratio;
   }
