@@ -31,9 +31,11 @@ Breakify also features a walk feature, which uses the Google Maps API to generat
   <img src="https://user-images.githubusercontent.com/77315991/228889729-a5ef322c-07cd-40f3-a535-9d4802d3462c.svg" width="60">
   <img src="https://user-images.githubusercontent.com/77315991/228887802-fa5c231a-23f9-4434-b500-099d03aa8d93.svg" width="48">
   <img src="https://user-images.githubusercontent.com/77315991/228890013-858db7d2-02d6-4f88-bc14-3293185a353d.svg" width="48">
+  <img src="https://user-images.githubusercontent.com/83695082/228895156-8ff3fda1-35bb-49ff-a59a-4ed2b65598a5.svg">
   <img src="https://user-images.githubusercontent.com/77315991/228890051-3404b183-3cec-4a78-9e3a-b85a49a2781c.svg" width="60">
   <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" width="56">
 </div>
+
 
 ## Running Locally
 
