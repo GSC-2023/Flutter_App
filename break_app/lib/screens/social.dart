@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:break_app/colors/colors.dart';
 import 'package:break_app/firebase/database.dart';
 import 'package:break_app/screens/socialSingle.dart';
 import 'package:flutter/material.dart';
@@ -192,8 +193,8 @@ class _SocialState extends State<Social> {
                         height: 200,
                         child: Center(
                           child: SpinKitFadingCircle(
-                            color: Colors.green[200],
-                            size: 100.0,
+                            color: LightBlue,
+                            size: 75.0,
                           ),
                         ),
                       ),

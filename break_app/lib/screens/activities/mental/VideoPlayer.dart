@@ -103,8 +103,8 @@ class _VideoAppState extends State<VideoApp> {
                 height: 200,
                 child: Center(
                   child: SpinKitFadingCircle(
-                    color: DarkGreen,
-                    size: 100.0,
+                    color: LightBlue,
+                    size: 75.0,
                   ),
                 ),
               ),
