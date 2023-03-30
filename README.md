@@ -12,22 +12,26 @@ Being students ourselves, we felt that this was an important problem which requi
 ## Core Functionality
 
 ### Break - Work Timer
+The break-work timer pages are designed to be minimalistic to prevent any distraction during one's work session. Users may intuitively control their break and work sesssions using the buttons below each timer. Should a user be interrupted during a break or work session, he or she has the option to pause their session to ensure that their break and work times are not cut short.
+
 <img width="851" alt="Screen Shot 2023-03-31 at 00 50 36 AM" src="https://user-images.githubusercontent.com/83695082/228908497-7a37fc09-d62e-41fd-a6e6-02d9853ae741.png">
 
-
 ### Social and Meetups
+
+Under the social pages, users can add friends to go on breaks with. 
+
 <img width="849" alt="Screen Shot 2023-03-31 at 00 51 28 AM" src="https://user-images.githubusercontent.com/83695082/228908715-9bf2f354-5bea-4733-b2d0-77279057306f.png">
 
 
 ### Activities
 
-Breakify also incorporates the social element by showing other friends who are on breaks as well. The user can then simply click on the name of their friend which is linked to Telegram to schedule set up a meet with them.
+Breakify also incorporates the social element by showing other friends who are on breaks as well. The user can simply click on the name of a friend before being linked to Telegram to schedule a meet with them.
 
 <img width="849" alt="Screen Shot 2023-03-31 at 00 59 20 AM" src="https://user-images.githubusercontent.com/83695082/228910604-978a729a-0e21-428b-9023-8bda76203f74.png">
 
 
 
-Breakify also features a walk feature, which uses the Google Maps API to generate a walking route to a notable landmark based on a user-specified duration.
+Breakify also incorporates a walk feature, which uses the Google Maps API to generate a walking route to a notable landmark based on a user-specified duration.
 
 <img width="839" alt="Screen Shot 2023-03-31 at 00 52 30 AM" src="https://user-images.githubusercontent.com/83695082/228909437-17571742-d8a4-4f40-b4cd-7000236c633d.png">
 
@@ -77,7 +81,7 @@ the following approaches:
 4. Intentionally evaluating their mental state at the end of the day subsciously build in users a habit to reflecting their mental state.
 
 
-![image](https://user-images.githubusercontent.com/77315991/228859300-4aae893d-df75-4d29-80a0-3832dd0b0107.png)
+![4 (1)](https://user-images.githubusercontent.com/83695082/228912332-1b621b79-dcdc-4844-a2ce-9e4dd8f8287b.gif)
 Target 4.7: Education for sustainable development and global citizenship, is tackled through: 
 1. Making accessible easy-to-follow instructions on activities users can take to improve their mental health, a topic that is overlooked in Singapore's education system. 
 
