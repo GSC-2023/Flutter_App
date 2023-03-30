@@ -13,10 +13,6 @@ import 'package:break_app/firebase/database.dart';
 import 'package:break_app/models/profile.dart';
 
 class Home extends StatefulWidget {
-  // int userWorkMinutesElapsed;
-  // int userBreakMinutesElapsed;
-  // Home(this.userWorkMinutesElapsed, this.userBreakMinutesElapsed);
-  
   @override
   _HomeState createState() => _HomeState();
 }
@@ -370,7 +366,7 @@ class _HomeState extends State<Home> {
                                 showForcedEndDayalertDialog(context);
                               }
                             : null,
-                        text: "End Work",
+                        text: "End",
                         textColor: White,
                         shape: GFButtonShape.pills,
                         color: Colors.red,

@@ -459,7 +459,7 @@ void launchTelegram(username) async{
                                 showForcedEndDayalertDialog(context);
                               }
                             : null,
-                        text: "End Work",
+                        text: "End",
                         textColor: White,
                         shape: GFButtonShape.pills,
                         color: Colors.red,
