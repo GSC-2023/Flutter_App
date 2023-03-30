@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:break_app/screens/home_utils/clickableText.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 import '../../firebase/database.dart';
 import '../../models/breakUser.dart';
 import '../../models/profile.dart';
@@ -43,22 +42,16 @@ class _BreakState extends State<Break> {
     });
   }
 
-
-
-
-void launchTelegram(username) async{
-  String url =
-          "https://telegram.me/" + username + "GSC";
-  Uri toLaunch = Uri.parse(url);
+  void launchTelegram(username) async {
+    String url = "https://telegram.me/" + username + "GSC";
+    Uri toLaunch = Uri.parse(url);
     // print("launchingUrl: $url");
     if (await canLaunchUrl(toLaunch)) {
-      await launchUrl(toLaunch, 
-      mode: LaunchMode.externalApplication);
+      await launchUrl(toLaunch, mode: LaunchMode.externalApplication);
     }
+  }
 
-}
-
-    /* This alert is called when the timer naturally runs down and redirects user to work page */
+  /* This alert is called when the timer naturally runs down and redirects user to work page */
   showNaturalWorkAlertDialog(BuildContext context) {
     // set up the button
     Widget okButton = TextButton(
@@ -174,7 +167,6 @@ void launchTelegram(username) async{
     );
   }
 
-
   final CountDownController controller = new CountDownController();
 
   Future _loadFriends() async {
@@ -250,12 +242,15 @@ void launchTelegram(username) async{
                           margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                         ),
                         // ElevatedButton(
-                        //   onPressed: (){}, 
+                        //   onPressed: (){},
                         //   child: Text(user.name))
-                        ClickableUnderlineText(text: friendUser.name,  onTap: (){
-                          bu.addMeetupNow(friendUser.name, user.uid);
-                          launchTelegram(friendUser.name);
-                        },),
+                        ClickableUnderlineText(
+                          text: toBeginningOfSentenceCase(friendUser.name)!,
+                          onTap: () {
+                            bu.addMeetupNow(friendUser.name, user.uid);
+                            launchTelegram(friendUser.name);
+                          },
+                        ),
                         // Text(
                         //   toBeginningOfSentenceCase(user.name)!,
                         //   style: TextStyle(
@@ -317,35 +312,36 @@ void launchTelegram(username) async{
                     offset: Offset(0.0, 20.0),
                     blurRadius: 30.0)
               ]),
-              child: loading ? 
-              Container() :
-              NeonCircularTimer(
-                  onComplete: () {
-                    setState(() {});
-                    if (!restartPressed) showNaturalWorkAlertDialog(context);
-                  },
-                  width: 250,
-                  controller: controller,
-                  duration: userBreakTime*60, // only accepts seconds
-                  autoStart: false,
-                  strokeWidth: 5,
-                  isTimerTextShown: true,
-                  neumorphicEffect: true,
-                  isReverse: true,
-                  isReverseAnimation: true,
-                  outerStrokeColor: Colors.grey.shade100,
-                  innerFillGradient: LinearGradient(colors: [
-                    DarkBlue,
-                    LightBlue,
-                  ]),
-                  neonGradient: LinearGradient(colors: [
-                    DarkBlue,
-                    LightBlue,
-                  ]),
-                  strokeCap: StrokeCap.round,
-                  innerFillColor: White,
-                  backgroudColor: White,
-                  neonColor: Colors.blue.shade900),
+              child: loading
+                  ? Container()
+                  : NeonCircularTimer(
+                      onComplete: () {
+                        setState(() {});
+                        if (!restartPressed)
+                          showNaturalWorkAlertDialog(context);
+                      },
+                      width: 250,
+                      controller: controller,
+                      duration: userBreakTime * 60, // only accepts seconds
+                      autoStart: false,
+                      strokeWidth: 5,
+                      isTimerTextShown: true,
+                      neumorphicEffect: true,
+                      isReverse: true,
+                      isReverseAnimation: true,
+                      outerStrokeColor: Colors.grey.shade100,
+                      innerFillGradient: LinearGradient(colors: [
+                        DarkBlue,
+                        LightBlue,
+                      ]),
+                      neonGradient: LinearGradient(colors: [
+                        DarkBlue,
+                        LightBlue,
+                      ]),
+                      strokeCap: StrokeCap.round,
+                      innerFillColor: White,
+                      backgroudColor: White,
+                      neonColor: Colors.blue.shade900),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(
