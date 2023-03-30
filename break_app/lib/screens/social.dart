@@ -140,7 +140,7 @@ class _SocialState extends State<Social> {
           foregroundColor: Color(0xECEAEA),
         ),
         body: Container(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
           child: Column(
             children: [
               //SEARCH BAR
@@ -149,28 +149,28 @@ class _SocialState extends State<Social> {
                   children: <Widget>[
                     SizedBox(height: 20.0),
                     Material(
-                      color: Colors.transparent,
-                      elevation: 10.0,
-                      shadowColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Container(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width-25,
+                        color: Colors.transparent,
+                        elevation: 10.0,
+                        shadowColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Container(
+                            child: SizedBox(
+                          width: MediaQuery.of(context).size.width - 25,
                           child: TextFormField(
                               controller: searchNameController,
                               onFieldSubmitted: (value) =>
                                   searchFriend(value, context),
-                            decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(width: 2, color: Colors.white )
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(width: 2, color: Colors.white )
-                                  ),
+                              decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(
+                                          width: 2, color: Colors.white)),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(
+                                          width: 2, color: Colors.white)),
                                   hintText: 'Search',
                                   hintStyle: TextStyle(
                                       color: Color.fromARGB(255, 27, 115, 97)),
@@ -179,9 +179,7 @@ class _SocialState extends State<Social> {
                                   prefixIcon: Icon(Icons.search),
                                   prefixIconColor:
                                       Color.fromARGB(255, 27, 115, 97))),
-                          )
-                        )
-                    ),
+                        ))),
                   ],
                 ),
               ),
@@ -215,65 +213,70 @@ class _SocialState extends State<Social> {
                           itemCount: users.length,
                           itemBuilder: (BuildContext ctx, index) {
                             return Container(
+                                padding: EdgeInsets.only(top: 10),
                                 child: Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => SocialSingle(
-                                                user: user,
-                                                users: users[index],
-                                                deleteFriend: deleteFriend,
-                                                addFriend: addFriend)));
-                                  },
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: Container(
-                                      margin: EdgeInsetsDirectional.symmetric(
-                                          vertical: 0),
-                                      height: 130,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 4,
-                                              color: Color.fromARGB(
-                                                  255, 27, 115, 97)),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black,
-                                              spreadRadius: 1,
-                                              blurRadius: 5,
-                                            )
-                                          ],
-                                          image: DecorationImage(
-                                            fit: BoxFit.fitHeight,
-                                            image: NetworkImage(
-                                                users[index].image),
-                                          ),
-                                          shape: BoxShape.circle),
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SocialSingle(
+                                                        user: user,
+                                                        users: users[index],
+                                                        deleteFriend:
+                                                            deleteFriend,
+                                                        addFriend: addFriend)));
+                                      },
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: Container(
+                                          margin:
+                                              EdgeInsetsDirectional.symmetric(
+                                                  vertical: 0),
+                                          height: 130,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  width: 4,
+                                                  color: Color.fromARGB(
+                                                      255, 27, 115, 97)),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black,
+                                                  spreadRadius: 1,
+                                                  blurRadius: 5,
+                                                )
+                                              ],
+                                              image: DecorationImage(
+                                                fit: BoxFit.fitHeight,
+                                                image: NetworkImage(
+                                                    users[index].image),
+                                              ),
+                                              shape: BoxShape.circle),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
 
-                                // Spacer(flex: 1,),
+                                    // Spacer(flex: 1,),
 
-                                Container(
-                                  margin: EdgeInsets.symmetric(vertical: 10),
-                                  child: Text(
-                                    toBeginningOfSentenceCase(
-                                        users[index].name)!,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            Color.fromARGB(255, 27, 115, 97)),
-                                  ),
-                                  padding: EdgeInsets.all(0),
-                                  alignment: Alignment.bottomCenter,
-                                )
-                              ],
-                            ));
+                                    Container(
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 10),
+                                      child: Text(
+                                        toBeginningOfSentenceCase(
+                                            users[index].name)!,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color.fromARGB(
+                                                255, 27, 115, 97)),
+                                      ),
+                                      padding: EdgeInsets.all(0),
+                                      alignment: Alignment.bottomCenter,
+                                    )
+                                  ],
+                                ));
                           }),
                     ))
             ],
