@@ -463,7 +463,7 @@ class _BreakState extends State<Break> {
                                 showForcedEndDayalertDialog(context);
                               }
                             : null,
-                        text: "End",
+                        text: "End Session",
                         textColor: White,
                         shape: GFButtonShape.pills,
                         color: Colors.red,
