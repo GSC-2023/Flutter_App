@@ -29,7 +29,7 @@ class _BreakState extends State<Break> {
   List<String> onlineFriends = [];
   List<PhotoItem> users = [];
   bool loading = true;
-  int userBreakTime = 60; // default
+  late int userBreakTime; // default
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _BreakState extends State<Break> {
     Widget okButton = TextButton(
       child: Text("Start Work"),
       onPressed: () {
-        int time = (controller.getTimeInSeconds() / 60).ceil();
+        int time = userBreakTime - (controller.getTimeInSeconds() / 60).ceil();
         user.userBreakMinutesElapsed += time;
         print("Cumulative break time increased by: $time");
         Navigator.of(context).pop();
@@ -84,7 +84,7 @@ class _BreakState extends State<Break> {
     Widget continueButton = TextButton(
       child: Text("Confirm"),
       onPressed: () {
-        int time = (controller.getTimeInSeconds() / 60).ceil();
+        int time = userBreakTime - (controller.getTimeInSeconds() / 60).ceil();
         user.userBreakMinutesElapsed += time;
         print("Cumulative break time increased by: $time");
         Navigator.of(context).pop(); // dismiss dialog
@@ -122,7 +122,16 @@ class _BreakState extends State<Break> {
     );
     Widget continueButton = TextButton(
       child: Text("Confirm"),
-      onPressed: () {
+      onPressed: () async {
+        int _work = user.userWorkMinutesElapsed;
+        int _break = user.userBreakMinutesElapsed;
+        print("Ended. Work: $_work, Break: $_break");
+        bu.addDailyStatsNow(_work, _break, 0, -1);
+        print("Daily stats updated.");
+        print(bu.dailyStats);
+
+        await DatabaseService().updateUser(bu, user.uid);
+
         Navigator.of(context).pop(); // dismiss dialog
         Navigator.pushNamed(context, '/Statistics');
       },
@@ -176,8 +185,8 @@ class _BreakState extends State<Break> {
       users.add(PhotoItem(files[i]['url'], files[i]['name']));
     }
     setState(() {
-      loading = false;
       userBreakTime = bu.restTime;
+      loading = false;
     });
     return;
   }
@@ -281,19 +290,22 @@ class _BreakState extends State<Break> {
                     offset: Offset(0.0, 20.0),
                     blurRadius: 30.0)
               ]),
-              child: NeonCircularTimer(
+              child: loading ? 
+              Container() :
+              NeonCircularTimer(
                   onComplete: () {
                     setState(() {});
                     if (!restartPressed) showNaturalWorkAlertDialog(context);
                   },
                   width: 250,
                   controller: controller,
-                  // duration: userBreakTime*60, // only accepts seconds
-                  duration: 5,
+                  duration: userBreakTime*60, // only accepts seconds
                   autoStart: false,
                   strokeWidth: 5,
                   isTimerTextShown: true,
                   neumorphicEffect: true,
+                  isReverse: true,
+                  isReverseAnimation: true,
                   outerStrokeColor: Colors.grey.shade100,
                   innerFillGradient: LinearGradient(colors: [
                     DarkBlue,

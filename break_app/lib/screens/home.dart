@@ -29,7 +29,9 @@ class _HomeState extends State<Home> {
   final CountDownController controller = new CountDownController();
   late profile user;
   late breakUser bu;
-  int userWorkTime = 60; // default
+  late int userWorkTime;
+  bool isLoading = true;
+  
 
   /* This alert is called when the timer naturally runs down and redirects user to break page */
   showNaturalBreakAlertDialog(BuildContext context) {
@@ -37,7 +39,7 @@ class _HomeState extends State<Home> {
     Widget okButton = TextButton(
       child: Text("Start My Break"),
       onPressed: () {
-        int time = (controller.getTimeInSeconds() / 60).ceil();
+        int time = userWorkTime - (controller.getTimeInSeconds() / 60).ceil();
         user.userWorkMinutesElapsed += time;
         print("Cumulative work time increased by: $time");
         Navigator.of(context).pop();
@@ -75,7 +77,7 @@ class _HomeState extends State<Home> {
     Widget continueButton = TextButton(
       child: Text("Confirm"),
       onPressed: () {
-        int time = (controller.getTimeInSeconds() / 60).ceil();
+        int time = userWorkTime - (controller.getTimeInSeconds() / 60).ceil();
         user.userWorkMinutesElapsed += time;
         print("Cumulative work time increased by: $time");
         Navigator.of(context).pop(); // dismiss dialog
@@ -113,7 +115,16 @@ class _HomeState extends State<Home> {
     );
     Widget continueButton = TextButton(
       child: Text("Confirm"),
-      onPressed: () {
+      onPressed: () async {
+        int _work = user.userWorkMinutesElapsed;
+        int _break = user.userBreakMinutesElapsed;
+        print("Ended. Work: $_work, Break: $_break");
+        bu.addDailyStatsNow(_work, _break, 0, -1);
+        print("Daily stats updated.");
+        print(bu.dailyStats);
+
+        await DatabaseService().updateUser(bu, user.uid);
+
         Navigator.of(context).pop(); // dismiss dialog
         Navigator.pushNamed(context, '/Statistics');
       },
@@ -145,6 +156,7 @@ class _HomeState extends State<Home> {
 
     setState(() {
       userWorkTime = bu.workTime;
+      isLoading=false;
       print("Work Duration: $userWorkTime");
     });
   }
@@ -210,7 +222,9 @@ class _HomeState extends State<Home> {
                     offset: Offset(0.0, 20.0),
                     blurRadius: 30.0)
               ]),
-              child: NeonCircularTimer(
+              child: isLoading ?
+              Container():
+              NeonCircularTimer(
                   onComplete: () {
                     setState(() {
                     });
@@ -218,13 +232,15 @@ class _HomeState extends State<Home> {
                   },
                   width: 250,
                   controller: controller,
-                  // duration: userWorkTime*60, // only accepts seconds
-                  duration: 5,
+                  // duration: userWorkTime*60,
+                  duration: userWorkTime*60,
                   autoStart: false,
                   strokeWidth: 5,
                   isTimerTextShown: true,
                   neumorphicEffect: true,
                   outerStrokeColor: Colors.grey.shade100,
+                  isReverse: true,
+                  isReverseAnimation: true,
                   innerFillGradient: LinearGradient(colors: [
                     DarkGreen,
                     Colors.green,
