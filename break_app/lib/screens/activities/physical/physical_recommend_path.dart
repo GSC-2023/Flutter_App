@@ -67,8 +67,12 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
     double latitude = _currentPosition?.latitude ?? 1.362411725249463;
     double longitude = _currentPosition?.longitude ?? 103.69650653627447;
     String apiKey = dotenv.env['API'].toString();
-    Set<Polyline> _polylines = Set<Polyline>(); //set collection to hold all the polylines 
- 
+
+    // void duration(String destinationId, String currentId) {
+    //   String status;
+    //   DistanceMatrix distanceMatrix = DistanceMatrix()
+    //   return status;
+    // }
 
     //fxn to calculate the walk distance
     void _calculatedWalk(double time) async{
@@ -84,6 +88,7 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
       NearbyPlacesResponse nearbyPlacesResponse = NearbyPlacesResponse.fromJson(jsonDecode(response.body));
       for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
         print(nearbyPlacesResponse.results![i].geometry!.location!.lat);
+
 
       setState(() {
       });
@@ -112,6 +117,8 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
                     SizedBox(height: 20,),
 
                     for (int i = 0; i < nearbyPlacesResponse.results!.length; i++)
+                      
+
                       AmenityCard(
                         name: nearbyPlacesResponse.results![i].name,
                         type: nearbyPlacesResponse.results![i].icon,
@@ -191,7 +198,6 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
             compassEnabled: true,
             zoomGesturesEnabled: true,
             zoomControlsEnabled:true,
-            polylines: _polylines,
             initialCameraPosition: CameraPosition(
               target: LatLng(_currentPosition?.latitude ?? 1.362411725249463, _currentPosition?.longitude ?? 103.69650653627447), 
               zoom: 11.0,
@@ -203,43 +209,46 @@ class _PhysicalRecommendPathState extends State<PhysicalRecommendPath> {
 
           Positioned(
             top: 20,
-            child: Material(
-                  color: Colors.transparent,
-                  elevation: 5,
-                  shadowColor: Colors.black,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width-20,
-                      child: TextField(
-                          cursorColor: Color.fromARGB(255, 27, 115, 97),
-                          showCursor: true,
-                          autofocus: true,
-                          textInputAction: TextInputAction.go,
-                          controller: _durationController,
-                          decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(width: 2, color: Colors.white )
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(width: 2, color: Colors.white )
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Material(
+                    color: Colors.transparent,
+                    elevation: 10,
+                    shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width-20,
+                        child: TextField(
+                            cursorColor: Color.fromARGB(255, 27, 115, 97),
+                            showCursor: true,
+                            autofocus: true,
+                            textInputAction: TextInputAction.go,
+                            controller: _durationController,
+                            decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: BorderSide(width: 2, color: Colors.white )
                               ),
-                            prefixIcon: Icon(Icons.timer_sharp, color: Color.fromARGB(255, 27, 115, 97),),
-                            fillColor: Colors.white,
-                            filled: true,
-                            hintText: 'Walk duration',
-                            
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: BorderSide(width: 2, color: Colors.white )
+                                ),
+                              prefixIcon: Icon(Icons.timer_sharp, color: Color.fromARGB(255, 27, 115, 97),),
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: 'Walk duration',
+                              
+                            ),
+                            onSubmitted: (value) {_calculatedWalk(double.parse(value));},
+                            // onFieldSubmitted: (value) => time = double.parse(value), 
                           ),
-                          onSubmitted: (value) {_calculatedWalk(double.parse(value));},
-                          // onFieldSubmitted: (value) => time = double.parse(value), 
-                        ),
+                      ),
                     ),
+            
                   ),
-
-                ),
+            ),
           ),
         ]
       ),
