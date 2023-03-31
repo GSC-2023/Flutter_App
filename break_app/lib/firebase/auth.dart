@@ -6,7 +6,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   profile? _userFromFireBaseUser(User? user) {
-    user != null ? print("welcome " + user.email!.split('@')[0]) : print('nth');
+    //user != null ? print("welcome " + user.email!.split('@')[0]) : print('nth');
     return user != null
         ? profile(
             name: user.email!.split('@')[0],
